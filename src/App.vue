@@ -2,8 +2,8 @@
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
   <Images />
-  <Height/>
-  <HoverUnderlineAnimation/>
+  <Height />
+  <HoverUnderlineAnimation />
 </template>
 
 <script>
@@ -19,15 +19,15 @@ import {
 import { objectToQueryString } from "./utils/index";
 // import HelloWorld from './components/HelloWorld.vue'
 import Images from "./components/Images.vue";
-import Height from './components/Height.vue';
-import HoverUnderlineAnimation  from './components/HoverUnderlineAnimation.vue';
+import Height from "./components/Height.vue";
+import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 export default {
   name: "App",
   components: {
     // HelloWorld,
     Images,
     Height,
-    HoverUnderlineAnimation
+    HoverUnderlineAnimation,
   },
   setup() {
     let $name = reactive({
@@ -69,38 +69,49 @@ export default {
 
     // console.log();
     let object = new oneselfObject(Array(100).fill({ value: null }));
-    console.time("for start");
+    // console.time("for start");
 
     for (let index = 0; index < 1000; index++) {
       object.findItemMemo();
       // const element = array[index];
     }
 
-    console.timeEnd("for start");
+    // console.timeEnd("for start");
 
-    console.time("for end");
+    // console.time("for end");
 
     for (let index = 0; index < 1000; index++) {
       object.findItemMemo();
       // const element = array[index];
     }
 
-    console.timeEnd("for end");
+    // console.timeEnd("for end");
 
     // console.log(getURLParameters())
-    let obj = {name:'liwuzhou',age:'23'}
+    let obj = { name: "liwuzhou", age: "23" };
     // hasownproperty
     // hasownproperty
-    let hasKey = obj.hasOwnProperty('_') 
-    console.log(hasKey)
-    console.log(Object.entries(obj))
+    let hasKey = obj.hasOwnProperty("_");
+    // console.log(hasKey);
+    // console.log(Object.entries(obj));
+    // console.log(Object.prototype.toString.call({}));
+    class oneself {
+      constructor() {
+        this.name = "hello world";
+      }
+      change() {
+        this.extends = new oneself();
+      }
+    }
+    let testObject = new oneself()
+    testObject.change()
+    // console.log(testObject)
+    // console.log(new oneself());
 
 
-    console.log(Object.prototype.toString.call({}))
-
-
-    // console.log(objectToQueryString('string '))
     
+    // console.log(objectToQueryString('string '))
+
     // setTimeout(() => {
     //   // count.total = 1230
     //   // total.value = 1000;
