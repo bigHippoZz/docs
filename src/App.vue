@@ -95,16 +95,7 @@ export default {
     // console.log(hasKey);
     // console.log(Object.entries(obj));
     // console.log(Object.prototype.toString.call({}));
-    class oneself {
-      constructor() {
-        this.name = "hello world";
-      }
-      change() {
-        this.extends = new oneself();
-      }
-    }
-    let testObject = new oneself()
-    testObject.change()
+   
     // console.log(testObject)
     // console.log(new oneself());
 
