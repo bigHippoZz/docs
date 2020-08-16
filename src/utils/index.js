@@ -21,18 +21,18 @@
  * @param {String} str 选择复制的字符串
  * @return {Object} 指定元素
  */
-export const copyToClipboard = (str) => {
-  if (typeof str !== "string")
-    throw new Error(`The currently passed string is not a string - ${str}`);
-  const el = document.createElement("textarea");
-  el.value = str;
-  el.setAttribute("readonly", "");
-  el.style.position = "absolute";
-  el.style.left = "-9999px";
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand("copy");
-  document.body.removeChild(el);
+export const copyToClipboard = str => {
+    if (typeof str !== "string")
+        throw new Error(`The currently passed string is not a string - ${str}`);
+    const el = document.createElement("textarea");
+    el.value = str;
+    el.setAttribute("readonly", "");
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
 };
 
 // location.assign   和 location.href 作用差不多
@@ -50,21 +50,21 @@ export const copyToClipboard = (str) => {
  * @param {String}
  * @return {Object} 指定元素
  */
-export const objectToQueryString = (queryParameters) => {
-  let isObject = (target) =>
-    Object.prototype.toString.call(target) === "[object Object]";
-  if (!isObject(queryParameters)) throw new Error("Not currently an object");
-  return queryParameters
-    ? Object.entries(queryParameters).reduce(
-        (queryString, [key, val], index) => {
-          const symbol = queryString.length === 0 ? "?" : "&";
-          queryString +=
-            typeof val === "string" ? `${symbol}${key}=${val}` : "";
-          return queryString;
-        },
-        ""
-      )
-    : "";
+export const objectToQueryString = queryParameters => {
+    let isObject = target =>
+        Object.prototype.toString.call(target) === "[object Object]";
+    if (!isObject(queryParameters)) throw new Error("Not currently an object");
+    return queryParameters
+        ? Object.entries(queryParameters).reduce(
+              (queryString, [key, val], index) => {
+                  const symbol = queryString.length === 0 ? "?" : "&";
+                  queryString +=
+                      typeof val === "string" ? `${symbol}${key}=${val}` : "";
+                  return queryString;
+              },
+              ""
+          )
+        : "";
 };
 /**
  * @Author Liwz
@@ -73,34 +73,34 @@ export const objectToQueryString = (queryParameters) => {
  * @param {Function[]} 异步函数集合
  * @return {Any} 指定元素
  */
-export const pipeAsyncFunctions = (...fns) => (arg) =>
-  fns.reduce((p, f) => p.then(f), Promise.resolve(arg));
+export const pipeAsyncFunctions = (...fns) => arg =>
+    fns.reduce((p, f) => p.then(f), Promise.resolve(arg));
 
 /**
  * @Author Liwz
- * @Description struct  利用js 多线程进行数据计算
+ * @Description r4r4  利用js 多线程进行数据计算
  * @Date 2020-08-12 15:46:18 星期三
  * @param {Function}  计算函数
  * @return {Any} 指定元素
  */
-export const runAsync = (fn) => {
-  const worker = new Worker(
-    URL.createObjectURL(new Blob([`postMessage((${fn})());`]), {
-      type: "application/javascript; charset=utf-8",
-    })
-  );
-  return new Promise((res, rej) => {
-    worker.onmessage = ({ data }) => {
-      res(data), worker.terminate();
-    };
-    worker.onerror = (err) => {
-      rej(err), worker.terminate();
-    };
-  });
+export const runAsync = fn => {
+    const worker = new Worker(
+        URL.createObjectURL(new Blob([`postMessage((${fn})());`]), {
+            type: "application/javascript; charset=utf-8",
+        })
+    );
+    return new Promise((res, rej) => {
+        worker.onmessage = ({ data }) => {
+            res(data), worker.terminate();
+        };
+        worker.onerror = err => {
+            rej(err), worker.terminate();
+        };
+    });
 };
 
-const isAsyncFunction = (val) =>
-  Object.prototype.toString.call(val) === "[object AsyncFunction]";
+const isAsyncFunction = val =>
+    Object.prototype.toString.call(val) === "[object AsyncFunction]";
 /**
  * @Author Liwz
  * @Description struct  创建对象hash
@@ -108,29 +108,31 @@ const isAsyncFunction = (val) =>
  * @param {Object}  目标对象
  * @return {String} 返回生成的hash
  */
-const hashBrowser = (val) =>
-  crypto.subtle
-    .digest("SHA-256", new TextEncoder("utf-8").encode(val))
-    .then((h) => {
-      let hexes = [],
-        view = new DataView(h);
-      for (let i = 0; i < view.byteLength; i += 4)
-        hexes.push(("00000000" + view.getUint32(i).toString(16)).slice(-8));
-      return hexes.join("");
-    });
+const hashBrowser = val =>
+    crypto.subtle
+        .digest("SHA-256", new TextEncoder("utf-8").encode(val))
+        .then(h => {
+            let hexes = [],
+                view = new DataView(h);
+            for (let i = 0; i < view.byteLength; i += 4)
+                hexes.push(
+                    ("00000000" + view.getUint32(i).toString(16)).slice(-8)
+                );
+            return hexes.join("");
+        });
 
-const escapeHTML = (str) =>
-  str.replace(
-    /[&<>'"]/g,
-    (tag) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "'": "&#39;",
-        '"': "&quot;",
-      }[tag] || tag)
-  );
+const escapeHTML = str =>
+    str.replace(
+        /[&<>'"]/g,
+        tag =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                "'": "&#39;",
+                '"': "&quot;",
+            }[tag] || tag)
+    );
 
 /**
  * @Author Liwz
@@ -142,14 +144,8 @@ const escapeHTML = (str) =>
  * @return {Object} 指定元素
  */
 const capitalize = ([first, ...rest], lowerRest = false) =>
-  first.toUpperCase() +
-  (lowerRest ? rest.join("").toLowerCase() : rest.join(""));
-
-
-
-
-
-
+    first.toUpperCase() +
+    (lowerRest ? rest.join("").toLowerCase() : rest.join(""));
 
 /**
  * @Author Liwz
@@ -158,19 +154,17 @@ const capitalize = ([first, ...rest], lowerRest = false) =>
  * @param {String}
  * @return {Object} 指定元素
  */
-const toCamelCase = (str) => {
-  let s =
-    str &&
-    str
-      .match(
-        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
-      )
-      .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
-      .join("");
-  return s.slice(0, 1).toLowerCase() + s.slice(1);
+const toCamelCase = str => {
+    let s =
+        str &&
+        str
+            .match(
+                /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+            )
+            .map(x => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
+            .join("");
+    return s.slice(0, 1).toLowerCase() + s.slice(1);
 };
-
-
 
 /**
  * @Author Liwz
@@ -179,19 +173,12 @@ const toCamelCase = (str) => {
  * @return {String} 指定元素
  */
 const UUIDGeneratorBrowser = () =>
-  ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-    (
-      c ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-    ).toString(16)
-  );
-
-
-
-
-
-
-
+    ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (
+            c ^
+            (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+        ).toString(16)
+    );
 
 /**
  * @Author Liwz
@@ -203,22 +190,12 @@ const UUIDGeneratorBrowser = () =>
  * @return {Object} 指定元素
  */
 const scrollToTop = () => {
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-  if (c > 0) {
-    window.requestAnimationFrame(scrollToTop);
-    window.scrollTo(0, c - c / 8);
-  }
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    if (c > 0) {
+        window.requestAnimationFrame(scrollToTop);
+        window.scrollTo(0, c - c / 8);
+    }
 };
-
-
-
-
-
-
-
-
-
-
 
 /**
  * @Author Liwz
@@ -228,39 +205,28 @@ const scrollToTop = () => {
  * @return {Object} 指定元素
  */
 const getScrollPosition = (el = window) => ({
-  x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
-  y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop,
+    x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
+    y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop,
 });
-
-
-
-
-
-
-
-
 
 /**
  * @Author Liwz
  * @Description struct  将base64的字符串转为正常字符串
  * @Date 2020-08-12 17:35:39 星期三
- * @param {String}   
+ * @param {String}
  * @return {Object} 指定元素
  */
-const atob = (str) => Buffer.from(str, "base64").toString("binary");
-
-
-
+const atob = str => Buffer.from(str, "base64").toString("binary");
 
 /**
  * @Author Liwz
  * @Description struct  判断当前用户是PC还是手机
  * @Date 2020-08-12 17:34:10 星期三
- * @return {String} 
+ * @return {String}
  */
 const detectDeviceType = () =>
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
-    ? "Mobile"
-    : "Desktop";
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+    )
+        ? "Mobile"
+        : "Desktop";

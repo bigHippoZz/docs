@@ -2,8 +2,8 @@
     "eslintIntegration": true,
     "stylelintIntegration": true,
     "tabWidth": 4,
-    "singleQuote": true,
-    "semi": false,
+    "singleQuote": false,
+    "semi": true,
     "arrowParens": "avoid",
     "jsxBracketSameLine": false,
     "TrailingCooma": "all"

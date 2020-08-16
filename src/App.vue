@@ -1,20 +1,25 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-  <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
-  <Images />
-  <Height />
-  <HoverUnderlineAnimation />
+    <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
+    <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
+    <Images />
+    <Height />
+    <HoverUnderlineAnimation />
+
+    <form action="">
+        <input @click="handleClick" type="text" name="count" id="count" 3 />
+        <!-- <input type="image" src="https://via.placeholder.com/200x150" /> -->
+    </form>
 </template>
 
 <script>
 import {
-  ref,
-  reactive,
-  watchEffect,
-  computed,
-  onMounted,
-  provide,
-  nextTick,
+    ref,
+    reactive,
+    watchEffect,
+    computed,
+    onMounted,
+    provide,
+    nextTick,
 } from "vue";
 import { objectToQueryString } from "./utils/index";
 // import HelloWorld from './components/HelloWorld.vue'
@@ -22,96 +27,111 @@ import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 export default {
-  name: "App",
-  components: {
-    // HelloWorld,
-    Images,
-    Height,
-    HoverUnderlineAnimation,
-  },
-  setup() {
-    let $name = reactive({
-      name: "liwuzhou",
-    });
-    const provideObject = provide("provide", function (imagesRef) {
-      // console.log(imagesRef, "imagesref");
-      // console.log("依赖翻转");
-      return $name;
-    });
-    // console.log(provideObject, "provide");
-    onMounted(() => console.log("mounted start "));
-    let total = ref(0);
-    const count = reactive({
-      count: 0,
-      total: computed(() => total.value + 110),
-    });
-    // console.log(count);
-    let nextCount = computed(() => count.count + 10);
-    watchEffect(() => {
-      // console.log(count.count);
-      // console.log($name.name, "$name");
-      // console.log(count.count);
-      // console.log(nextCount.value);
-    });
-    class oneselfObject {
-      constructor(data) {
-        this.data = data;
-        this.data[this.data.length - 2] = { value: "no- empty" };
-      }
+    name: "App",
+    components: {
+        // HelloWorld,
+        Images,
+        Height,
+        HoverUnderlineAnimation,
+    },
+    setup() {
+        let $name = reactive({
+            name: "liwuzhou",
+        });
+        const provideObject = provide("provide", function (imagesRef) {
+            // console.log(imagesRef, "imagesref");
+            // console.log("依赖翻转");
+            return $name;
+        });
+        // console.log(provideObject, "provide");
+        onMounted(() => {});
+        let total = ref(0);
+        const count = reactive({
+            count: 0,
+            total: computed(() => total.value + 110),
+        });
+        // console.log(count);
+        let nextCount = computed(() => count.count + 10);
+        watchEffect(() => {
+            // console.log(count.count);
+            // console.log($name.name, "$name");
+            // console.log(count.count);
+            // console.log(nextCount.value);
+        });
+        class oneselfObject {
+            constructor(data) {
+                this.data = data;
+                this.data[this.data.length - 2] = { value: "no- empty" };
+            }
 
-      findItemMemo() {
-        if (!this.findItem) {
-          this.findItem = this.data.find((i) => !!i.value);
+            findItemMemo() {
+                if (!this.findItem) {
+                    this.findItem = this.data.find(i => !!i.value);
+                }
+                return this.findItem;
+            }
         }
-        return this.findItem;
-      }
-    }
 
-    // console.log();
-    let object = new oneselfObject(Array(100).fill({ value: null }));
-    // console.time("for start");
+        // console.log();
+        let object = new oneselfObject(Array(100).fill({ value: null }));
+        // console.time("for start");
 
-    for (let index = 0; index < 1000; index++) {
-      object.findItemMemo();
-      // const element = array[index];
-    }
+        for (let index = 0; index < 1000; index++) {
+            object.findItemMemo();
+            // const element = array[index];
+        }
 
-    // console.timeEnd("for start");
+        // console.timeEnd("for start");
 
-    // console.time("for end");
+        // console.time("for end");
 
-    for (let index = 0; index < 1000; index++) {
-      object.findItemMemo();
-      // const element = array[index];
-    }
+        for (let index = 0; index < 1000; index++) {
+            object.findItemMemo();
+            // const element = array[index];
+        }
 
-    // console.timeEnd("for end");
+        // console.timeEnd("for end");
 
-    // console.log(getURLParameters())
-    let obj = { name: "liwuzhou", age: "23" };
-    // hasownproperty
-    // hasownproperty
-    let hasKey = obj.hasOwnProperty("_");
-    // console.log(hasKey);
-    // console.log(Object.entries(obj));
-    // console.log(Object.prototype.toString.call({}));
-   
-    // console.log(testObject)
-    // console.log(new oneself());
+        // console.log(getURLParameters())
+        let obj = { name: "liwuzhou", age: "23" };
+        // hasownproperty
+        // hasownproperty
+        let hasKey = obj.hasOwnProperty("_");
+        // console.log(hasKey);
+        // console.log(Object.entries(obj));
+        // console.log(Object.prototype.toString.call({}));
 
+        // console.log(testObject)
+        // console.log(new oneself());
 
-    
-    // console.log(objectToQueryString('string '))
+        // console.log(objectToQueryString('string '))
 
-    // setTimeout(() => {
-    //   // count.total = 1230
-    //   // total.value = 1000;
-    //   count.count =1000
-    // }, 2000);
+        // setTimeout(() => {
+        //   // count.total = 1230
+        //   // total.value = 1000;
+        //   count.count =1000
+        // }, 2000);
 
-    // setInterval(() => {
-    //   count.count++;
-    // }, 1000);
-  },
+        // setInterval(() => {
+        //   count.count++;
+        // }, 1000);
+
+        let arr = [];
+        for (let index = 0; index < 5; index++) {
+            arr.push(
+                new Promise(res => {
+                    setTimeout(() => {
+                        res(index * 1000);
+                    }, index * 1000);
+                })
+            );
+        }
+        (async function () {
+            for await (const item of arr) {
+                console.log(item?.name?.name);
+                if (item === 1000) return;
+            }
+        })();
+    },
 };
 </script>
