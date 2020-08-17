@@ -99,7 +99,7 @@ export const runAsync = fn => {
     });
 };
 
-const isAsyncFunction = val =>
+export const isAsyncFunction = val =>
     Object.prototype.toString.call(val) === "[object AsyncFunction]";
 /**
  * @Author Liwz

@@ -5,10 +5,7 @@
     <Height />
     <HoverUnderlineAnimation />
 
-    <form action="">
-        <input @click="handleClick" type="text" name="count" id="count" 3 />
-        <!-- <input type="image" src="https://via.placeholder.com/200x150" /> -->
-    </form>
+  
 </template>
 
 <script>
@@ -22,10 +19,19 @@ import {
     nextTick,
 } from "vue";
 import { objectToQueryString } from "./utils/index";
+import {
+    parseQuery,
+    useLink,
+    useRoute,
+    useRouter,
+    stringifyQuery,
+} from "vue-router";
 // import HelloWorld from './components/HelloWorld.vue'
 import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
+
+import "./utils/extends.js";
 export default {
     name: "App",
     components: {
@@ -35,6 +41,7 @@ export default {
         HoverUnderlineAnimation,
     },
     setup() {
+       
         let $name = reactive({
             name: "liwuzhou",
         });
@@ -44,7 +51,15 @@ export default {
             return $name;
         });
         // console.log(provideObject, "provide");
-        onMounted(() => {});
+        onMounted(() => {
+            const styles = [...document.styleSheets];
+            console.log(styles, "styles");
+
+            styles.forEach(style => {
+                const rules = [...style.cssRules];
+                console.log(rules);
+            });
+        });
         let total = ref(0);
         const count = reactive({
             count: 0,
@@ -115,23 +130,6 @@ export default {
         // setInterval(() => {
         //   count.count++;
         // }, 1000);
-
-        let arr = [];
-        for (let index = 0; index < 5; index++) {
-            arr.push(
-                new Promise(res => {
-                    setTimeout(() => {
-                        res(index * 1000);
-                    }, index * 1000);
-                })
-            );
-        }
-        (async function () {
-            for await (const item of arr) {
-                console.log(item?.name?.name);
-                if (item === 1000) return;
-            }
-        })();
     },
 };
 </script>
