@@ -320,3 +320,104 @@ location.href; // 返回url
  * autofocus   size控制input的长度
  *
  */
+
+/**
+ * 错误处理
+ */
+
+try {
+} catch (error) {
+    console.log(error);
+} finally {
+    // 一定会执行
+}
+/**
+ * 将错误信息上传至服务器
+ * @param {String} server 上传路径
+ * @param {String} msg 错误信息
+ */
+function logError(server, msg) {
+    let img = new Image();
+    img.src = `${server}?msg=${msg}`;
+}
+/**
+ * 事件处理
+ * 事件捕获 目标阶段 事件冒泡
+ */
+
+/**
+ * addEventListener 最后一个参数 false 表示冒泡阶段 true 捕获阶段
+ * 注意的是removeEventListener 传入的函数一定是添加事件函数的引用
+ */
+
+/**
+ * 事件对象
+ * currentTarget 表示事件处理程序正在处理事件的那个元素
+ * 事件函数中的this 指向currentTarget那个元素
+ * target 目标阶段的元素
+ * preventDefault() 阻止默认事件 注意的是只有cancelable 设置为true才能进行更改
+ * stopPropagetion() 阻止冒泡
+ * 事件处理程序执行期间，this才会存在，一旦事件处理程序执行完成，event就会被销毁
+ */
+
+/**
+ * js动态生成img的时候，添加load事件一定要在添加src之前，因为在添加src那一刻就会进行加载，
+ * 并不是非要添加到文档之中
+ * 通过new Image() 产生的新图像实例无法添加到文档之中
+ */
+
+/**
+ * js动态生成的script 和 link 是添加到文档之中才进行下载，所以指定load事件的顺序无所谓
+ */
+
+/**
+ * 指定scroll 和 resize 事件注意不能添加过大计算 建议使用 防抖函数
+ */
+
+/**
+ * focus和blur事件都是不冒泡的！但是可以在捕获的时候监听到他们
+ */
+
+/**
+ * click和dbclick双击事件
+ * mousedown mouseleave 不会冒泡，再依次执行mousedown和mouseup之后会执行click，所以在以上其中随便一个事件
+ * 中使用return false 都会导致click失效
+ */
+
+/**
+ * clientX clientY 相对于视口
+ * pageX pageY 相对于页面
+ * screenX screenY 相对于屏幕
+ */
+
+/**
+ * 再按下鼠标时键盘上的状态也能影响到所要采取的措施
+ * shiftKey ctrlKey altKey metaKey 用event.shiftKey （Boolean）进行判断
+ */
+/**
+ *
+ * keydown事件在用户按下键盘上任意建时触发 而且如果按住不放的话会重复触发此事件
+ * keypress 事件在用户按下键盘上的字符键，而且如果按住不放的话会重复触发此事件
+ * keyup 当用户释放键盘上的键时触发 文本已经显示到文本框了
+ * textinput 事件是对keypress的补充，用意时将文本显示用户之前进行拦截，在文本插入文本框之前会触发textinput
+ * 事件
+ * textinput事件补充 其中event对象中包含着一个data属性，这个属性的值就是用户输入的字符
+ * event对象中还有一个inputMethod属性，表示文本输入文本框中的方式
+ */
+
+/**
+ * contextmenu事件表示通过鼠标右键可以调处的上下文菜单 可以获取当前的event，然后自定义一个上下文菜单。
+ * DOMContentLoaded 事件 文档加载完成
+ */
+
+/**
+ * 可以使用事件委托来提升性能建议使用document注册各种事件
+ * 注意：！！当移除dom之后，但是当前js与dom还有引用，所以当前的dom并不会被垃圾回收建议同时将 eventfunc
+ * 设置为null
+ */
+
+/**
+ * JSON.parse() stringfiy()
+ * 第二个参数是过滤函数 第三个参数时美化代码的建议使用 4
+ * 利用try catch 进行处理json报错
+ */
