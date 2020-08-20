@@ -1,5 +1,5 @@
 // 继承ws 创建实例对象
-class enchanceWebSocket extends WebSocket {
+class enhanceWebSocket extends WebSocket {
     // 参数对象
     params = {};
     // 连接状态

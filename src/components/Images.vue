@@ -17,7 +17,7 @@
 <script>
 import { onMounted } from "vue";
 
-// import "../utils/promise";
+import "../utils/promise";
 export default {
     name: "Images",
     setup() {
