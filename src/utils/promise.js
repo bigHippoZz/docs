@@ -421,3 +421,169 @@ function logError(server, msg) {
  * 第二个参数是过滤函数 第三个参数时美化代码的建议使用 4
  * 利用try catch 进行处理json报错
  */
+
+/**
+ * 在事件执行之前注册监听事件！！ 比如xhr，script，link。
+ */
+
+/**
+ * Ajax
+ * 1.open方法只是启动一个xhr并不会发送请求，三个参数（method，URL，是否异步）
+ * 而且url可以指定相对路径
+ * 2.send方法接受一个参数，请求主体要发送的数据，由于不同浏览器兼容性的问题，所以必须传null。
+ * 返回参数说明：
+ *  responseText 作为响应返回的文本
+ *  status 响应的状态码
+ *  statusText http状态码的说明
+ */
+
+/**
+ * xhr本身的readyState属性
+ * 0 代表未调用open
+ * 1 已经调用 open 但是没有调用 send
+ * 2 已经调用send 但是并未收到响应
+ * 3 已经收到部分响应数据
+ * 4 已经收到全部数据的响应 而且可以在客户端进行使用
+ *
+ * readyState 对应的监听方法为readystatechange事件 通常只对 3 4 感兴趣
+ * 并且建议不要在readyStateChange中使用this 可能会发生错误
+ *
+ */
+
+/**
+ *  abort() 终止xhr请求  终止请求之后不允许访问任何与响应有关的对象属性 建议解除当前xhr的引用 设置成null
+ */
+
+/**
+ * 可以使用setRequestHeader方法设置自定义请求头部信息 两个参数 [ 头部字段 头部字段值 （key value）]
+ * 使用getRequestHeader()方法传入头部字段名称，可以获取响应的头部信息
+ * getAllRequestHeader()方法可以获取所有包含头部信息的长字符串
+ */
+
+/**
+ * GET请求
+ * get请求经常出现的问题，就是查询字符串格式问题，利用encodeURIComponent()方法可以解决
+ * 通常发送相同的数据，get比post快2倍
+ */
+/**
+ * POST请求
+ * 如果要模仿表单提交的话首先将content-type设置成application/x-www-form-urlencoded格式
+ * 也就是表单提交时的内容格式
+ */
+
+/**
+ * FormData
+ * 主要作用是为了序列化表单以及创建表单格式相同的数据
+ * new FormData({name:'liwuzhou'}) 反正可以在构造函数中添加键值对
+ * append方法 添加键值对
+ */
+/**
+ * xhr 超时设定
+ * timeout 表示请求在等待响应多少毫秒之后终止
+ * 可以监听的方法 ontimeout 建议使用timeout试试
+ * 边界问题！！ 如果将timeout设置为1000毫秒，意味着请求在1秒钟之后会自动终止，但是 但是readystate可能已经为4
+ * 这意味着可能会调用readystatechange事件，但并不访问xhr的status属性会报错 所以建议将访问status 封装
+ * 早try- catch中
+ */
+
+/**
+ *
+ * loadstart事件 在接收响应数据的第一个字节时触发
+ * error 事件 在请求发生错误的时候触发
+ * abort 事件 调用abort方法而终止连接时触发
+ * load 事件 接收到完整的响应数据时触发 一定要检查返回的状态码
+ * loadend 事件 在通信完成error abort load事件 后触发
+ *
+ * 注意所有的请求都是从loadstart 事件开始触发
+ */
+
+/**
+ * progress事件 进度条事件
+ * 描述：这个事件会在浏览器接受新数据期间不断的触发
+ * 其中的event对象有三个属性
+ * 1.lengthComputable 表示进度条事件是否可用
+ * 2.position 表示已经接收的字节数
+ * 3.totalSize 表示根据content-length响应头部确定的预期字节数 如果有的话
+ */
+
+/**
+ *
+ * 跨域请求 cors
+ * 背后的思想 使用自定义的http头部与服务器进行沟通 以判断服务端是否要进行响应
+ * 在发送请求的时候会带上origin头部 会携带请求页面的源信息 协议 域名 端口
+ * 如果服务端认为请求可以接受，就在access-control-allow-origin 发回相同的源信息
+ * 如果返回的源信息不匹配，浏览器就会驳回请求
+ * ！！！跨域请求并不能设置cookie
+ */
+
+/**
+ * freflighted reqeusts 透明服务器验证机制
+ * 什么情况下会出现options请求呢？
+ * 1.请求的方法并不是get post head
+ * 2.post请求content-type并非application/x-www-form-urlencoded， multipart/form-data ，
+ * text/plain
+ * 3.请求出现自定义头部
+ *
+ * options请求的头部
+ * 1.origin
+ * 2.access-control-request-method 请求自身的方法
+ * 3.access-control-request-headers 自定义头部 多个头部用逗号隔开
+ * options响应的头部
+ * 1.access-control-allow-origin
+ * 2.access-control-allow-method 允许的方法 多个用逗号隔开
+ * 3.access-control-allow-headers 允许的头部 多个头部用逗号隔开
+ * 4.access-control-Max-age 将这个请求缓存的时间
+ */
+
+/**
+ * 带凭证的跨域请求
+ * 首先一般情况下 跨域请求是不能携带凭证的（cookie http认证及客户端的ssl证明）
+ * 可以将withcredentials属性设置为true 可以指定某个请求可以携带凭证
+ *
+ * 如果服务端接收的凭证的跨域请求会用一下http头部进行响应
+ * access-control-allow-credentials：true
+ *
+ * 边界情况！！
+ * 1.如果发送的携带凭证的跨域请求，但是服务端并未响应这个access-control-allow-credentials头部，那么
+ * 浏览器就不会将响应交给用户，而是将responseText设置为空字符串，status设置为0 并且会调用error事件处理
+ * 2.服务器允许options请求的响应中携带这个头部，代表允许源请求发送携带凭证的请求
+ */
+
+/**
+ * 其他的跨域技术
+ * 1.图片 利用onload 和 onerror 处理事件程序 但是也只是发送get 并不能访问服务器的响应文本
+ * 2.jsonp 利用动态脚本 注意将本只有嵌入文档中才会进行下载哦
+ * 缺点 并不能处理失败事件 处理失败很费劲 虽然实现了onerror事件
+ */
+
+/**
+ * Conmet 服务端推送事件
+ * 长轮询：就是先发送一个请求然后服务端等待数据更新之后会响应数据
+ * 短轮询：不间断的发送请求返回响应
+ * http流：整个页面的生命周期只有一个http连接
+ * 原理还是监听readystatechange事件 因为这样的话 readystae 周期性的为3
+ */
+
+/**
+ *
+ * websocket 会发送很少量的数据不会出现http那样的开销
+ * 构造函数中的url必须是绝对URL
+ *
+ * 其中也有状态readystate
+ * 0 表示正在建立链接
+ * 1 已经建立链接
+ * 2 正在关闭链接
+ * 3 已经关闭链接
+ *
+ * 注意 执行close事件之后，readystate会马上变为2 当完全关闭的时候会变成3
+ * ws 只能发送纯文本 所以发送数据要使用json stringfiy方法
+ * close方法的event事件包含 wasclean code reason
+ * wasclean 表示是否明确的关闭了ws
+ * code表示后端返回的状态码
+ * reason 代表后端返回的文本 可以看看有什莫
+ */
+
+/**
+ * 安全
+ * 注意检查来源url并不可信 这是可以进行伪造的！！
+ */
