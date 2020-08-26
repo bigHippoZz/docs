@@ -4,8 +4,6 @@
     <Images />
     <Height />
     <HoverUnderlineAnimation />
-
-  
 </template>
 
 <script>
@@ -41,7 +39,6 @@ export default {
         HoverUnderlineAnimation,
     },
     setup() {
-       
         let $name = reactive({
             name: "liwuzhou",
         });

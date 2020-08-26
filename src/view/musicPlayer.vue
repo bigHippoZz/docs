@@ -5,7 +5,9 @@
 <script>
 export default {
     name: "musicPlayer",
-    setup() {},
+    setup() {
+        console.log("hello world");
+    },
 };
 </script>
 

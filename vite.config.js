@@ -1,5 +1,5 @@
 module.exports = {
-  cssPreprocessOptions: {
-    less: {},
-  },
+    cssPreprocessOptions: {
+        less: {},
+    },
 };
