@@ -29,7 +29,10 @@ import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 
-import "./utils/extends.js";
+// import "./utils/extends.js";
+
+
+import  './utils/store';
 export default {
     name: "App",
     components: {
