@@ -1,24 +1,30 @@
+class State {
+    _data;
+    constructor(currentState) {
+        this._data = currentState;
+    }
+}
+
 class Store {
     // 当前的仓库
     state = {};
     // 中间件
     middlewareList = [];
-
+    // 订阅的事件
+    callbacks = [];
     constructor(state) {
         this.state = state;
     }
 
     dispatch(func) {
         return (...args) => {
-            func(this.state, ...args);
+            func(value => this.setState(value), ...args);
         };
     }
 
     use(middleware) {
         this.middlewareList.push(middleware);
     }
-
-    commit() {}
 
     enhance(func) {
         return (...args) => {};
@@ -28,41 +34,45 @@ class Store {
         return Object.assign({}, this.state);
     }
 
-    setState() {
+    setState(func) {
         // 更加的可控
+        let result = func(this.state);
+        console.log(this.state);
+        this.state = result;
+        this.callbacks.forEach(f => f());
     }
 
-    listener(){}
+    listener(callback) {
+        this.callbacks.push(callback);
+    }
 }
-
-
 
 function createStore(...args) {
     return new Store(...args);
 }
 
-
 let store = createStore({
     count: Math.random(),
+    total: 100,
+    async: 100,
 });
 
+store.use(function (state) {});
 
-store.use(function (ctx, next) {
-    return false;
+
+store.listener(function (){
+    console.log(store.getState())
+})
+
+
+let request = store.dispatch(function (setState, ...args) {
+    setState(function (oldValue) {
+        return {
+            nextCount: 1000,
+        };
+    });
 });
 
-
-store.listener("action", function (newVal, oldVale) {
-    return false;
-});
+request("hello world");
 
 
-let requestAnimationFrame = store.dispatch(function (setState, ...args) {
-    setState();
-    // 变更数据
-});
-
-
-console.log(store);
-
-// 事件驱动

@@ -230,3 +230,103 @@ const detectDeviceType = () =>
     )
         ? "Mobile"
         : "Desktop";
+
+/**
+ * @Author Liwz
+ * @Description 下载blob元素
+ * @Date 2020-08-27 15:30:13 星期四
+ * @param {String}
+ * @param {Blob}
+ */
+export const downloadBlob = (filename, blob) => {
+    const downloadLink = document.createElement("a");
+    document.body.appendChild(downloadLink);
+    // Use special ms version if available to get it working on Edge.
+    if (navigator.msSaveOrOpenBlob) {
+        navigator.msSaveOrOpenBlob(blob, filename);
+        return;
+    }
+    if ("download" in HTMLAnchorElement.prototype) {
+        const url = window.URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = filename;
+        downloadLink.type = blob.type;
+        downloadLink.click();
+        // remove the link after a timeout to prevent a crash on iOS 13 Safari
+        window.setTimeout(() => {
+            document.body.removeChild(downloadLink);
+            window.URL.revokeObjectURL(url);
+        }, 1000);
+    } else {
+        // iOS 12 Safari, open a new page and set href to data-uri
+        let popup = window.open("", "_blank");
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            popup.location.href = reader.result;
+            popup = null;
+        };
+        reader.readAsDataURL(blob);
+    }
+};
+
+/**
+ * Utility to convert data URIs to blobs
+ * Adapted from https://stackoverflow.com/questions/12168909/blob-from-dataurl
+ * @param {string} dataURI the data uri to blobify
+ * @return {Blob} a blob representing the data uri
+ */
+export default function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(",")[1]);
+    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+        uintArray[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([arrayBuffer], { type: mimeString });
+    return blob;
+}
+
+/**
+ * 提取文件名
+ * @param {string} nameExt File name + extension (e.g. 'my_image.png')
+ * @return {string} The name without the extension, or the full name if
+ * there was no '.' in the string (e.g. 'my_image')
+ */
+const extractFileName = function (nameExt) {
+    // There could be multiple dots, but get the stuff before the first .
+    const nameParts = nameExt.split(".", 1); // we only care about the first .
+    return nameParts[0];
+};
+
+/**
+ * 递归处理文件上传事件
+ * Handle a file upload given the input element that contains the file,
+ * and a function to handle loading the file.
+ * @param {Input} fileInput The <input/> element that contains the file being loaded
+ * @param {Function} onload The function that handles loading the file
+ * @param {Function} onerror The function that handles any error loading the file
+ */
+const handleFileUpload = function (fileInput, onload, onerror) {
+    const readFile = (i, files) => {
+        if (i === files.length) {
+            // Reset the file input value now that we have everything we need
+            // so that the user can upload the same sound multiple times if
+            // they choose
+            fileInput.value = null;
+            return;
+        }
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const fileType = file.type;
+            const fileName = extractFileName(file.name);
+            onload(reader.result, fileType, fileName, i, files.length);
+            readFile(i + 1, files);
+        };
+        reader.onerror = onerror;
+        reader.readAsArrayBuffer(file);
+    };
+
+    readFile(0, fileInput.files);
+};

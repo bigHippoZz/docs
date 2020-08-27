@@ -28,10 +28,7 @@ import {
 import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
-
 // import "./utils/extends.js";
-
-
 import  './utils/store';
 export default {
     name: "App",
@@ -52,13 +49,13 @@ export default {
         });
         // console.log(provideObject, "provide");
         onMounted(() => {
-            const styles = [...document.styleSheets];
-            console.log(styles, "styles");
+            // const styles = [...document.styleSheets];
+            // console.log(styles, "styles");
 
-            styles.forEach(style => {
-                const rules = [...style.cssRules];
-                console.log(rules);
-            });
+            // styles.forEach(style => {
+            //     const rules = [...style.cssRules];
+            //     console.log(rules);
+            // });
         });
         let total = ref(0);
         const count = reactive({
