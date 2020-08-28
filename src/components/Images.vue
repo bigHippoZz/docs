@@ -8,19 +8,23 @@
             <img src="https://via.placeholder.com/200x150" />
             <h2>30 Seconds of CSS</h2>
         </div>
-        <div  class="title">
+        <div class="title">
             <img src="https://via.placeholder.com/200x150" />
             <h2>30 Seconds of CSS</h2>
         </div>
     </div>
 </template>
 <script>
-import { onMounted } from "vue";
+import { onMounted, inject } from "vue";
 // import "../utils/promise";
 export default {
     name: "Images",
     setup() {
-    
+        let injectConf = inject("conf");
+        onMounted(async () => {
+            injectConf = await injectConf;
+            console.log(injectConf);
+        });
     },
 };
 </script>

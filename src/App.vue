@@ -15,6 +15,7 @@ import {
     onMounted,
     provide,
     nextTick,
+    inject,
 } from "vue";
 import { objectToQueryString } from "./utils/index";
 import {
@@ -29,7 +30,10 @@ import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 // import "./utils/extends.js";
-import  './utils/store';
+import "./utils/store";
+import main from "./main.json";
+
+import LoadConfigurationFile,{log} from "./utils/Load-configuration-file";
 export default {
     name: "App",
     components: {
@@ -42,6 +46,9 @@ export default {
         let $name = reactive({
             name: "liwuzhou",
         });
+        LoadConfigurationFile();
+        // console.log(log)
+        // provide("conf", 'res');
         const provideObject = provide("provide", function (imagesRef) {
             // console.log(imagesRef, "imagesref");
             // console.log("依赖翻转");
@@ -51,7 +58,6 @@ export default {
         onMounted(() => {
             // const styles = [...document.styleSheets];
             // console.log(styles, "styles");
-
             // styles.forEach(style => {
             //     const rules = [...style.cssRules];
             //     console.log(rules);
@@ -127,9 +133,6 @@ export default {
         // setInterval(() => {
         //   count.count++;
         // }, 1000);
-
-
-        console.log('hello world');
     },
 };
 </script>
