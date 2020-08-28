@@ -129,7 +129,7 @@ export default {
         // }, 1000);
 
 
-        // console.log('hello world');
+        console.log('hello world');
     },
 };
 </script>
