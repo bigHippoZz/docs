@@ -329,4 +329,7 @@ const handleFileUpload = function (fileInput, onload, onerror) {
     };
 
     readFile(0, fileInput.files);
+
+
+    
 };
