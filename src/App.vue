@@ -4,6 +4,10 @@
     <Images />
     <Height />
     <HoverUnderlineAnimation />
+    <Box _name="box">
+        <div>万般皆是命</div>
+    </Box>
+    <!-- <App/> -->
 </template>
 
 <script>
@@ -33,7 +37,10 @@ import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 import "./utils/store";
 import main from "./main.json";
 
-import LoadConfigurationFile,{log} from "./utils/Load-configuration-file";
+import Box from './components/Box.vue';
+import LoadConfigurationFile, { log } from "./utils/Load-configuration-file";
+
+
 export default {
     name: "App",
     components: {
@@ -41,11 +48,15 @@ export default {
         Images,
         Height,
         HoverUnderlineAnimation,
+        Box
     },
     setup() {
+
         let $name = reactive({
             name: "liwuzhou",
         });
+
+       
         LoadConfigurationFile();
         // console.log(log)
         // provide("conf", 'res');
