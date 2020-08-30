@@ -1,4 +1,6 @@
-
+<template>
+    <div></div>
+</template>
 <script>
 import { onMounted, h } from "vue";
 export default {
@@ -9,8 +11,8 @@ export default {
             console.log(emit);
             console.log(slots.default()[0]);
         });
-        console.log(h)
-        return (<div>ahah</div>)
+        console.log(h);
+        return {};
     },
 };
 </script>
