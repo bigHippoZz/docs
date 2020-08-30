@@ -1,18 +1,24 @@
 <template>
-    <div></div>
+    <div v-bind="props"></div>
 </template>
 <script>
-import { onMounted, h } from "vue";
+import { onMounted, reactive, ref } from "vue";
 export default {
-    props: {},
+    props: {
+        total: {
+            type: Number,
+            validator: function (prop) {
+                console.log(prop);
+                return false;
+            },
+        },
+    },
     setup(props, { attrs, emit, slots }) {
-        onMounted(() => {
-            console.log(attrs);
-            console.log(emit);
-            console.log(slots.default()[0]);
-        });
-        console.log(h);
-        return {};
+        onMounted(() => {});
+        let $name = ref(1);
+        return { props:{
+            name:$name,
+        } };
     },
 };
 </script>

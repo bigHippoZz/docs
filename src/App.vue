@@ -4,9 +4,7 @@
     <Images />
     <Height />
     <HoverUnderlineAnimation />
-    <Box _name="box">
-        <div>万般皆是命</div>
-    </Box>
+    <Box _name="box" id="webf23j2b3bhb54" :total='10'></Box>
     <!-- <App/> -->
 </template>
 
@@ -37,9 +35,8 @@ import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 import "./utils/store";
 import main from "./main.json";
 
-import Box from './components/Box.vue';
+import Box from "./components/Box.vue";
 import LoadConfigurationFile, { log } from "./utils/Load-configuration-file";
-
 
 export default {
     name: "App",
@@ -48,15 +45,13 @@ export default {
         Images,
         Height,
         HoverUnderlineAnimation,
-        Box
+        Box,
     },
     setup() {
-
         let $name = reactive({
             name: "liwuzhou",
         });
 
-       
         LoadConfigurationFile();
         // console.log(log)
         // provide("conf", 'res');
