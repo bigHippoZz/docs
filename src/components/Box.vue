@@ -1,24 +1,28 @@
 <template>
-    <div v-bind="props"></div>
+    <div>
+        <slot v-bind="$name"></slot>
+    </div>
 </template>
 <script>
 import { onMounted, reactive, ref } from "vue";
+
 export default {
-    props: {
-        total: {
-            type: Number,
-            validator: function (prop) {
-                console.log(prop);
-                return false;
-            },
-        },
-    },
     setup(props, { attrs, emit, slots }) {
-        onMounted(() => {});
+        onMounted(() => {
+            console.log(props);
+            console.log(attrs);
+            console.log(emit);
+            emit("stateChange");
+        });
         let $name = ref(1);
-        return { props:{
-            name:$name,
-        } };
+        return {
+            attrs,
+            children: {
+                handleClick: function(){
+                    console.log('hello world')
+                }
+            },
+        };
     },
 };
 </script>

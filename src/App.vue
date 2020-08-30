@@ -4,7 +4,17 @@
     <Images />
     <Height />
     <HoverUnderlineAnimation />
-    <Box _name="box" id="webf23j2b3bhb54" :total='10'></Box>
+    <Box
+        :_name="'box'"
+        :id="`hj23po36kjoij=`"
+        @stateChange="handleChange"
+        :total="10"
+        style="color: red"
+        v-slot="children"
+    >
+        <p>万般皆是命，半点不由人</p>
+        <p>你配吗{{ children }}</p>
+    </Box>
     <!-- <App/> -->
 </template>
 
@@ -139,6 +149,12 @@ export default {
         // setInterval(() => {
         //   count.count++;
         // }, 1000);
+
+        return {
+            handleChange: function () {
+                console.log("hello world");
+            },
+        };
     },
 };
 </script>
