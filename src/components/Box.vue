@@ -22,14 +22,14 @@ export default {
             console.log(target);
             // 字符串的话会以数组的形式传入target中
             console.log(Object.assign({}, "hello"));
-            let array = ["a", "b", "c", "d"];
-            // Second argument to map sets `this`
-            array
-                .map(
-                    String.prototype.toUpperCase.call,
-                    String.prototype.toUpperCase
-                )
-                .map(console.log);
+            // let array = ["a", "b", "c", "d"];
+            // // Second argument to map sets `this`
+            // array
+            //     .map(
+            //         String.prototype.toUpperCase.call,
+            //         String.prototype.toUpperCase
+            //     )
+            //     .map(console.log);
         });
         let $name = ref(1);
         return {
