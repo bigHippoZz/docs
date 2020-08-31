@@ -10,11 +10,12 @@
         :onStateChange="onStateChange"
         :total="10"
         style="color: red"
-        :component='component'
+        :component="component"
         v-slot="componentProps"
     >
-        <p>万般皆是命，半点不由人</p>
-        <p @click="componentProps.handleClick">你配吗</p>
+        <Print>
+            <p @click="componentProps.handleClick" text="print">print</p>
+        </Print>
     </Box>
     <!-- <App/> -->
 </template>
@@ -59,6 +60,7 @@ export default {
         Height,
         HoverUnderlineAnimation,
         Box,
+        Print,
     },
     setup() {
         let $name = reactive({
@@ -99,7 +101,6 @@ export default {
                 this.data = data;
                 this.data[this.data.length - 2] = { value: "no- empty" };
             }
-
             findItemMemo() {
                 if (!this.findItem) {
                     this.findItem = this.data.find(i => !!i.value);
@@ -156,7 +157,7 @@ export default {
             onStateChange: function () {
                 console.log("hello world");
             },
-            component:Print
+            component: Print,
         };
     },
 };
