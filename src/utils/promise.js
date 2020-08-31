@@ -1,4 +1,3 @@
-
 let arr = [undefined, null];
 console.log(arr.toString());
 
@@ -401,4 +400,70 @@ function logError(server, msg) {
 /**
  * 安全
  * 注意检查来源url并不可信 这是可以进行伪造的！！
+ */
+
+/**
+ * instanceOf中的弊端
+ * 满足instanceOf返回true需要两个条件，一个是target必须是数组，另一个是当前target必须与Array构造函数
+ * 在同一个作用域中
+ */
+
+/**
+ * 利用Object.prototype.toString.call 来判断当前对象类型，前提是Object.prototype.toString 并没有
+ * 被篡改
+ * window中的name属性是来识别链接目标和frame的
+ *
+ * 只要是函数指针以值的形式进行传递的时候，建议使用箭头函数或者是bind()
+ *
+ * 柯里化函数思想，可以使得所有函数适配！所以当函数参数不适配的时候一定要想起柯里化！
+ * 不止适配功能还兼有高阶函数的各种功能
+ */
+
+/**
+ * 不可扩展对象
+ * Object.preventExtensions() 不能给当前对象添加属性和方法，但是仍然能够修改和删除已有成员
+ * 使用Object.isExtensible() 来判断是否能进行扩展
+ */
+
+/**
+ * 密封对象
+ * Object.seal() 密封对象不能扩展，而且已有的成员的[[Configurable]] 特性将设置为false 这就意味着不能删除
+ * 属性和方法，不能使用访问器属性 但是可以修改已有的成员
+ * Object.isSealed() 来判断对象是否密封了
+ */
+
+/**
+ * 冻结对象
+ * Object.freeze() 冻结对象既不可扩展，又是密封的，而且对象的属性[[Writable]] 特性会被设置成false
+ * Object.isSealed() 进行判断是不是冻结对象
+ */
+
+/**
+ * 对于长时间的代码运行建议使用setTimeout() 进行处理
+ * arguments.callee 可以拿到当前函数的引用
+ */
+
+/**
+ * 对于长时间的计算建议使用代码切割
+ * function chunk(array,process,context=null){
+ *   setTimeout(function(){
+ *      var item  = array.shift()
+ *      process.call(context,item)
+ *      if(array.length){
+            setTimeout(arguments.callee,100) 
+ *         }
+ *    },100)
+ * }
+ */
+
+/**
+ *
+ * 判断当前设备是否离线
+ * navigator.onLine 属性是否在线
+ * 事件 online offline 当网络离线变为在线 或者在线变为离线会触发事件
+ */
+
+/**
+ * 建议使用for of 进行遍历 // localStorage;
+ * 变量和数据的访问为O(1) 对象的访问为O(n)
  */
