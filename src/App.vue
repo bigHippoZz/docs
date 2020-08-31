@@ -7,13 +7,14 @@
     <Box
         :_name="'box'"
         :id="`hj23po36kjoij=`"
-        @stateChange="handleChange"
+        :onStateChange="onStateChange"
         :total="10"
         style="color: red"
-        v-slot="children"
+        :component='component'
+        v-slot="componentProps"
     >
         <p>万般皆是命，半点不由人</p>
-        <p>你配吗{{ children }}</p>
+        <p @click="componentProps.handleClick">你配吗</p>
     </Box>
     <!-- <App/> -->
 </template>
@@ -41,6 +42,8 @@ import {
 import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
+
+import Print from "./components/Print.vue";
 // import "./utils/extends.js";
 import "./utils/store";
 import main from "./main.json";
@@ -61,7 +64,6 @@ export default {
         let $name = reactive({
             name: "liwuzhou",
         });
-
         LoadConfigurationFile();
         // console.log(log)
         // provide("conf", 'res');
@@ -151,9 +153,10 @@ export default {
         // }, 1000);
 
         return {
-            handleChange: function () {
+            onStateChange: function () {
                 console.log("hello world");
             },
+            component:Print
         };
     },
 };
