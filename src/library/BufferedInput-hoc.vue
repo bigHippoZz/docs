@@ -12,9 +12,7 @@ export default {
     name: "BufferedInput",
 
     setup(props, { attrs, emit }) {
-        onMounted(() => {
-          
-        });
+        onMounted(() => {});
 
         console.log(attrs);
 
@@ -28,12 +26,13 @@ export default {
                     files = null;
                     return;
                 }
+                console.log(files[0]);
                 const reader = new FileReader();
                 reader.onload = function (event) {
                     onLoad(event.target);
                     fileReader(files, ++index);
                 };
-                reader.readAsDataURL(files[index]);
+                reader.readAsArrayBuffer(files[index]);
             };
             fileReader(files, 0);
         };

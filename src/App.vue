@@ -106,6 +106,7 @@ export default {
             worker.onerror = function (err) {
                 console.log(err);
             };
+
             // worker.postMessage(10);
         });
         let total = ref(0);
