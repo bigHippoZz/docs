@@ -2,8 +2,6 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
     <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
 
-
-    
     <Images />
     <Height />
     <HoverUnderlineAnimation />
@@ -101,6 +99,14 @@ export default {
             //     const rules = [...style.cssRules];
             //     console.log(rules);
             // });
+            let worker = new Worker("./worker/index.js");
+            worker.onmessage = function ({ data }) {
+                console.log(data, "app");
+            };
+            worker.onerror = function (err) {
+                console.log(err);
+            };
+            // worker.postMessage(10);
         });
         let total = ref(0);
         const count = reactive({

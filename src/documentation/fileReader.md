@@ -27,3 +27,21 @@ file 文件通过监听 change 事件进行处理文件
 
 1. 首先 file 是继承 blob 类型的对象
 2. slice() 方法对文件进行切割 3.应用的场景：files[0].slice(0,32) 以上的例子展示了只读取 32b 的文件，然后接下来可以用 readAsText()进行处理，比如获取文件的头部等等
+
+## 对象 URL
+
+1. 对象 url 被称为 blob 对象，指的是引用保存 file 或者 blob 中的数据的 URL，这样的好处是并不需要将文件读取到 js 中进而使用文件。
+2. createObjectURl()
+3. 函数返回的是一个字符串，指向的是一块内存地址，因为 URL 是字符串所以 dom 中也可以使用的
+4. 如果不需要的时候最好释放他所占用的内存，只要有代码引用对象 URL，内存就不会进行释放，所以最好手动释放内存。
+5. revokeObjectURl()
+6. 页面卸载的时候会自动释放对象 url，但是为了尽可能的减少内存最好手动释放内存空间
+
+## web Worker
+
+1. new Worker(/\*_ 文件 _/)
+2. postMessage 来进行同时两个不同作用域的代码空间进行通信，所以可以理解为执行的方法
+3. onmessage 接收消息
+4. onerror 失败的回调
+5. 在全局作用域中调用 terminate()方法停止线程，在 worker 中调用 close()进行停止线程
+6. 在 worker 作用域中调用 importScripts() 来进行动态的加载其他的脚本。
