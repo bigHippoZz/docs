@@ -1,7 +1,6 @@
 <template>
     <slot></slot>
 </template>
-
 <script>
 import { onMounted, reactive, computed, watchEffect } from "vue";
 export default {
