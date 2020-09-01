@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "lodash": "^4.17.20",
     "redux": "^4.0.5",
     "vue": "^3.0.0-rc.1",

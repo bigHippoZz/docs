@@ -7,10 +7,17 @@
 </template>
 
 <script>
+import { onMounted } from "vue";
 export default {
     name: "BufferedInput",
+
     setup(props, { attrs, emit }) {
+        onMounted(() => {
+          
+        });
+
         console.log(attrs);
+
         const handleFileUpload = function (
             files,
             onLoad,
