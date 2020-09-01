@@ -16,9 +16,9 @@ export default {
             ),
         });
         onMounted(() => {
-            console.log(slots);
-            $state.slots = slots.default();
-            console.log($state.slots);
+            // console.log(slots);
+            // $state.slots = slots.default();
+            // console.log($state.slots);
             // console.log($state.items);
         });
 

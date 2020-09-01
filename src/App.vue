@@ -1,6 +1,9 @@
 <template>
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
     <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
+
+
+    
     <Images />
     <Height />
     <HoverUnderlineAnimation />
@@ -17,6 +20,17 @@
             <p @click="componentProps.handleClick" text="print">print</p>
         </Print>
     </Box>
+
+    <BufferedInput
+        total
+        count="10"
+        :onBlur="handleBlur"
+        v-slot="componentProps"
+        multiple="multiple"
+    >
+        <Input v-bind="componentProps" />
+    </BufferedInput>
+
     <!-- <App/> -->
 </template>
 
@@ -50,7 +64,10 @@ import "./utils/store";
 import main from "./main.json";
 
 import Box from "./components/Box.vue";
+import Input from "./components/Input.vue";
 import LoadConfigurationFile, { log } from "./utils/Load-configuration-file";
+
+import BufferedInput from "./library/BufferedInput-hoc.vue";
 
 export default {
     name: "App",
@@ -60,7 +77,9 @@ export default {
         Height,
         HoverUnderlineAnimation,
         Box,
+        Input,
         Print,
+        BufferedInput,
     },
     setup() {
         let $name = reactive({
@@ -153,11 +172,21 @@ export default {
         //   count.count++;
         // }, 1000);
 
+        const handleChange = event => {
+            let files = event.target.files;
+            console.log(files);
+        };
+
+        const handleBlur = event => {
+            console.log(event, "blur");
+        };
         return {
             onStateChange: function () {
                 console.log("hello world");
             },
             component: Print,
+            handleChange,
+            handleBlur,
         };
     },
 };
