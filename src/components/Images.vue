@@ -23,7 +23,6 @@ export default {
         let injectConf = inject("conf");
         onMounted(async () => {
             injectConf = await injectConf;
-            console.log(injectConf);
         });
     },
 };

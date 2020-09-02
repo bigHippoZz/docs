@@ -37,7 +37,6 @@ class Store {
     setState(func) {
         // 更加的可控
         let result = func(this.state);
-        console.log(this.state);
         this.state = result;
         this.callbacks.forEach(f => f());
     }
@@ -59,11 +58,7 @@ let store = createStore({
 
 store.use(function (state) {});
 
-
-store.listener(function (){
-    console.log(store.getState())
-})
-
+store.listener(function () {});
 
 let request = store.dispatch(function (setState, ...args) {
     setState(function (oldValue) {
@@ -74,8 +69,3 @@ let request = store.dispatch(function (setState, ...args) {
 });
 
 request("hello world");
-
-
-
-
-
