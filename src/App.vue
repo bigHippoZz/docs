@@ -22,7 +22,6 @@
         :style="{ color: 'red' }"
         class="container"
         @click="handleClick"
-        
     >
         <div v-bind="componentProps">测试测试</div>
         <p>微信</p>
@@ -37,6 +36,20 @@
         <Input v-bind="componentProps" />
     </BufferedInput>
 
+    <!-- 
+    <HOC $provide="{}" >
+        <Script  @GET="hello">
+            <UI @Load='world'>
+                <Box componentRef='ref' >
+                    <div></div>
+                </Box>/
+            </UI>
+        </Script>
+    </HOC> -->
+
+    <!-- <For> </For> -->
+
+    <!-- 样式 方法 -->
     <!-- <App/> -->
 </template>
 
