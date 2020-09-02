@@ -11,14 +11,22 @@
         :onStateChange="onStateChange"
         :total="10"
         style="color: red"
-        :component="component"
         v-slot="componentProps"
     >
         <Print>
             <p @click="componentProps.handleClick" text="print">print</p>
         </Print>
     </Box>
-
+    <Box
+        v-slot="componentProps"
+        :style="{ color: 'red' }"
+        class="container"
+        @click="handleClick"
+        
+    >
+        <div v-bind="componentProps">测试测试</div>
+        <p>微信</p>
+    </Box>
     <BufferedInput
         total
         count="10"
@@ -187,6 +195,10 @@ export default {
         const handleBlur = event => {
             console.log(event, "blur");
         };
+
+        const handleClick = () => {
+            console.log("click");
+        };
         return {
             onStateChange: function () {
                 console.log("hello world");
@@ -194,6 +206,7 @@ export default {
             component: Print,
             handleChange,
             handleBlur,
+            handleClick,
         };
     },
 };
