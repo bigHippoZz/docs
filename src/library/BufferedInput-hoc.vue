@@ -14,7 +14,7 @@ export default {
     setup(props, { attrs, emit }) {
         onMounted(() => {});
 
-        console.log(attrs);
+        // console.log(attrs);
 
         const handleFileUpload = function (
             files,

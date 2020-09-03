@@ -2,7 +2,7 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
     <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
 
-    <Images />
+    <Images v-if="false" />
     <Height />
     <HoverUnderlineAnimation />
     <Box
@@ -68,8 +68,9 @@ import LoadConfigurationFile, { log } from "./utils/Load-configuration-file";
 import BufferedInput from "./library/BufferedInput-hoc.vue";
 import "./utils/store";
 import main from "./main.json";
-
 import { EnhanceWebSocket } from "./utils/webSocket.js";
+
+import "./static/Stack.js";
 export default {
     name: "App",
     components: {
@@ -104,10 +105,10 @@ export default {
             // });
             let worker = new Worker("./worker/index.js");
             worker.onmessage = function ({ data }) {
-                console.log(data, "app");
+                // console.log(data, "app");
             };
             worker.onerror = function (err) {
-                console.log(err);
+                // console.log(err);
             };
             // worker.postMessage(10);
             // 可选链的操作
@@ -120,8 +121,6 @@ export default {
             // let enhanceWebSocket = new EnhanceWebSocket(
             //     "ws://10.0.41.80:50012"
             // );
-
-            
         });
         let total = ref(0);
         const count = reactive({
