@@ -26,7 +26,7 @@ class EnhanceWebSocket {
     // WebSocketServer连接成功后触发
     onopen() {
         console.log(`Successfully connected to  server.`);
-        this.queue.forEach(data => this.connection.send(data));
+        this.emptyTheQueue(this.queue);
         this.queue = [];
     }
     // 接收到WebSocketServer发送过来的数据触发
@@ -55,7 +55,7 @@ class EnhanceWebSocket {
             data = this.stringifyData(data);
         }
         // this.connection.send(data);
-        // if (this.status.status === 0) this.queue.push(data);
+        if (this.status.status === 0) this.queue.push(data);
     }
     //字符串化数据
     stringifyData(data) {
@@ -71,6 +71,14 @@ class EnhanceWebSocket {
         } catch (error) {
             throw new Error("parseData():" + error);
         }
+    }
+    emptyTheQueue(queue) {
+        const handle = index => {
+            if (index === queue.length) return;
+            this.connection.send(queue[index]);
+            requestAnimationFrame(() => handle(index + 1));
+        };
+        handle(0);
     }
     // 返回当前的状态
     get status() {
@@ -95,6 +103,8 @@ class EnhanceWebSocket {
                     status: 3,
                     value: "已经关闭链接",
                 };
+            default:
+                return "this connection is empty !";
         }
     }
     // 重连时间
@@ -112,6 +122,7 @@ class EnhanceWebSocket {
         ) {
             this.connection.onclose = () => {};
             this.connection.onerror = () => {};
+            console.log(this.connection);
             this.connection.close();
         }
         this.clear();
@@ -124,6 +135,13 @@ class EnhanceWebSocket {
         }
         this.connection = null;
         this.connectionAttempts = 0;
+    }
+    chunk(array, func) {
+        function handle() {
+            func(array.shift());
+            if (array.length) setTimeout(handle, 1000);
+        }
+        setTimeout(handle, 1000);
     }
 }
 

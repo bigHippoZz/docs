@@ -117,15 +117,11 @@ export default {
             // if (operation?.length) {
             //     console.log("next");
             // }
-            let enhanceWebSocket = new EnhanceWebSocket(
-                "ws://10.0.41.80:50012",
-                true
-            );
-            console.log(enhanceWebSocket);
-            setTimeout(() => {
-                enhanceWebSocket.requestCloseConnection();
-                console.log(enhanceWebSocket);
-            }, 10000);
+            // let enhanceWebSocket = new EnhanceWebSocket(
+            //     "ws://10.0.41.80:50012"
+            // );
+
+            
         });
         let total = ref(0);
         const count = reactive({
