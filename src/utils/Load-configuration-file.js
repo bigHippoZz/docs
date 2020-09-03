@@ -12,7 +12,7 @@ async function confLoad(func = value => value) {
     );
 }
 function log() {}
-function total() {}
+
 /**
  * as default 设置为默认导出
  */

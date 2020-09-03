@@ -329,7 +329,14 @@ const handleFileUpload = function (fileInput, onload, onerror) {
     };
 
     readFile(0, fileInput.files);
-
-
-    
 };
+/**
+ * @Author Liwz
+ * @Description 判断是不是数字
+ * @Date 2020-09-03 13:52:59 星期四
+ * @param {any} 检验的target
+ * @return {Boolean} 返回是否是数字
+ */
+function isNumber(number) {
+    return typeof number === "number" && !isNaN(number);
+}

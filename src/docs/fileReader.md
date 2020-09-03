@@ -45,3 +45,8 @@ file 文件通过监听 change 事件进行处理文件
 4. onerror 失败的回调
 5. 在全局作用域中调用 terminate()方法停止线程，在 worker 中调用 close()进行停止线程
 6. 在 worker 作用域中调用 importScripts() 来进行动态的加载其他的脚本。
+
+## arrayBuffer 数组理解
+
+ArrayBuffer 是一(大)块内存，但不能直接访问 ArrayBuffer 里面的字节。要访问 ArrayBuffer，需要用到 Typed Array。其实 ArrayBuffer 跟 Typed Array 是一个东西，前者是一(大)块内存，后者用来访问这块内存。
+网上文章建议使用 blob 进行传输图片文件，这样会比 file 更快，建议进行分片分段压缩上传这样效率更高
