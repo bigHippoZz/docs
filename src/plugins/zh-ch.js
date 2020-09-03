@@ -15,33 +15,10 @@
 // ==/UserScript==
 
 (function (window, document, undefined) {
-    "use strict";
-
-    var lang = "zh"; // 中文
+    ("use strict");
 
     // 2016-04-18 github 将 jquery 以 amd 加载，不暴露到全局了。
     // var $ = require('github/jquery')['default'];
-
-    // 要翻译的页面
-    var page = getPage();
-
-    transTitle(); // 页面标题翻译
-    timeElement(); // 时间节点翻译
-    // setTimeout(contributions, 100); // 贡献日历翻译 (日历是内嵌或ajax的, 所以基于回调事件处理)
-    walk(document.body); // 立即翻译页面
-
-    // 2017-03-19 github 屏蔽 require 改为 Promise 形式的 ghImport
-    define("github-hans-ajax", ["./jquery"], function ($) {
-        $(document).ajaxComplete(function () {
-            transTitle();
-            walk(document.body); // ajax 请求后再次翻译页面
-        });
-    });
-    ghImport("github-hans-ajax")["catch"](function (e) {
-        setTimeout(function () {
-            throw e;
-        });
-    });
 
     /**
      * 遍历节点
@@ -336,4 +313,26 @@
             });
         });
     }
+
+    var lang = "zh"; // 中文
+    // 要翻译的页面
+    var page = getPage();
+
+    transTitle(); // 页面标题翻译
+    timeElement(); // 时间节点翻译
+    // setTimeout(contributions, 100); // 贡献日历翻译 (日历是内嵌或ajax的, 所以基于回调事件处理)
+    walk(document.body); // 立即翻译页面
+
+    // 2017-03-19 github 屏蔽 require 改为 Promise 形式的 ghImport
+    define("github-hans-ajax", ["./jquery"], function ($) {
+        $(document).ajaxComplete(function () {
+            transTitle();
+            walk(document.body); // ajax 请求后再次翻译页面
+        });
+    });
+    ghImport("github-hans-ajax")["catch"](function (e) {
+        setTimeout(function () {
+            throw e;
+        });
+    });
 })(window, document);
