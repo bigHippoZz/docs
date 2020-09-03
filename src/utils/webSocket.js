@@ -26,6 +26,7 @@ class EnhanceWebSocket {
     // WebSocketServer连接成功后触发
     onopen() {
         console.log(`Successfully connected to  server.`);
+        
         this.emptyTheQueue(this.queue);
         this.queue = [];
     }
