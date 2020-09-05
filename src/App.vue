@@ -1,7 +1,7 @@
 <template>
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
     <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
-
+    <NavBar></NavBar>
     <Images v-if="false" />
     <Height />
     <HoverUnderlineAnimation />
@@ -61,6 +61,8 @@ import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 import Print from "./components/Print.vue";
+import NavBar from "./components/NavBar.vue";
+
 // import "./utils/extends.js";
 import Box from "./components/Box.vue";
 import Input from "./components/Input.vue";
@@ -71,6 +73,8 @@ import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
 import "./extends/ref.js";
 import "./static/Stack.js";
+import "./index.css";
+import "./main.less";
 export default {
     name: "App",
     components: {
@@ -82,6 +86,7 @@ export default {
         Input,
         Print,
         BufferedInput,
+        NavBar,
     },
     setup() {
         let $name = reactive({
@@ -122,6 +127,7 @@ export default {
             //     "ws://10.0.41.80:50012"
             // );
         });
+
         let total = ref(0);
         const count = reactive({
             count: 0,

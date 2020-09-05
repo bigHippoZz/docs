@@ -117,12 +117,12 @@ class Deque extends Queue {
 
 let deque = new Deque();
 
-console.log(deque);
+// console.log(deque);
 deque.addFront(10);
 deque.addFront(10);
 deque.addFront(10);
 deque.removeBack();
-console.log(deque);
+// console.log(deque);
 
 function hotPotato(list, num) {
     let queue = new Queue();
@@ -162,4 +162,4 @@ function handle(string) {
         return false;
     }
 }
-console.log(handle("abam"));
+// console.log(handle("abam"));
