@@ -69,7 +69,7 @@ import BufferedInput from "./library/BufferedInput-hoc.vue";
 import "./utils/store";
 import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
-
+import "./extends/ref.js";
 import "./static/Stack.js";
 export default {
     name: "App",
