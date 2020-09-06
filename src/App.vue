@@ -38,6 +38,8 @@ import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
 import "./extends/ref.js";
 import "./static/Stack.js";
+
+import "./static/LinkedList.js";
 // import "./index.css";
 // import "./main.less";
 

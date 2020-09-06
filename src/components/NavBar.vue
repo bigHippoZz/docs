@@ -94,7 +94,7 @@ export default {
         ul {
             margin: 0;
         }
-        · .navbar-nav__item {
+        .navbar-nav__item {
             display: inline-block;
             vertical-align: middle;
             padding-left: 25px;
