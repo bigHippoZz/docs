@@ -375,3 +375,103 @@ class SortedLinkedList extends LinkedList {
 // sortedLinkedList.insert(9);
 // sortedLinkedList.insert(11);
 // console.log(sortedLinkedList);
+
+class _CircularDoublyLinkedList extends LinkedList {
+    constructor(equals = defaultEquals) {
+        super(equals);
+        this.tail = null;
+    }
+
+    push(element) {
+        if (!element) return;
+        let node = new DoublyNode(element);
+        let current;
+        if (this.count === 0) {
+            this.head = node;
+            this.tail = node;
+            node.pre = node;
+            node.next = node;
+        } else {
+            current = this.tail;
+            this.tail = node;
+            current.next = node;
+            this.tail.pre = current;
+            this.tail.next = this.head;
+            this.head.pre = node;
+        }
+        this.count++;
+        return this.count;
+    }
+
+    insert(element, index) {
+        const node = this.createNode(element);
+        let current = this.head;
+        if (index >= 0 && this.count >= index) {
+            if (index === 0) {
+                if (this.count === 0) {
+                    return this.push(node);
+                } else {
+                    this.head = node;
+                    this.head.next = current;
+                    current.pre = this.head;
+                    this.head.pre = this.tail;
+                    this.tail.next = this.head;
+                }
+            } else if (this.count === index) {
+                current = this.tail;
+                this.tail = node;
+                current.next = this.tail;
+                this.tail.pre = current;
+                this.tail.next = this.head;
+                this.head.pre = this.tail;
+            } else {
+                current = this.getElementAt(index);
+                let pre = current.pre;
+                pre.next = node;
+                node.pre = pre;
+                node.next = current;
+                current.pre = node;
+            }
+        }
+        this.count++;
+    }
+
+    removeAt(index) {
+        if (index >= 0 && this.count > index) {
+            let current = this.head;
+            if (index === 0) {
+                this.head = current.next;
+                if (this.count === 1) {
+                    // this.head = null;
+                    this.tail = null;
+                } else {
+                    this.head.pre = this.tail;
+                    this.tail.next = this.head;
+                }
+            } else if (this.count - 1 === index) {
+                current = this.tail.pre;
+                this.tail = current;
+                this.tail.next = this.head;
+                this.head.pre = this.tail;
+            } else {
+                current = this.getElementAt(index);
+                let pre = current.pre;
+                pre.next = current.next;
+                current.next.pre = pre;
+            }
+        }
+
+        this.count--;
+    }
+
+    createNode(element) {
+        return new DoublyNode(element);
+    }
+}
+
+let _crcularDoublyLinkedList = new _CircularDoublyLinkedList();
+_crcularDoublyLinkedList.push(10);
+_crcularDoublyLinkedList.push(11);
+_crcularDoublyLinkedList.push(12);
+_crcularDoublyLinkedList.removeAt(1);
+console.log(_crcularDoublyLinkedList);
