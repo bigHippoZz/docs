@@ -1,20 +1,24 @@
 <template>
     <div :ref="componentRef" class="navbar">
-        <div class="navbar__container">
+        <div class="navbar_container">
             <a @click="onClickLogo" class="logo" href="javascript:void(0)">
-                <!-- <h1>BigHippoZz</h1> -->
-                <slot></slot>
+                <h1 class="h2" style="font-weight: 300">
+                    Big<i style="color: rgb(62, 184, 130)">·</i>HippoZz
+                </h1>
             </a>
             <nav>
-                <ul class="navbar-nav" @click="onClickBtn">
+                <ul class="navbar_nav" @click="onClickBtn">
                     <li
-                        v-for="(item) in btnLis"
+                        v-for="(item, index) in btnLis"
                         :key="item"
                         class="navbar-nav__item"
                     >
-                        <a class='' :data-id="item" href="javascript:void(0)">{{
-                            item
-                        }}</a>
+                        <a
+                            :class="index === btnLis.length - 1 && 'button'"
+                            :data-id="item"
+                            href="javascript:void(0)"
+                            >{{ item }}</a
+                        >
                     </li>
                 </ul>
             </nav>
@@ -25,7 +29,9 @@
 export default {
     name: "navbar",
     props: {
-        // 点击logo事件
+        /**
+         * 点击logo事件
+         */
         onClickLogo: {
             type: Function,
             default: () => {
@@ -63,7 +69,7 @@ export default {
     width: 100%;
     display: block;
     padding: 20px 0;
-    .navbar__container {
+    .navbar_container {
         max-width: 960px;
         padding: 0 20px;
         margin: 0 auto;
@@ -75,11 +81,20 @@ export default {
             background-image: url("../assets/logo.svg");
             background-size: contain;
             background-repeat: no-repeat;
+            background-position: left center;
             width: 260px;
             height: 40px;
+            h1 {
+                line-height: 30px;
+                margin-bottom: 0;
+                padding-left: 50px;
+            }
         }
 
-        .navbar-nav__item {
+        ul {
+            margin: 0;
+        }
+        · .navbar-nav__item {
             display: inline-block;
             vertical-align: middle;
             padding-left: 25px;
@@ -97,6 +112,30 @@ export default {
                 color: #fff;
             }
         }
+    }
+}
+
+.button {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 33px;
+    background-color: #3eb882;
+    color: #fff;
+    font-family: Source Sans Pro, sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    border: 0;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #319267;
     }
 }
 </style>

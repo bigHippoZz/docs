@@ -1,40 +1,7 @@
 <template>
-    <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
-    <NavBar></NavBar>
-    <Images v-if="false" />
-    <Height />
-    <HoverUnderlineAnimation />
-    <Box
-        :_name="'box'"
-        :id="`hj23po36kjoij=`"
-        :onStateChange="onStateChange"
-        :total="10"
-        style="color: red"
-        v-slot="componentProps"
-    >
-        <Print>
-            <p @click="componentProps.handleClick" text="print">print</p>
-        </Print>
-    </Box>
-    <Box
-        v-slot="componentProps"
-        :style="{ color: 'red' }"
-        class="container"
-        @click="handleClick"
-    >
-        <div v-bind="componentProps">测试测试</div>
-        <p>微信</p>
-    </Box>
-    <BufferedInput
-        total
-        count="10"
-        :onBlur="handleBlur"
-        v-slot="componentProps"
-        multiple="multiple"
-    >
-        <Input v-bind="componentProps" />
-    </BufferedInput>
+    <ForNavBar v-slot="componentProps">
+        <NavBar v-bind="componentProps" :componentRef="getRef"> </NavBar>
+    </ForNavBar>
 </template>
 
 <script>
@@ -56,13 +23,11 @@ import {
     useRouter,
     stringifyQuery,
 } from "vue-router";
-// import HelloWorld from './components/HelloWorld.vue'
 import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 import Print from "./components/Print.vue";
 import NavBar from "./components/NavBar.vue";
-
 // import "./utils/extends.js";
 import Box from "./components/Box.vue";
 import Input from "./components/Input.vue";
@@ -73,8 +38,10 @@ import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
 import "./extends/ref.js";
 import "./static/Stack.js";
-import "./index.css";
-import "./main.less";
+// import "./index.css";
+// import "./main.less";
+
+import ForNavBar from "./businessLogic/ForNavBar.vue";
 export default {
     name: "App",
     components: {
@@ -87,6 +54,7 @@ export default {
         Print,
         BufferedInput,
         NavBar,
+        ForNavBar,
     },
     setup() {
         let $name = reactive({
@@ -150,6 +118,9 @@ export default {
         const handleClick = () => {
             console.log("click");
         };
+        const getRef = componentRef => {
+            console.log(componentRef);
+        };
         return {
             onStateChange: function () {
                 console.log("hello world");
@@ -158,6 +129,7 @@ export default {
             handleChange,
             handleBlur,
             handleClick,
+            getRef,
         };
     },
 };
