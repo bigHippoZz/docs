@@ -1,7 +1,12 @@
 <template>
     <ForNavBar v-slot="componentProps">
-        <NavBar v-bind="componentProps" :componentRef="getRef"> </NavBar>
+        <NavBar v-bind="componentProps" :componentRef="getRef" />
     </ForNavBar>
+    <Verse />
+    <Layout>
+        <ArticleList v-for="(item, index) in 10" :key="index" />
+    </Layout>
+    <Footer />
 </template>
 
 <script>
@@ -23,11 +28,18 @@ import {
     useRouter,
     stringifyQuery,
 } from "vue-router";
+
+import Layout from "./components/Layout.vue";
 import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
 import HoverUnderlineAnimation from "./components/HoverUnderlineAnimation.vue";
 import Print from "./components/Print.vue";
 import NavBar from "./components/NavBar.vue";
+
+import ArticleList from "./components/ArticleList.vue";
+import Footer from "./components/Footer.vue";
+
+import Verse from "./components/Verse.vue";
 // import "./utils/extends.js";
 import Box from "./components/Box.vue";
 import Input from "./components/Input.vue";
@@ -41,7 +53,7 @@ import "./static/Stack.js";
 import "./static/Set.js";
 
 import "./static/LinkedList.js";
-// import "./index.css";
+import "./index.css";
 // import "./main.less";
 
 import ForNavBar from "./businessLogic/ForNavBar.vue";
@@ -58,6 +70,10 @@ export default {
         BufferedInput,
         NavBar,
         ForNavBar,
+        ArticleList,
+        Layout,
+        Verse,
+        Footer,
     },
     setup() {
         let $name = reactive({

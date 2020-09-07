@@ -1,20 +1,31 @@
 class Booking {
-    constructor(show, date) {
-        this._show = show;
-        this._date = date;
+    constructor() {}
+    extension() {
+        return new enhanceBooking(this, {
+            name: "liwuzhou",
+        });
     }
-    _behost(extras) {
-        this._host = new _Booking(this, extras);
+
+    parseString(string) {
+        try {
+            return JSON.parse(string);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
-class _Booking {
-    constructor(host, extras) {
-        this.extends = host;
-        this.extras = extras;
+class enhanceBooking {
+    constructor(extend, params) {
+        this._extend = extend;
+        this._params = params;
+    }
+    parseString(string) {
+        console.log("this is Subclass");
+        return this._extend.parseString(string);
     }
 }
 
-let booking = new Booking([], new Date());
-booking._behost({});
-console.log(booking);
+let booking = new Booking().extension();
+
+console.log(booking.parseString(JSON.stringify({ name: "liwuzhou" })));

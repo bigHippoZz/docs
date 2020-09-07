@@ -1,27 +1,29 @@
 <template>
-    <div :ref="componentRef" class="navbar">
-        <div class="navbar_container">
-            <a @click="onClickLogo" class="logo" href="javascript:void(0)">
-                <h1 class="h2" style="font-weight: 300">
-                    Big<i style="color: rgb(62, 184, 130)">·</i>HippoZz
-                </h1>
-            </a>
-            <nav>
-                <ul class="navbar_nav" @click="onClickBtn">
-                    <li
-                        v-for="(item, index) in btnLis"
-                        :key="item"
-                        class="navbar-nav__item"
-                    >
-                        <a
-                            :class="index === btnLis.length - 1 && 'button'"
-                            :data-id="item"
-                            href="javascript:void(0)"
-                            >{{ item }}</a
+    <div class="warp">
+        <div :ref="componentRef" class="_navbar">
+            <div class="navbar_container">
+                <a @click="onClickLogo" class="logo" href="javascript:void(0)">
+                    <h1 class="h2" style="font-weight: 300">
+                        Big<i style="color: rgb(62, 184, 130)">·</i>HippoZz
+                    </h1>
+                </a>
+                <nav>
+                    <ul class="navbar_nav" @click="onClickBtn">
+                        <li
+                            v-for="(item, index) in btnLis"
+                            :key="item"
+                            class="navbar-nav__item"
                         >
-                    </li>
-                </ul>
-            </nav>
+                            <a
+                                :class="index === btnLis.length - 1 && 'button'"
+                                :data-id="item"
+                                href="javascript:void(0)"
+                                >{{ item }}</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </template>
@@ -42,8 +44,8 @@ export default {
         btnLis: {
             type: Array,
             default: () => [
-                "SPEAKERS",
-                "WORKSHOPS",
+                "VUE",
+                "REDUX",
                 "SCHEDULE",
                 "GUIDE",
                 "Summary",
@@ -62,13 +64,18 @@ export default {
 </script>
 <style lang="less" scoped>
 @color: hsla(0, 0%, 100%, 0.8);
-.navbar {
-    position: flex;
+
+.warp{
+    height:80px;
+}
+._navbar {
     background: @color;
     border-bottom: 1px solid #efefef;
     width: 100%;
     display: block;
     padding: 20px 0;
+    top: 0;
+    position: fixed;
     .navbar_container {
         max-width: 960px;
         padding: 0 20px;
