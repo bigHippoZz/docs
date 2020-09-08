@@ -8,7 +8,7 @@
 </template>
 <script>
 export default {
-    name: "Verse",
+    name: "VerseUI",
     props: {
         verseDetails: {
             type: String,

@@ -10,12 +10,12 @@
                 <nav>
                     <ul class="navbar_nav" @click="onClickBtn">
                         <li
-                            v-for="(item, index) in btnLis"
+                            v-for="(item, index) in btnList"
                             :key="item"
                             class="navbar-nav__item"
                         >
                             <a
-                                :class="index === btnLis.length - 1 && 'button'"
+                                :class="index === btnList.length - 1 && 'button'"
                                 :data-id="item"
                                 href="javascript:void(0)"
                                 >{{ item }}</a
@@ -29,7 +29,7 @@
 </template>
 <script>
 export default {
-    name: "navbar",
+    name: "NavBarUI",
     props: {
         /**
          * 点击logo事件
@@ -40,21 +40,23 @@ export default {
                 console.log("click logo");
             },
         },
-        // ui btn 按钮列表
-        btnLis: {
+        /**
+         * btn 列表
+         */
+        btnList: {
             type: Array,
-            default: () => [
-                "VUE",
-                "REDUX",
-                "SCHEDULE",
-                "GUIDE",
-                "Summary",
-            ],
+            default: () => ["VUE", "REDUX", "SCHEDULE", "GUIDE", "Summary"],
         },
+        /**
+         * 点击按钮事件
+         */
         onClickBtn: {
             type: Function,
             default: () => {},
         },
+        /**
+         * 获取当前引用
+         */
         componentRef: {
             type: Function,
             default: ref => ref,
@@ -65,8 +67,8 @@ export default {
 <style lang="less" scoped>
 @color: hsla(0, 0%, 100%, 0.8);
 
-.wrapper{
-    height:80px;
+.wrapper {
+    height: 80px;
 }
 ._navbar {
     background: @color;

@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-    name: "Footer",
+    name: "FooterUI",
     props: {
         /**
          * 作者
