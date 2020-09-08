@@ -1,5 +1,5 @@
 <template>
-    <div class="warp">
+    <div class="wrapper">
         <div :ref="componentRef" class="_navbar">
             <div class="navbar_container">
                 <a @click="onClickLogo" class="logo" href="javascript:void(0)">
@@ -65,7 +65,7 @@ export default {
 <style lang="less" scoped>
 @color: hsla(0, 0%, 100%, 0.8);
 
-.warp{
+.wrapper{
     height:80px;
 }
 ._navbar {

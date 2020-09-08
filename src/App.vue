@@ -6,7 +6,7 @@
     <Layout>
         <ArticleList v-for="(item, index) in 10" :key="index" />
     </Layout>
-    <Footer />
+    <Footer :onLinkClick="handleLinkClick" :onClickAuthor="handleClickAuthor" />
 </template>
 
 <script>
@@ -55,8 +55,9 @@ import "./static/Set.js";
 import "./static/LinkedList.js";
 import "./index.css";
 // import "./main.less";
-
 import ForNavBar from "./businessLogic/ForNavBar.vue";
+// 作者链接
+const AUTHOR_LINK = "https://github.com/bigHippoZz";
 export default {
     name: "App",
     components: {
@@ -133,12 +134,17 @@ export default {
         const handleBlur = event => {
             console.log(event, "blur");
         };
-
         const handleClick = () => {
             console.log("click");
         };
         const getRef = componentRef => {
             console.log(componentRef);
+        };
+        const handleLinkClick = event => {
+            console.log(event);
+        };
+        const handleClickAuthor = () => {
+            location.href = AUTHOR_LINK;
         };
         return {
             onStateChange: function () {
@@ -149,6 +155,8 @@ export default {
             handleBlur,
             handleClick,
             getRef,
+            handleLinkClick,
+            handleClickAuthor,
         };
     },
 };
