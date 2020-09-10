@@ -4,7 +4,7 @@
     <Layout>
         <ArticleList v-for="(item, index) in 10" :key="index" />
     </Layout>
-    <Footer  />
+    <Footer />
 </template>
 
 <script>
@@ -48,8 +48,9 @@ import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
 import "./extends/ref.js";
 import "./static/Stack.js";
-import "./static/Set.js";
 
+import "./static/Set.js";
+import "./static/Map.js";
 import "./static/LinkedList.js";
 import "./index.css";
 // import "./main.less";
