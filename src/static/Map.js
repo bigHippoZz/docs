@@ -75,7 +75,7 @@ class Dictionary {
         return Object.keys(this.table).length;
     }
 
-    isEmpy() {
+    isEmpty() {
         return this.size() === 0;
     }
 
@@ -84,7 +84,7 @@ class Dictionary {
     }
 
     toString() {
-        if (this.isEmpy()) {
+        if (this.isEmpty()) {
             return "";
         }
         const valuePairs = this.keyValues();
@@ -102,15 +102,15 @@ map.set("gandalf", "gandalf.com");
 map.set("john", "john.com");
 map.set("tyrion", "tyrion.com");
 
-console.log(map);
-console.log(map.size());
-map.forEach((key, value) => {
-    console.log(key, value);
-});
-console.log(map.get("tyrion"));
-console.log(map.values());
-console.log(map.keyValues());
-console.log(map.toString());
+// console.log(map);
+// console.log(map.size());
+// map.forEach((key, value) => {
+//     console.log(key, value);
+// });
+// console.log(map.get("tyrion"));
+// console.log(map.values());
+// console.log(map.keyValues());
+// console.log(map.toString());
 
 class HashTable {
     constructor(toStrFn = defaultToString) {
