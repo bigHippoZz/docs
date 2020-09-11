@@ -1,8 +1,9 @@
 <template>
     <NavBarComponent
+        v-bind="componentsProps"
+        :componentRef="componentRef"
         :onClickLogo="onClickLogo"
         :onClickBtn="onClickBtn"
-        :componentRef="componentRef"
     />
 </template>
 <script>
@@ -12,7 +13,7 @@ export default {
         NavBarComponent,
     },
     name: "NavBar",
-    setup() {
+    setup(props, { attrs }) {
         const onClickLogo = () => {
             location.href = "/";
         };
@@ -26,6 +27,7 @@ export default {
             onClickLogo,
             onClickBtn,
             componentRef,
+            componentsProps: attrs,
         };
     },
 };

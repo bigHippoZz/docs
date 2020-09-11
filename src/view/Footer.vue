@@ -1,10 +1,12 @@
 <template>
     <FooterComponent
+        v-bind="componentProps"
         :onLinkClick="onLinkClick"
         :onClickAuthor="onClickAuthor"
     />
 </template>
 <script>
+
 import FooterComponent from "../components/Footer.vue";
 const AUTHOR_LINK = "https://github.com/bigHippoZz";
 export default {
@@ -12,7 +14,7 @@ export default {
         FooterComponent,
     },
     name: "Footer",
-    setup() {
+    setup(props, { attrs }) {
         const onLinkClick = event => {
             console.log(event);
         };
@@ -22,6 +24,7 @@ export default {
         return {
             onLinkClick,
             onClickAuthor,
+            componentProps: attrs,
         };
     },
 };

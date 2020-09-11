@@ -15,7 +15,9 @@
                             class="navbar-nav__item"
                         >
                             <a
-                                :class="index === btnList.length - 1 && 'button'"
+                                :class="
+                                    index === btnList.length - 1 && 'button'
+                                "
                                 :data-id="item"
                                 href="javascript:void(0)"
                                 >{{ item }}</a
@@ -109,42 +111,45 @@ export default {
             padding-left: 25px;
             line-height: 35px;
             text-transform: uppercase;
-
             a {
                 text-decoration: none;
                 color: #445b71;
                 font-size: 15px;
                 font-weight: 400;
-            }
 
+                &:hover {
+                    color: #3eb882;
+                }
+            }
             a.button {
-                color: #fff;
+                color: #3eb882;
             }
         }
     }
 }
 
 .button {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 10px 33px;
-    background-color: #3eb882;
-    color: #fff;
-    font-family: Source Sans Pro, sans-serif;
-    font-weight: 300;
-    font-size: 20px;
-    line-height: 1.25;
-    text-align: center;
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
-    border: 0;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-    transition: background-color 0.3s ease;
+    // color: #3eb882;
+    // display: inline-block;
+    // vertical-align: middle;
+    // padding: 10px 33px;
+    // background-color: #3eb882;
+    // color: #fff;
+    // font-family: Source Sans Pro, sans-serif;
+    // font-weight: 300;
+    // font-size: 20px;
+    // line-height: 1.25;
+    // text-align: center;
+    // white-space: nowrap;
+    // cursor: pointer;
+    // user-select: none;
+    // border: 0;
+    // border-radius: 20px;
+    // letter-spacing: 0.5px;
+    // transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: #319267;
+        // background-color: #319267;
     }
 }
 </style>
