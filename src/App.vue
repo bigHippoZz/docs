@@ -26,7 +26,6 @@ import {
     useRouter,
     stringifyQuery,
 } from "vue-router";
-
 import Layout from "./components/Layout.vue";
 import Images from "./components/Images.vue";
 import Height from "./components/Height.vue";
@@ -40,16 +39,17 @@ import Box from "./components/Box.vue";
 import Input from "./components/Input.vue";
 import LoadConfigurationFile, { log } from "./utils/Load-configuration-file";
 import BufferedInput from "./library/BufferedInput-hoc.vue";
-import "./utils/store";
+import "./utils/store.js";
 import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
 import "./extends/ref.js";
 import "./static/Stack.js";
-
 import "./static/Set.js";
 import "./static/Map.js";
 import "./static/LinkedList.js";
 import "./index.css";
+
+import { createStore } from "redux";
 // 作者链接
 const AUTHOR_LINK = "https://github.com/bigHippoZz";
 export default {
@@ -71,6 +71,7 @@ export default {
     setup() {
         const BTN_LIST = ["VUE", "REDUX", "SCHEDULE", "GUIDE", "Summary"];
         LoadConfigurationFile();
+
         return {
             btnList: BTN_LIST,
         };
