@@ -81,4 +81,4 @@ otherSet.add(2);
 otherSet.add(3);
 otherSet.add(4);
 
-console.log(set.intersection(otherSet));
+// console.log(set.intersection(otherSet));

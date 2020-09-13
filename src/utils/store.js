@@ -131,9 +131,9 @@ function doSomething(state, action) {
     return state;
 }
 
-const finallyReducer = combineReducers({ todo, doSomething });
+// const finallyReducer = combineReducers({ todo, doSomething });
 
-console.log(finallyReducer({ 1: 10, name: "bigHippoZz" }, { type: "INIT" }));
+// console.log(finallyReducer({ 1: 10, name: "bigHippoZz" }, { type: "INIT" }));
 const store = createStore(todo, {});
 
 let logger = function () {
@@ -146,9 +146,9 @@ store.dispatch({});
 
 // store.dispatch({});
 
-let current = [1];
-const listeners = current;
-current = current.slice();
-current.push(1);
-console.log(current, "current");
-console.log(listeners, "listeners");
+// let current = [1];
+// const listeners = current;
+// current = current.slice();
+// current.push(1);
+// console.log(current, "current");
+// console.log(listeners, "listeners");

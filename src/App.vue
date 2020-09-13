@@ -47,6 +47,8 @@ import "./static/Stack.js";
 import "./static/Set.js";
 import "./static/Map.js";
 import "./static/LinkedList.js";
+
+import "./static/BinarySearchTree.js";
 import "./index.css";
 
 import { createStore } from "redux";
