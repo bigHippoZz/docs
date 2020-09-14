@@ -45,6 +45,9 @@ class BinarySearchTree {
         }
     }
 
+    inorderTraverse(callback) {
+        this.inorderTraverseNode(this.root, callback);
+    }
     inorderTraverseNode(node, callback) {
         if (node !== null) {
             this.inorderTraverseNode(node.left, callback);
@@ -53,8 +56,15 @@ class BinarySearchTree {
         }
     }
 
-    inorderTraverse(callback) {
-        this.inorderTraverseNode(this.root, callback);
+    preorderTraverse(callback) {
+        this.preorderTraverseNode(this.root, callback);
+    }
+    preorderTraverseNode(node, callback) {
+        if (node !== null) {
+            callback(node.key);
+            this.preorderTraverseNode(node.left, callback);
+            this.preorderTraverseNode(node.right, callback);
+        }
     }
 }
 
@@ -62,13 +72,15 @@ const tree = new BinarySearchTree();
 
 tree.insert(11);
 tree.insert(7);
+tree.insert(15);
 tree.insert(5);
+tree.insert(3);
+tree.insert(9);
+tree.insert(8);
 tree.insert(10);
-// tree.insert(9);
-// tree.insert(8);
-// tree.insert(10);
-// tree.insert(13);
 
 const printNode = value => console.log(value);
-tree.inorderTraverse(printNode);
-console.log(tree);
+
+tree.preorderTraverse(printNode);
+// tree.inorderTraverse(printNode);
+// console.log(tree);
