@@ -22,7 +22,7 @@ class BinarySearchTree {
         this.compareFn = compareFn;
     }
 
-    
+
     insert(key) {
         if (this.root === null) {
             this.root = new Node(key);
@@ -47,6 +47,9 @@ class BinarySearchTree {
             }
         }
     }
+
+
+    
 
     
 }
