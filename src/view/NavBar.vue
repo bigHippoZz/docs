@@ -21,7 +21,7 @@ export default {
             console.log(event);
         };
         const componentRef = ref => {
-            console.log(ref);
+            // console.log(ref);
         };
         return {
             onClickLogo,

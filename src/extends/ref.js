@@ -26,6 +26,6 @@ class enhanceBooking {
     }
 }
 
-let booking = new Booking().extension();
+// let booking = new Booking().extension();
 
-console.log(booking.parseString(JSON.stringify({ name: "liwuzhou" })));
+// console.log(booking.parseString(JSON.stringify({ name: "liwuzhou" })));

@@ -159,6 +159,8 @@ class HashTable {
         return false;
     }
 }
-let hashTable = new HashTable();
 
-hashTable.hashCode({});
+
+// let hashTable = new HashTable();
+
+// hashTable.hashCode({});
