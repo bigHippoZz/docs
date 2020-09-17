@@ -16,7 +16,6 @@
 </template>
 <script>
 import { onMounted, inject } from "vue";
-// import "../utils/promise";
 export default {
     name: "Images",
     setup() {

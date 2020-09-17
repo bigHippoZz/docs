@@ -6,7 +6,6 @@
 :root {
     --textColor: #0087ca;
 }
-
 .hover-underline-animation {
     font-size: 20px;
     position: relative;
