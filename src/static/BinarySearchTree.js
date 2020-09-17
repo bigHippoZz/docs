@@ -16,12 +16,10 @@ class Node {
     }
 }
 class BinarySearchTree {
-
     constructor(compareFn = defaultCompare) {
         this.root = null;
         this.compareFn = compareFn;
     }
-
 
     insert(key) {
         if (this.root === null) {
@@ -30,7 +28,6 @@ class BinarySearchTree {
             this.insertNode(this.root, key);
         }
     }
-
 
     insertNode(node, key) {
         if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
@@ -47,11 +44,33 @@ class BinarySearchTree {
             }
         }
     }
-
-
-    
-
-    
+    // 先序遍历
+    preOrderTraversal(callback) {
+        this._preOrderTraversal(this.root, callback);
+    }
+    _preOrderTraversal(node, callback) {
+        if (node !== null) {
+            this._preOrderTraversal(node.left, callback);
+            callback(node.key);
+            this._preOrderTraversal(node.right, callback);
+        }
+    }
+    searchNode(key) {
+        return this._searchNode(this.root, key);
+    }
+    _searchNode(node, key) {
+        if (node === null) {
+            console.log(node);
+            return false;
+        } else if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+            this._searchNode(node.left, key);
+        } else if (this.compareFn(key, node.key) === Compare.BIGGER_THAN) {
+            console.log(this.root, key);
+            this._searchNode(node.right, key);
+        } else {
+            return true;
+        }
+    }
 }
 let tree = new BinarySearchTree();
 tree.insert(11);
@@ -59,4 +78,8 @@ tree.insert(10);
 tree.insert(1);
 tree.insert(15);
 tree.insert(19);
+
+const Print = value => console.log(value);
+tree.preOrderTraversal(Print);
 console.log(tree, "tree");
+console.log(tree.searchNode(11));
