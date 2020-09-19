@@ -20,16 +20,18 @@ class BinarySearchTree {
         this.root = null;
         this.compareFn = compareFn;
     }
-
     insert(key) {
-        if (this.root === null) {
-            this.root = new Node(key);
-        } else {
-            this.insertNode(this.root, key);
-        }
+        if (this.root === null) return (this.root = new Node(key));
+        this.insertNode(this.root, key);
     }
-
     insertNode(node, key) {
+        // if (node === null) {
+        //     node = new Node(key);
+        // } else if (node.key > key) {
+        //     this.insertNode(node.left, key);
+        // } else {
+        //     this.insertNode(node.right, key);
+        // }
         if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
             if (node.left === null) {
                 node.left = new Node(key);
@@ -44,42 +46,112 @@ class BinarySearchTree {
             }
         }
     }
-    // 先序遍历
     preOrderTraversal(callback) {
-        this._preOrderTraversal(this.root, callback);
+        this.preOrderTraversalNode(this.root, callback);
     }
-    _preOrderTraversal(node, callback) {
+    preOrderTraversalNode(node, callback) {
         if (node !== null) {
-            this._preOrderTraversal(node.left, callback);
+            this.preOrderTraversalNode(node.left, callback);
             callback(node.key);
-            this._preOrderTraversal(node.right, callback);
+            this.preOrderTraversalNode(node.right, callback);
         }
     }
-    searchNode(key) {
-        return this._searchNode(this.root, key);
+    search(key) {
+        return this.searchNode(this.root, key);
     }
-    _searchNode(node, key) {
+    /**
+     * 比较node节点中key与参数key的大小 然后进行递归，一定要返回递归的结果
+     * 当递归到最末端的时候 就会返回false
+     * 当递归满足node.key = key的时候返回true
+     * @param {Object} node
+     * @param {Number} key
+     */
+    searchNode(node, key) {
         if (node === null) {
-            console.log(node);
             return false;
         } else if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
-            this._searchNode(node.left, key);
+            return this.searchNode(node.left, key);
         } else if (this.compareFn(key, node.key) === Compare.BIGGER_THAN) {
-            console.log(this.root, key);
-            this._searchNode(node.right, key);
-        } else {
+            return this.searchNode(node.right, key);
+        } else if (node.key === key) {
             return true;
         }
     }
+    remove(key) {
+        this.root = this.removeNode(this.root, key);
+    }
+    min() {
+        return this.minNode(this.root);
+    }
+    minNode(node) {
+        let result = node;
+        while (result.left !== null && result !== null) {
+            result = result.left;
+        }
+        return result;
+    }
+    removeNode(node, key) {
+        if (node === null) {
+            return null;
+        } else if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+            node.left = this.removeNode(node.left, key);
+            return node;
+        } else if (this.compareFn(key, node.key) === Compare.BIGGER_THAN) {
+            node.right = this.removeNode(node.right, key);
+            return node;
+        } else {
+            if (node.left === null && node.right === null) {
+                node = null;
+                return node;
+            } else if (node.left === null) {
+                node = node.right;
+                return node;
+            } else if (node.right === null) {
+                node = node.left;
+                return node;
+            }
+            let aux = this.minNode(node.right);
+            node.key = aux.key;
+            node.right = this.removeNode(node.right, aux.key);
+            return node;
+        }
+    }
 }
-let tree = new BinarySearchTree();
-tree.insert(11);
-tree.insert(10);
-tree.insert(1);
-tree.insert(15);
-tree.insert(19);
 
-const Print = value => console.log(value);
-tree.preOrderTraversal(Print);
-console.log(tree, "tree");
-console.log(tree.searchNode(11));
+const printNode = value => console.log(value);
+const tree = new BinarySearchTree();
+tree.insert(3);
+tree.insert(2);
+tree.insert(6);
+tree.insert(5);
+tree.insert(7);
+tree.insert(4);
+// tree.preOrderTraversal(printNode);
+
+class AVLTree extends BinarySearchTree {
+    constructor(compareFn = defaultCompare) {
+        super(compareFn);
+        this.compareFn = compareFn;
+        this.root = null;
+    }
+    getNodeHeight(node) {
+        if (node === null) {
+            return -1;
+        }
+        console.log(this.getNodeHeight(node.left))
+        return (
+            Math.max(
+                this.getNodeHeight(node.left),
+                this.getNodeHeight(node.right)
+            ) + 1
+        );
+    }
+}
+const avlTree = new AVLTree();
+avlTree.insert(3);
+avlTree.insert(2);
+avlTree.insert(6);
+avlTree.insert(5);
+avlTree.insert(7);
+avlTree.insert(4);
+console.log(avlTree.getNodeHeight(avlTree.root));

@@ -474,4 +474,4 @@ _crcularDoublyLinkedList.push(10);
 _crcularDoublyLinkedList.push(11);
 _crcularDoublyLinkedList.push(12);
 _crcularDoublyLinkedList.removeAt(1);
-console.log(_crcularDoublyLinkedList);
+// console.log(_crcularDoublyLinkedList);
