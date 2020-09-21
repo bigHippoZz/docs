@@ -145,13 +145,9 @@ class AVLTree extends BinarySearchTree {
             return -1;
         }
         let result = this.getNodeHeight(node.left);
-        // console.log(result);
-        // console.log(this.getNodeHeight(node.left));
         let count = Math.max(result, this.getNodeHeight(node.right)) + 1;
-        console.log(count);
         return count;
     }
-
     getBalanceFactor(node) {
         const heightDifference =
             this.getNodeHeight(node.left) - this.getNodeHeight(node.right);
@@ -179,3 +175,65 @@ avlTree.insert(6);
 // avlTree.insert(4);
 console.log(avlTree);
 console.log(avlTree.getNodeHeight(avlTree.root));
+// 清空矩阵 先找到所在的位置然后进行行清零 最后是列清零
+var setZeroes = function (matrix) {
+    const rows = new Set();
+    const cols = new Set();
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] === 0) {
+                rows.add(i);
+                cols.add(j);
+            }
+        }
+    }
+    console.log(rows);
+    console.log(cols);
+    for (const row of rows) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            console.log(matrix[row][col]);
+            matrix[row][col] = 0;
+        }
+    }
+    for (const col of cols) {
+        for (let row = 0; row < matrix.length; row++) {
+            matrix[row][col] = 0;
+        }
+    }
+};
+
+function getFront(target, source) {
+    const len = Math.min(target.length, source.length);
+    let result = "";
+    for (let index = 0; index < len; index++) {
+        if (target[index] !== source[index]) {
+            break;
+        }
+        result += target[index];
+    }
+    return result;
+}
+console.log(getFront("hello world", "hello"));
+
+var longestPalindrome = function (s) {
+    if (!s.length) return "";
+    const stack = s.split("");
+    let start = 0;
+    let end = stack.length - 1;
+    while (start < end) {
+        let startString = stack[start];
+        let endString = stack[end];
+        if (startString !== endString) {
+            stack.splice(start, 1);
+            end = stack.length - 1;
+            stack.splice(end, 1);
+            end--;
+            console.log(stack);
+        } else {
+            start++;
+            end--;
+        }
+    }
+    return stack.join("");
+};
+console.log(longestPalindrome("babad"));
