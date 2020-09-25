@@ -73,7 +73,9 @@ export default {
     setup() {
         const BTN_LIST = ["VUE", "REDUX", "SCHEDULE", "GUIDE", "Summary"];
         LoadConfigurationFile();
-
+        const string = "参数[number,num,string]参数";
+        const pattern = /^.*\[(.+?)\].*$/;
+        console.log(string.match(pattern)[1].split(','))
         return {
             btnList: BTN_LIST,
         };
