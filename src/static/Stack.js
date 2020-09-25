@@ -75,7 +75,7 @@ class Queue {
 
 let queue = new Queue();
 
-class Deque extends Queue {
+class Dequeue extends Queue {
     addFront(value) {
         if (this.isEmpty()) {
             this.addBack(value);
@@ -115,14 +115,11 @@ class Deque extends Queue {
     }
 }
 
-let deque = new Deque();
-
-// console.log(deque);
-deque.addFront(10);
-deque.addFront(10);
-deque.addFront(10);
-deque.removeBack();
-// console.log(deque);
+let dequeue = new Dequeue();
+dequeue.addFront(10);
+dequeue.addFront(10);
+dequeue.addFront(10);
+dequeue.removeBack();
 
 function hotPotato(list, num) {
     let queue = new Queue();
@@ -141,18 +138,18 @@ function hotPotato(list, num) {
     return queue.dequeue();
 }
 function handle(string) {
-    let deque = new Deque();
+    let dequeue = new Dequeue();
     if (typeof string === "string") {
         let stringList = string.split("");
         for (let index = 0; index < stringList.length; index++) {
-            deque.addBack(stringList[index]);
+            dequeue.addBack(stringList[index]);
         }
         let f,
             l,
             flag = true;
-        while (deque.size() > 1) {
-            f = deque.removeFront();
-            l = deque.removeBack();
+        while (dequeue.size() > 1) {
+            f = dequeue.removeFront();
+            l = dequeue.removeBack();
             if (f !== l) {
                 flag = false;
             }
