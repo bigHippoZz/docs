@@ -236,3 +236,11 @@ var longestPalindrome = function (s) {
     }
     return stack.join("");
 };
+
+const object = {
+    id: Math.random(),
+};
+const result = Reflect.get(object, "id");
+console.log(result);
+
+
