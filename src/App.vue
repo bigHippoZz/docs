@@ -75,7 +75,8 @@ export default {
         LoadConfigurationFile();
         const string = "参数[number,num,string]参数";
         const pattern = /^.*\[(.+?)\].*$/;
-        console.log(string.match(pattern)[1].split(','))
+        console.log(string.match(pattern)[1].split(","));
+        console.log(string.replace(/\[.+?\]/,10));
         return {
             btnList: BTN_LIST,
         };
