@@ -75,8 +75,45 @@ export default {
         LoadConfigurationFile();
         const string = "参数[number,num,string]参数";
         const pattern = /^.*\[(.+?)\].*$/;
-        console.log(string.match(pattern)[1].split(","));
-        console.log(string.replace(/\[.+?\]/,10));
+        // console.log(string.match(pattern)[1].split(","));
+        // console.log(string.replace(/\[.+?\]/,10));
+
+        function handle(nums) {
+            if (nums.length === 0) {
+                return -1;
+            }
+
+            if (nums.length === 1) {
+                return 0;
+            }
+
+            // 初始索引为 0, 计算索引两边的和, 右边部分的和可以通过 reduce 计算
+            let leftPartSum = 0;
+            let rightPartSum = nums
+                .slice(1)
+                .reduce((sum, num) => (sum += num), 0);
+            console.log(rightPartSum, "start");
+            for (let i = 0; i < nums.length; i++) {
+                console.log(nums[i], "nums");
+                //  比较左侧和与右侧合值的是否相同 注意和值是在不断变化
+                if (leftPartSum === rightPartSum) {
+                    return i;
+                }
+
+                leftPartSum += nums[i];
+
+                if (nums[i + 1]) {
+                    rightPartSum -= nums[i + 1];
+                    // console.log(rightPartSum,'rightPartSum')
+                }
+            }
+
+            return -1;
+        }
+
+
+        console.log(handle([3,2,2,2,1]));
+
         return {
             btnList: BTN_LIST,
         };
