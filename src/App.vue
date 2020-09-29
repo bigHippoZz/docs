@@ -48,10 +48,9 @@ import "./static/Set.js";
 import "./static/Map.js";
 import "./static/LinkedList.js";
 import "./static/BinarySearchTree.js";
+import "./static/AVLTree.js";
 import "./index.css";
-
-import "./algorithm.js"
-
+import "./algorithm.js";
 import { createStore } from "redux";
 // 作者链接
 const AUTHOR_LINK = "https://github.com/bigHippoZz";
@@ -74,7 +73,7 @@ export default {
     setup() {
         const BTN_LIST = ["VUE", "REDUX", "SCHEDULE", "GUIDE", "Summary"];
         LoadConfigurationFile();
-        
+
         return {
             btnList: BTN_LIST,
         };

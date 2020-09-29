@@ -26,7 +26,7 @@ function handle(numb) {
     }
     return -1;
 }
-console.log(handle([3, 2, 2, 2, 1]));
+// console.log(handle([3, 2, 2, 2, 1]));
 
 //[[1,4],[2,3]]
 //[[1,4],[0,4]]
@@ -72,11 +72,11 @@ var longestCommonPrefix = function (strs) {
     for (let index = 1; index < strs.length; index++) {
         const element = strs[index];
         const loop = Math.max(element.length, result.length);
-        console.log(loop);
+        // console.log(loop);
         for (let j = 0; j < loop; j++) {
             if (element[j] !== result[j]) {
                 result = result.slice(0, j);
-                console.log(result)
+                console.log(result);
                 break;
             }
         }
@@ -84,14 +84,14 @@ var longestCommonPrefix = function (strs) {
     return result;
 };
 
-console.log(longestCommonPrefix(["apba","ap"]));
+// console.log(longestCommonPrefix(["apba","ap"]));
 
 function unique(array, callback) {
-    let map = new Map()
+    let map = new Map();
     return array.filter(
         children => !map.has(children.id) && map.set(children.id, 1)
-    )
+    );
 }
 
-const result = unique([{ id: 1 }, { id: 1 }])
-console.log(result)
+const result = unique([{ id: 1 }, { id: 1 }]);
+// console.log(result)
