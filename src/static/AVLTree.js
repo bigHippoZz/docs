@@ -14,6 +14,6 @@ class AVLTree extends BinarySearchTree {
 const tree = new AVLTree();
 
 tree.insert(10);
-// tree.insert(8);
+tree.insert(8);
 console.log(tree);
 console.log(tree.getNodeHeight(tree.root));
