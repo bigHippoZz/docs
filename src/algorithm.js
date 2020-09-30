@@ -196,3 +196,22 @@ var minSubArrayLen = function (s, nums) {
     return next;
 };
 // console.log(minSubArrayLen(7, [2, 3, 1, 2, 4, 3, 0]));
+
+var generate = function (numRows) {
+    if (!numRows) return [];
+    const result = [];
+    for (let index = 0; index < numRows; index++) {
+        const item = [];
+        item[0] = 1;
+        item[index] = 1;
+        if (index > 1) {
+            for (let j = 1; j < index; j++) {
+                item[j] = result[index - 1][j - 1] + result[index - 1][j];
+            }
+        }
+        result.push(item);
+    }
+    return result;
+};
+
+console.log(generate(5));

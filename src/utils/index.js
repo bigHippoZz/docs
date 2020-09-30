@@ -340,3 +340,17 @@ const handleFileUpload = function (fileInput, onload, onerror) {
 function isNumber(number) {
     return typeof number === "number" && !isNaN(number);
 }
+
+/**
+ * @Author Liwz
+ * @Description 过滤object key
+ * @Date 2020-09-30 13:38:11 星期三
+ * @param {object}  target
+ * @param {function} func 过滤函数
+ * @return {object} 结果
+ */
+export function pickBy(target, func) {
+    Object.keys(target)
+        .filter(k => func(target[k], k))
+        .reduce((acc, key) => ((acc[key] = target[key]), acc), {});
+}
