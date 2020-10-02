@@ -280,19 +280,30 @@ export class BinarySearchTree {
         this.insertNode(this.root, key);
     }
     insertNode(node, key) {
-        if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
-            if (node.left === null) {
-                node.left = new Node(key);
-            } else {
-                this.insertNode(node.left, key);
-            }
+        if (node == null) {
+            return new Node(key);
+        } else if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+            node.left = this.insertNode(node.left, key);
+            return node;
+        } else if (this.compareFn(key, node.key) === Compare.BIGGER_THAN) {
+            node.right = this.insertNode(node.right, key);
+            return node;
         } else {
-            if (node.right === null) {
-                node.right = new Node(key);
-            } else {
-                this.insertNode(node.right, key);
-            }
+            return node;
         }
+        // if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+        //     if (node.left === null) {
+        //         node.left = new Node(key);
+        //     } else {
+        //         this.insertNode(node.left, key);
+        //     }
+        // } else {
+        //     if (node.right === null) {
+        //         node.right = new Node(key);
+        //     } else {
+        //         this.insertNode(node.right, key);
+        //     }
+        // }
     }
 
     search(key) {
@@ -319,7 +330,63 @@ export class BinarySearchTree {
         while (result.left !== null) {
             result = result.left;
         }
-        return result.key;
+        return result;
+    }
+
+    remove(key) {
+        console.log(key);
+        this.root = this.removeNode(this.root, key);
+    }
+
+    // 移除某个节点
+    removeNode(node, key) {
+        if (node === null) {
+            return null;
+        }
+        if (this.compareFn(key, node.key) === Compare.LESS_THAN) {
+            node.left = this.removeNode(node.left, key);
+            return node;
+        } else if (this.compareFn(key, node.key) === Compare.BIGGER_THAN) {
+            node.right = this.removeNode(node.right, key);
+            return node;
+        } else {
+            // 当前是key等于node.key
+            if (node.left === null && node.right === null) {
+                node = null;
+                return null;
+            }
+            if (node.left === null) {
+                node = node.right;
+                return node;
+            } else if (node.right === null) {
+                node = node.left;
+                return node;
+            }
+            const anx = this.minNode(node.right);
+            node.key = anx.key;
+            node.right = this.removeNode(node.right, anx.key);
+            return node;
+        }
+    }
+    // 向右的单旋转
+    rotationLL(node) {
+        // 缓存最新的根节点
+        const tmp = node.left;
+        // 处理根节点的右侧树
+        tmp.right = node;
+        // 处理以前根节点的左侧树节点
+        node.left = tmp.right;
+        return tmp;
+    }
+    // 向左的单旋转
+    rotationRR(node) {
+        // 缓存最新的根节点
+        const tmp = node.right;
+        // 处理根节点的左侧树
+        tmp.left = node;
+        // 处理上一次的根节点的右侧树
+        node.right = tmp.left;
+        return node;
     }
 }
 
@@ -330,6 +397,8 @@ tree.insert(13);
 tree.insert(9);
 tree.insert(8);
 tree.insert(6);
-// console.log(tree);
+
+// tree.remove(10);
+console.log(tree);
 // console.log(tree.search(13));
 // console.log(tree.min());

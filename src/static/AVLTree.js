@@ -49,6 +49,5 @@ const tree = new AVLTree();
 tree.insert(3);
 tree.insert(2);
 tree.insert(1);
-console.log(tree);
-
-console.log(tree.getNodeHeight(tree.root));
+// console.log(tree);
+// console.log(tree.getNodeHeight(tree.root));
