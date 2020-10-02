@@ -50,6 +50,7 @@ import "./static/LinkedList.js";
 import "./static/BinarySearchTree.js";
 import "./static/AVLTree.js";
 import "./static/MinHeap.js";
+import "./static/heap-sort.js";
 
 import "./index.css";
 import "./algorithm.js";

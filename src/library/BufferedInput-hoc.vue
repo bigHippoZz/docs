@@ -10,7 +10,6 @@
 import { onMounted } from "vue";
 export default {
     name: "BufferedInput",
-
     setup(props, { attrs, emit }) {
         onMounted(() => {});
         // console.log(attrs);

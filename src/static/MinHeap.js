@@ -4,7 +4,8 @@ import {
     Node,
     defaultCompare,
 } from "./BinarySearchTree";
-const swap = (array, a, b) => ([array[a], array[b]] = [array[b], array[a]]);
+export const swap = (array, a, b) =>
+    ([array[a], array[b]] = [array[b], array[a]]);
 class MinHeap {
     constructor(compareFn = defaultCompare) {
         this.compareFn = compareFn;
@@ -63,16 +64,41 @@ class MinHeap {
         if (this.isEmpty()) {
             return undefined;
         }
-        if (this.size === 1) return this.heap.shift();
-        const removedValue = this.heap.shift();
+        if (this.size() === 1) {
+            return this.heap.shift();
+        }
+        const removedValue = this.heap[0];
+        this.heap[0] = this.heap.pop();
+        console.log(this.heap);
+        this.siftDown(0);
         return removedValue;
     }
 
     siftDown(index) {
+        // debugger;
         let element = index;
         const left = this.getLeftIndex(index);
         const right = this.getRightIndex(index);
         const size = this.size();
+        if (
+            left < size &&
+            this.compareFn(this.heap[element], this.heap[left]) ===
+                Compare.BIGGER_THAN
+        ) {
+            element = left;
+        }
+        // debugger;
+        if (
+            right < size &&
+            this.compareFn(this.heap[element], this.heap[right]) ===
+                Compare.BIGGER_THAN
+        ) {
+            element = right;
+        }
+        if (index !== element) {
+            swap(this.heap, index, element);
+            this.siftDown(element);
+        }
     }
 }
 
@@ -80,7 +106,14 @@ const minHeap = new MinHeap();
 
 minHeap.insert(2);
 minHeap.insert(3);
+minHeap.insert(1);
 minHeap.insert(4);
 minHeap.insert(5);
-minHeap.insert(1);
-console.log(minHeap);
+
+minHeap.extract();
+
+// for (let index = 1; index < 5; index++) {
+//     minHeap.insert(index);
+// }
+// minHeap.extract();
+// console.log(minHeap);
