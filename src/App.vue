@@ -49,6 +49,8 @@ import "./static/Map.js";
 import "./static/LinkedList.js";
 import "./static/BinarySearchTree.js";
 import "./static/AVLTree.js";
+import "./static/MinHeap.js";
+
 import "./index.css";
 import "./algorithm.js";
 import { createStore } from "redux";

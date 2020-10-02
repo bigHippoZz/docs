@@ -368,37 +368,17 @@ export class BinarySearchTree {
             return node;
         }
     }
-    // 向右的单旋转
-    rotationLL(node) {
-        // 缓存最新的根节点
-        const tmp = node.left;
-        // 处理根节点的右侧树
-        tmp.right = node;
-        // 处理以前根节点的左侧树节点
-        node.left = tmp.right;
-        return tmp;
-    }
-    // 向左的单旋转
-    rotationRR(node) {
-        // 缓存最新的根节点
-        const tmp = node.right;
-        // 处理根节点的左侧树
-        tmp.left = node;
-        // 处理上一次的根节点的右侧树
-        node.right = tmp.left;
-        return node;
-    }
 }
 
 const tree = new BinarySearchTree();
-tree.insert(10);
-tree.insert(11);
-tree.insert(13);
-tree.insert(9);
-tree.insert(8);
-tree.insert(6);
+// tree.insert(10);
+// tree.insert(11);
+// tree.insert(13);
+// tree.insert(9);
+// tree.insert(8);
+// tree.insert(6);
 
 // tree.remove(10);
-console.log(tree);
+// console.log(tree);
 // console.log(tree.search(13));
 // console.log(tree.min());
