@@ -42,8 +42,8 @@ class Queue {
         this.lowestCount = 0;
     }
     enqueue(value) {
-        this.item[this.count] = value;
-        this.count++;
+        this.item[this.count++] = value;
+        // this.count++;
     }
     dequeue() {
         if (this.isEmpty()) return;
@@ -159,4 +159,3 @@ function handle(string) {
         return false;
     }
 }
-
