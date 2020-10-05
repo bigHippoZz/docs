@@ -51,6 +51,7 @@ import "./static/BinarySearchTree.js";
 import "./static/AVLTree.js";
 import "./static/MinHeap.js";
 import "./static/heap-sort.js";
+import "./static/binarySearch.js";
 
 import "./index.css";
 import "./algorithm.js";

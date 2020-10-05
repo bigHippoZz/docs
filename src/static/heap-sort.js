@@ -57,9 +57,8 @@ const array = [23, 45, 67, 7, 12, 245, 2];
 
 // console.log(Math.floor(23.9));
 
-function shuffle(array) {
+export function shuffle(array) {
     for (let index = array.length - 1; index > 0; index--) {
-        console.log(index);
         const randomIndex = Math.floor(Math.random() * (index + 1));
         swap(array, index, randomIndex);
     }
