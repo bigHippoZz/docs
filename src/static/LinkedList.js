@@ -475,3 +475,8 @@ _crcularDoublyLinkedList.push(11);
 _crcularDoublyLinkedList.push(12);
 _crcularDoublyLinkedList.removeAt(1);
 // console.log(_crcularDoublyLinkedList);
+// interface commonTip {
+//     requestUrl:string,
+//     content:string,
+//     idField:string,
+// }

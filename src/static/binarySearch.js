@@ -186,4 +186,4 @@ var twoSum = function (nums, target, i = 0, map = {}, { length } = nums) {
     map[nums[i]] = i;
     return twoSum(nums, target, ++i, map);
 };
-console.log(twoSum([2, 7, 11, 15], 9));
+// console.log(twoSum([2, 7, 11, 15], 9));

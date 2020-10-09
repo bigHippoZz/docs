@@ -215,3 +215,202 @@ var generate = function (numRows) {
 };
 
 // console.log(generate(5));
+
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var findDiagonalOrder = function (matrix) {
+    const { length } = matrix;
+    if (!length) return [];
+    let result = []; // 最终的遍历结果
+    let direction = true; // 方向 true 右上 false 左下
+    let row = length;
+    let col = matrix[0].length;
+    let i = 0;
+    let j = 0;
+
+    while (i < row && j < col) {
+        result.push(matrix[i][j]);
+        // col = matrix[i].length; // 每行的长度
+        if (direction) {
+            i -= 1;
+            j += 1;
+        } else {
+            i += 1;
+            j -= 1;
+        }
+        // 记住处理的4个边界情况
+        // 处理边界 -- 转弯
+        if (i < 0 || j < 0 || i === row || j === col) {
+            if (direction) {
+                // 右上
+                if (j < col) i = 0;
+                // 上边越界，像右移动
+                else {
+                    // 右边越界，向下移动
+                    i += 2;
+                    j--;
+                }
+            } else {
+                // 左下
+                if (i < row) j = 0;
+                // 左边越界， 像下移动
+                else {
+                    // 下边越界， 想右移动
+                    i--;
+                    j += 2;
+                }
+            }
+            direction = !direction; // 转换方向
+        }
+    }
+    return result;
+};
+
+// console.log(
+//     findDiagonalOrder([
+//         [1, 2, 3],
+//         [4, 5, 6],
+//         [7, 8, 9],
+//     ])
+// );
+
+class MinStack {
+    constructor() {
+        this.x_stack = [];
+        this.min_stack = [Infinity];
+    }
+    push(x) {
+        this.x_stack.push(x);
+        this.min_stack.push(Math.min(this.getMin(), x));
+    }
+    pop() {
+        this.x_stack.pop();
+        this.min_stack.pop();
+    }
+    top() {
+        return this.x_stack[this.x_stack.length - 1];
+    }
+    getMin() {
+        return this.min_stack[this.min_stack.length - 1];
+    }
+}
+
+const minStack = new MinStack();
+
+minStack.push(10);
+minStack.push(1);
+minStack.push(2);
+minStack.push(3);
+
+// console.log(minStack);
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function (s) {
+    const { length } = s;
+    if (!length) return true;
+    if (length % 2 === 1) return false;
+
+    let map = {
+        "(": ")",
+        "{": "}",
+        "[": "]",
+    };
+    let stack = [];
+    for (let index = 0; index < length; index++) {
+        if (map[stack[stack.length - 1]] === s[index]) {
+            stack.pop();
+        } else {
+            stack.push(s[index]);
+        }
+    }
+    return !stack.length;
+
+    // let head = 0;
+    // let tail = s.length - 1;
+    // while (head < tail) {
+    //     if (map[s[head]] !== s[tail]) {
+    //         return false;
+    //     }
+    //     head++;
+    //     tail--;
+    // }
+    // return true;
+};
+
+class Stack {
+    constructor() {
+        this.stack = [];
+    }
+    push(str) {
+        return this.stack.push(str);
+    }
+    pop() {
+        return this.stack.pop();
+    }
+    get top() {
+        return this.stack[this.stack.length - 1];
+    }
+}
+/**
+ * @param {string[]} tokens
+ * @return {number}
+ */
+var evalRPN = function (tokens) {
+    const { length } = tokens;
+    const map = {
+        "+": (a, b) => a + b,
+        "-": (a, b) => a - b,
+        "*": (a, b) => a * b,
+        "/": (a, b) => parseInt(a / b),
+    };
+    const stack = new Stack();
+    for (let index = 0; index < length; index++) {
+        const element = tokens[index];
+        if (element in map) {
+            let b = stack.pop();
+            let a = stack.pop();
+            let calculation = map[element](a, b);
+            stack.push(calculation);
+        } else {
+            stack.push(+element);
+        }
+    }
+    return stack.top;
+};
+
+// console.log(evalRPN(["2", "1", "+", "3", "*"]));
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var decodeString = function (s) {
+    let map = {
+        "[": "]",
+    };
+    let pattern = /a-z/;
+    const { length } = s;
+    const tokenStack = [];
+    const stringStack = [];
+    const numberStack = [];
+    const currentValue = "";
+    for (let index = 0; index < length; index++) {
+        const element = s[index];
+        if (isNaN(+element)) {
+            // 当前为字符串
+            currentValue += element;
+        } else {
+            // 为数字
+            stringStack.push(currentValue);
+            currentValue = "";
+            numberStack.push(element);
+        }
+    }
+    console.log(stringStack);
+    console.log(numberStack);
+};

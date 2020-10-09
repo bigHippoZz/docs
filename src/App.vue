@@ -42,19 +42,9 @@ import BufferedInput from "./library/BufferedInput-hoc.vue";
 import "./utils/store.js";
 import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
-import "./extends/ref.js";
-import "./static/Stack.js";
-import "./static/Set.js";
-import "./static/Map.js";
-import "./static/LinkedList.js";
-import "./static/BinarySearchTree.js";
-import "./static/AVLTree.js";
-import "./static/MinHeap.js";
-import "./static/heap-sort.js";
-import "./static/binarySearch.js";
 
 import "./index.css";
-import "./algorithm.js";
+
 import { createStore } from "redux";
 // 作者链接
 const AUTHOR_LINK = "https://github.com/bigHippoZz";

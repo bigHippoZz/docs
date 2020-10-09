@@ -110,7 +110,7 @@ minHeap.insert(1);
 minHeap.insert(4);
 minHeap.insert(5);
 
-minHeap.extract();
+// minHeap.extract();
 
 // for (let index = 1; index < 5; index++) {
 //     minHeap.insert(index);
