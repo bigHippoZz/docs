@@ -12,6 +12,9 @@ import "./static/CircularQueue.ts";
 import "./static/binarySearch.js";
 import "./algorithm.js";
 import "./KMP_algorithm.js";
+import "./utils/shared.ts"
+
+
 
 import App from "./App.vue";
 
