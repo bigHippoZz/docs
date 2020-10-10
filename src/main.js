@@ -13,6 +13,7 @@ import "./static/binarySearch.js";
 import "./algorithm.js";
 import "./KMP_algorithm.js";
 import "./utils/shared.ts"
+import "./utils/class.ts"
 
 
 
