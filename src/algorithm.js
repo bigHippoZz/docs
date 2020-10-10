@@ -393,6 +393,7 @@ var decodeString = function (s) {
     let map = {
         "[": "]",
     };
+
     let pattern = /a-z/;
     const { length } = s;
     const tokenStack = [];
@@ -414,3 +415,19 @@ var decodeString = function (s) {
     console.log(stringStack);
     console.log(numberStack);
 };
+
+/**
+ * 四平方数之和 + 贪心算法
+ * @param {number} n
+ * @return {number}
+ */
+var numSquares = function (n) {
+    let sqList = new Set();
+    for (let index = 1; index <= n; index++) {
+        sqList.add(index * index);
+    }
+    console.log(sqList, "sqList");
+};
+
+
+numSquares(13)

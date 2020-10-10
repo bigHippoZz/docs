@@ -42,7 +42,6 @@ import BufferedInput from "./library/BufferedInput-hoc.vue";
 import "./utils/store.js";
 import main from "./main.json";
 import { EnhanceWebSocket } from "./utils/webSocket.js";
-
 import "./index.css";
 
 import { createStore } from "redux";
@@ -67,7 +66,6 @@ export default {
     setup() {
         const BTN_LIST = ["VUE", "REDUX", "SCHEDULE", "GUIDE", "Summary"];
         LoadConfigurationFile();
-
         return {
             btnList: BTN_LIST,
         };
