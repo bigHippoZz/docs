@@ -1,92 +1,91 @@
-interface CircularQueue {
-    cap: string | number;
+interface CircularQueue<T> {
+    max_size: number;
     head: number;
     tail: number;
-    arr: any[];
-
-    enQueue(value: any): boolean;
+    queue: Array<T>;
+    enQueue(value: T): boolean;
     deQueue(): boolean;
-    Front(): any;
-    Rear(): any;
+    Front(): T | -1;
+    Rear(): T | -1;
     isEmpty(): boolean;
     isFull(): boolean;
 }
+class MyCircularQueue implements CircularQueue<number> {
+    public max_size!: number;
+    public head!: number;
+    public tail!: number;
+    public queue!: any[];
 
-/**循环队列 */
-class MyCircularQueue implements CircularQueue {
-    cap: number;
-    head: number;
-    tail: number;
-    arr: any[];
-
-    /**初始化队列容量 */
-    constructor(capacity: number) {
-        /**队列容量 */
-        this.cap = capacity;
-        /**队列头部 */
-        this.head = -1;
-        /**队列尾部 */
-        this.tail = -1;
-        /**数据源 */
-        this.arr = [];
+    constructor(size: number) {
+        this.max_size = size;
+        this.head = this.tail = -1;
+        this.queue = [];
     }
-    /**向循环队列插入一个元素 */
-    enQueue(value) {
+
+    enQueue(value: number) {
         if (this.isFull()) {
             return false;
         }
         if (this.isEmpty()) {
             this.head = 0;
         }
-        this.tail = (this.tail + 1) % this.cap;
-        this.arr[this.tail] = value;
+        this.tail = (this.tail + 1) % this.max_size;
+        this.queue[this.tail] = value;
         return true;
     }
-    /**从循环队列中删除一个元素 */
-    deQueue() {
+
+    deQueue(): boolean {
         if (this.isEmpty()) {
             return false;
         }
-        if (this.head == this.tail) {
+        if (this.head === this.tail) {
             this.head = this.tail = -1;
         } else {
-            this.head = (this.head + 1) % this.cap;
+            this.head = (this.head + 1) % this.max_size;
         }
+
         return true;
     }
-    /**从队首获取元素 */
-    Front() {
+
+    Front(): number | -1 {
         if (this.isEmpty()) {
             return -1;
         }
-        return this.arr[this.head];
+
+        return this.queue[this.head];
     }
-    /**从队尾获取元素 */
-    Rear() {
+
+    Rear(): number | -1 {
         if (this.isEmpty()) {
             return -1;
         }
-        return this.arr[this.tail];
+
+        return this.queue[this.head];
     }
-    /**队列是否为空 */
+
     isEmpty() {
-        return this.head == -1;
+        return this.head === -1;
     }
-    /**队列是否已满 */
     isFull() {
-        return this.head == (this.tail + 1) % this.cap;
+        return this.head === (this.tail + 1) % this.max_size;
     }
 }
-
-const circularQueue = new MyCircularQueue(3); // 设置长度为 3
-circularQueue.enQueue(1); // 返回 true
-circularQueue.enQueue(2); // 返回 true
-circularQueue.enQueue(3); // 返回 true
+// const circularQueue = new MyCircularQueue(10); // 设置长度为 3
+// circularQueue.enQueue(1); // 返回 true
+// circularQueue.enQueue(2); // 返回 true
+// circularQueue.enQueue(3); // 返回 true
 // circularQueue.enQueue(4); // 返回 false，队列已满
-// circularQueue.Rear(); // 返回 3
-// circularQueue.isFull(); // 返回 true
-circularQueue.deQueue(); // 返回 true
+// circularQueue.enQueue(5); // 返回 false，队列已满
+// circularQueue.enQueue(6); // 返回 false，队列已满
+// circularQueue.enQueue(7); // 返回 false，队列已满
+// circularQueue.enQueue(8); // 返回 false，队列已满
+// circularQueue.enQueue(9); // 返回 false，队列已满
+// circularQueue.enQueue(10); // 返回 false，队列已满
+// // circularQueue.Rear(); // 返回 3
+// // circularQueue.isFull(); // 返回 true
+// circularQueue.deQueue(); // 返回 true
+// circularQueue.deQueue(); // 返回 true
 
-circularQueue.enQueue(4); // 返回 true
-console.log(circularQueue)
-// circularQueue.Rear(); // 返回 4
+// circularQueue.enQueue(4); // 返回 true
+// console.log(circularQueue);
+// // circularQueue.Rear(); // 返回 4
