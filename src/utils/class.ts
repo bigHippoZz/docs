@@ -182,3 +182,251 @@ const deck = {
 };
 
 // console.log(deck.cards)
+type Easing = "ease-in" | "ease-out" | "ease-in-out";
+
+interface UiElementInterface {
+    addEventListener(onClick: (this: void, e: unknown) => void): void;
+}
+
+class UiElement implements UiElementInterface {
+    info = "this is UI";
+    addEventListener(onClick: (this: void, e: string) => void) {
+        onClick("string");
+    }
+    animate(dx: number, dy: number, easing: Easing) {
+        if (easing === "ease-in") {
+            console.log("ease-in");
+        } else if (easing === "ease-in-out") {
+            console.log("ease-in-out");
+        }
+    }
+}
+
+class Handlers {
+    name = "handlers";
+    handleClick(this: Handlers) {
+        console.log(this.name);
+    }
+}
+
+const uiElement = new UiElement();
+const handlers = new Handlers();
+// uiElement.addEventListener(() => handlers.handleClick());
+
+// 数字类型 利用类型断言
+function rollDice(): 1 | 2 | 3 | 4 | 5 | 6 {
+    return Math.floor(Math.random() * 6) as 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+interface Bird {
+    fly(): void;
+    layEggs(): void;
+}
+interface Fish {
+    swim(): void;
+    layEggs(): void;
+}
+
+type AnimalString = "bird" | "fish";
+
+// 使用类型推断
+function getSmallPet(animal: AnimalString): Bird | Fish {
+    if (animal === "bird") {
+        return { fly() {}, layEggs() {} };
+    } else {
+        return { swim() {}, layEggs() {} };
+    }
+}
+
+function isFish(pet: Bird | Fish): pet is Bird {
+    return (pet as Bird).fly !== undefined;
+}
+
+// getSmallPet('fish')
+
+interface NetworkLoadingState {
+    state: "loading";
+}
+interface NetworkFailedState {
+    state: "failed";
+}
+interface NetworkSuccessState {
+    state: "success";
+    response: {
+        title: string;
+        duration: number;
+        summary: string;
+    };
+}
+interface NetworkFromCachedState {
+    state: "from_cache";
+    id: string;
+    response: NetworkSuccessState["response"];
+}
+type NetworkState =
+    | NetworkSuccessState
+    | NetworkLoadingState
+    | NetworkFailedState
+    | NetworkFromCachedState;
+
+function logger(state: NetworkState) {
+    switch (state.state) {
+        case "failed":
+            break;
+        case "loading":
+            break;
+        case "success":
+            return `Downloaded ${state.response.title} - ${state.response.summary}`;
+        default:
+            return "this is logger state";
+    }
+}
+// 抽象类
+abstract class FloraAndFauna {
+    public abstract name: string;
+    move(distanceInMeters: number = 0): void {
+        console.log(`${this.name} moved ${distanceInMeters}`);
+    }
+    public abstract printMeeting<T>(message: T): T;
+}
+
+class Snake extends FloraAndFauna {
+    constructor(public name: string) {
+        super();
+    }
+    printMeeting<T>(message: T): T {
+        return message;
+    }
+    public moveSum() {
+        return this.move(100);
+    }
+}
+
+const snake = new Snake("string");
+console.log(snake);
+
+// 泛型函数
+function identity<T>(arg: T): T {
+    return arg;
+}
+// 泛型函数 利用Array接口进行判断
+function loggingIdentity<T>(arg: Array<T>): Array<T> {
+    console.log(arg.length);
+    return arg;
+}
+
+function getProperty<T, K extends keyof T>(object: T, key: K) {
+    return object[key];
+}
+function create<R, T extends { new (...args: any[]): R }>(c: T): R {
+    return new c();
+}
+
+class BeeKeeper {
+    hasMask!: boolean;
+}
+
+class ZooKeeper {
+    nameTag!: string;
+}
+
+class Animal {
+    numLegs!: number;
+}
+
+class Bee extends Animal {
+    constructor() {
+        super();
+        this.keeper = {
+            hasMask: false,
+        };
+    }
+    keeper!: BeeKeeper;
+}
+
+class Lion extends Animal {
+    keeper!: ZooKeeper;
+}
+
+// const bee = new Bee();
+// console.log(bee);
+
+function createInstance<A extends Animal, T extends new (...args: any[]) => A>(
+    c: T
+): A {
+    return new c();
+}
+
+// function f(stringOrNull: string | null): string {
+//     if (stringOrNull === null) {
+//         return "null";
+//     } else {
+//         return stringOrNull;
+//     }
+// }
+
+function f(stringOrNull: string | null): string {
+    return stringOrNull ?? "default";
+}
+
+type Second = number;
+
+type Container<T> = { value: T };
+
+type Tree<T> = {
+    readonly key: T;
+    readonly left?: Tree<T>;
+    readonly right?: Tree<T>;
+};
+
+type LinkedList<T> = T & { next: LinkedList<T> };
+/**
+ * type 创建之后是无法更改的 interface 是可以进行更改
+ * 如果您无法使用接口表达某种形状，而需要使用并集或元组类型，则通常使用类型别名
+ *  */
+function pluck<T, K extends keyof T>(o: T, propNames: K[]): T[K][] {
+    return propNames.map(n => o[n]);
+}
+
+interface Dictionary<T> {
+    [key: string]: T;
+}
+
+let keys: keyof Dictionary<number>;
+
+let values: Dictionary<number>["foo"];
+
+interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonPartial = Partial<Person>;
+type ReadonlyPerson = Readonly<Person>;
+
+type Keys = "option1" | "option2";
+type Flags = { [K in Keys]: boolean };
+
+let option: Flags = {
+    option1: false,
+    option2: false,
+};
+
+type NullablePerson = {
+    [P in keyof Person]: Person[P] | null;
+};
+type PartialPerson = { [P in keyof Person]?: Person[P] };
+
+// type Pick<T, K extends keyof T> = {
+//     [P in K]: T[P];
+// };
+
+// type Record<K extends keyof any, T> = {
+//     [P in K]: T;
+// };
+
+// 请注意，它keyof any表示可用作对象索引的任何值的类型。换句话说，keyof any当前等于string | number | symbol。
+
+// function conditionFn<T extends boolean>(
+//     x: T
+// ): T extends false ? string : number {}
