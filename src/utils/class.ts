@@ -430,3 +430,7 @@ type PartialPerson = { [P in keyof Person]?: Person[P] };
 // function conditionFn<T extends boolean>(
 //     x: T
 // ): T extends false ? string : number {}
+
+type Nullable<T> = { [P in keyof T]?: T[P] | null };
+
+let nullable: Nullable<string> = "string";
