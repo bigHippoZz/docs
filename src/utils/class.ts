@@ -434,3 +434,69 @@ type PartialPerson = { [P in keyof Person]?: Person[P] };
 type Nullable<T> = { [P in keyof T]?: T[P] | null };
 
 let nullable: Nullable<string> = "string";
+type TypeName<T> = T extends string
+    ? "string"
+    : T extends number
+    ? "number"
+    : T extends boolean
+    ? "boolean"
+    : T extends undefined
+    ? "undefined"
+    : T extends Function
+    ? "function"
+    : "object";
+
+type T0 = TypeName<string>;
+type T5 = TypeName<string | string[] | undefined>;
+// string object undefined
+
+type BoxedValue<T> = { value: T };
+type BoxedArray<T> = { value: T[] };
+type Boxed<T> = T extends any[] ? BoxedArray<number[]> : BoxedValue<T>;
+type Diff<T, U> = T extends U ? never : T; // 从T中删除分配给U的类型
+type Filter<T, U> = T extends U ? T : never; // 从T中删除不可分配给U的类型
+
+type T1 = Diff<"a" | "b" | "c" | "d", "a" | "c" | "f">;
+type T2 = Filter<"a" | "b" | "c" | "d", "a" | "c" | "f">; // "a" | "c"
+type T3 = Diff<number | string | (() => void), Function>;
+type T4 = Filter<number | string | (() => void), Function>;
+
+type NotNullable<T> = Diff<T, null | undefined>;
+type T50 = NotNullable<string | number | undefined>;
+// 当前的x可以为null，undefined的 y则不可以为null undefined
+function TNotNullable<T>(x: T, y: NotNullable<T>) {}
+
+type FunctionPropertyNames<T> = {
+    [K in keyof T]: T[K] extends Function ? K : never;
+}[keyof T];
+
+type Part = {
+    id: number;
+    name: undefined;
+    subparts: Part[];
+    updatePart(): void;
+};
+type F1 = FunctionPropertyNames<Part>;
+// Pick 可以理解为给定指定的key拿到响应的value
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+
+// type ReturnType<T>  = T extends (...args:any[])=> inter R ?R : T
+
+type Unpacked<T> = T extends (infer U)[]
+    ? U
+    : T extends (...args: any[]) => infer U
+    ? U
+    : T extends Promise<infer U>
+    ? U
+    : T;
+
+type U0 = Unpacked<string>;
+type U1 = Unpacked<string[]>;
+type U2 = Unpacked<() => string>;
+type U3 = Unpacked<Promise<string>>;
+type U4 = Unpacked<Unpacked<Promise<string>>>;
+
+type Foo<T> = T extends { a: infer U; b: infer U } ? U : T;
+
+type K1 = Foo<{ a: number; b: number }>;
+type K2 = Foo<{ a: number; b: string }>;
