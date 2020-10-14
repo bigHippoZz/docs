@@ -18,6 +18,7 @@
         "lib": ["dom", "esnext"],
         "incremental": true,
         "skipLibCheck": true,
+        "noImplicitThis": true,
         "paths": {
             "/@/*": ["src/*"]
         }

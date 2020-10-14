@@ -122,3 +122,31 @@ class C {
     y = 1;
 }
 type InstanceTypeC = InstanceType<typeof C>;
+
+/**
+ *
+ * type ThisParameterType<Type>
+ * 提取当前函数的this类型 或未知函数上没有this 参数
+ * 理解为提取函数this的类型
+ * @var ThisParameterType
+ */
+function toHex(this: number) {
+    return this.toString(10);
+}
+
+// type Test = typeof C;
+function NumberToString(n: ThisParameterType<typeof toHex>) {
+    return toHex.apply(n);
+}
+
+/**
+ * type OmitThisParameter<Type>
+ * 将函数的this类型排除！
+ * @var OmitThisParameter
+ */
+
+// type Test = OmitThisParameter<typeof toHex>;
+
+function FiveToHex(n: OmitThisParameter<typeof toHex>) {
+    return n.bind(5);
+}

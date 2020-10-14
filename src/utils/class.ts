@@ -500,3 +500,102 @@ type Foo<T> = T extends { a: infer U; b: infer U } ? U : T;
 
 type K1 = Foo<{ a: number; b: number }>;
 type K2 = Foo<{ a: number; b: string }>;
+
+type Constructor<T> = new (...args: any[]) => T;
+
+function heightDifference<T extends Constructor<{ name: string }>>(c: T): T {
+    return class extends c {
+        onClick() {}
+    };
+}
+@heightDifference
+class K {
+    name: string = "string";
+}
+
+type FreezablePlayer = typeof K & { onClick(): void };
+const k = (new K() as unknown) as FreezablePlayer;
+k.onClick();
+
+// 相同的接口,命名空间是可以进行合并的
+namespace A {
+    // class Animal {}
+    // class Sheep extends Animal {
+    //     name = "sheep";
+    // }
+    // class Dog extends Animal {
+    //     name = "dog";
+    // }
+    // class Cat extends Animal {
+    //     name = "cat";
+    // }
+    // interface Clone {
+    //     clone(animal: Animal): Animal;
+    // }
+    // interface Clone {
+    //     clone(animal: Sheep): Sheep;
+    // }
+    // interface Clone {
+    //     clone(animal: Dog): Dog;
+    //     clone(animal: Cat): Cat;
+    // }
+
+    // 合并namespace注意 当前变量或者函数等等未导出，那么在将要合并的namespace中不能使用
+    export let hasChange: boolean = false;
+    export function getHasChange() {
+        return hasChange;
+    }
+}
+
+namespace A {
+    export function setHasChange(args: boolean) {
+        return (hasChange = args);
+    }
+}
+
+/**
+ *
+ * 将命名空间与类合并
+ */
+
+class Album {
+    label: Album.AlbumLabel = new Album.AlbumLabel();
+}
+namespace Album {
+    export class AlbumLabel {}
+}
+
+const target = new Album();
+
+console.log(target);
+
+/**
+ * 将命名空间与函数合并
+ *
+ */
+function buildLabel() {
+    return buildLabel.x + buildLabel.y;
+}
+
+namespace buildLabel {
+    // 记住一定要将其导出
+    export let x = 10;
+    export let y = 10;
+}
+
+/**
+ * 类不能与类进行合并
+ */
+
+/**
+ * 将命名空间与枚举合并
+ */
+export enum _Person {
+    student,
+    teacher,
+}
+namespace Color {
+    export function mixPerson() {
+        console.log(_Person.student);
+    }
+}
