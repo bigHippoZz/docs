@@ -1,7 +1,7 @@
 const strStr = function (haystack, needle) {
     if (needle === "") return 0;
     if (haystack === "") return -1;
-    let  { length}  = needle
+    let { length } = needle;
     let inc = [];
     // 计算偏移量
     for (let i = 0; i < length; i++) {
