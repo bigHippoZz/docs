@@ -19,5 +19,4 @@ import "./utils/Types.ts";
 
 import App from "./App.vue";
 
-// import "babel-polyfill";
 createApp(App).mount("#app");

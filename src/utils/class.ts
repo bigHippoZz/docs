@@ -599,3 +599,6 @@ namespace Color {
         console.log(_Person.student);
     }
 }
+
+// const A_ = [1, "2", 3];
+// const str: string = A_.reduce<string>((str, a) => `${str} ${a.toString()}`, "");
