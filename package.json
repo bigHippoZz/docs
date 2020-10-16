@@ -1,21 +1,21 @@
 {
-  "name": "ap",
-  "version": "0.0.0",
-  "scripts": {
-    "start": "vite",
-    "build": "vite build"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "lodash": "^4.17.20",
-    "redux": "^4.0.5",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-beta.6",
-    "vuex": "^4.0.0-beta.4"
-  },
-  "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.0-rc.1",
-    "less": "^3.12.2",
-    "vite": "^1.0.0-rc.4"
-  }
+    "name": "ap",
+    "version": "0.0.0",
+    "scripts": {
+        "start": "vite",
+        "build": "vite build"
+    },
+    "dependencies": {
+        "babel-polyfill": "^6.26.0",
+        "lodash": "^4.17.20",
+        "redux": "^4.0.5",
+        "vue": "^3.0.0",
+        "vue-router": "^4.0.0-beta.6",
+        "vuex": "^4.0.0-beta.4"
+    },
+    "devDependencies": {
+        "@vue/compiler-sfc": "^3.0.0-rc.1",
+        "less": "^3.12.2",
+        "vite": "^1.0.0-rc.4"
+    }
 }
