@@ -602,3 +602,67 @@ namespace Color {
 
 // const A_ = [1, "2", 3];
 // const str: string = A_.reduce<string>((str, a) => `${str} ${a.toString()}`, "");
+
+const symbol1 = Symbol("value");
+
+const symbolObject = {
+    [symbol1]: {},
+};
+console.log(symbolObject);
+
+console.log(process.env.VUE_APP_TITLE);
+
+interface User {
+    count: string;
+}
+class V {
+    public handleClick(params: User): number;
+    public handleClick(params: number, flag: boolean): number;
+    public handleClick(params: User | number, flag?: boolean): number {
+        return 10;
+    }
+}
+
+// type OO<T> = ThisType<T>;
+
+// type ObjectDescriptor<T, U> = {
+//     data?: T;
+//     method?: U & ThisType<T & U>;
+// };
+
+// function makeObject<T, U>(objectDescriptor: ObjectDescriptor<T, U>): T & U {
+//     const data = objectDescriptor.data || {};
+//     const method = objectDescriptor.method || {};
+//     return { ...data, ...method } as T & U;
+// }
+// makeObject({
+//     data: {
+//         name: "liwuzhou",
+//     },
+
+//     method: {
+//         handleClick() {
+//             console.log(this.name);
+//         },
+//     },
+// });
+
+// type ObjectDescriptor<D, M> = {
+//     data?: D;
+//     method?: M & ThisType<D & M>;
+// };
+
+// function createMakeObject<D, M>(target: ObjectDescriptor<D, M>): D & M {
+//     const data = target.data || {};
+//     const method = target.method || {};
+//     return { ...data, ...method } as D & M;
+// }
+
+// createMakeObject({
+//     data: { age: "" },
+//     method: {
+//         handleClick() {
+//             console.log(this.age);
+//         },
+//     },
+// });
