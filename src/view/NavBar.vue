@@ -14,8 +14,14 @@ export default {
     },
     name: "NavBar",
     setup(props, { attrs }) {
+        function test(url) {
+            var nextUrl = decodeURIComponent(url).replace(/^http:\/\//, "");
+            nextUrl = window.location.protocol + "//" + nextUrl;
+            window.location.href = nextUrl;
+        }
         const onClickLogo = () => {
-            location.href = "/";
+            // location.href = "/";
+            test('http://www.baidu.com')
         };
         const onClickBtn = event => {
             console.log(event);

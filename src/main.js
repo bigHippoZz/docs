@@ -9,13 +9,15 @@ import "./static/AVLTree.js";
 import "./static/MinHeap.js";
 import "./static/heap-sort.js";
 import "./static/CircularQueue.ts";
-import "./static/binarySearch.js";
-import "./algorithm.js";
-import "./KMP_algorithm.js";
-import "./utils/shared.ts";
-import "./utils/class.ts";
-import "./utils/infer.ts";
-import "./utils/Types.ts";
+// import "./static/binarySearch.js";
+// import "./algorithm.js";
+// import "./KMP_algorithm.js";
+// import "./utils/shared.ts";
+// import "./utils/class.ts";
+// import "./utils/infer.ts";
+// import "./utils/Types.ts";
+
+import "./utils/reactive";
 
 import App from "./App.vue";
 

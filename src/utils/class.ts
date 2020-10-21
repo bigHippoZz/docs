@@ -666,3 +666,38 @@ class V {
 //         },
 //     },
 // });
+
+// function createProxy(){
+//     return
+// }
+
+const proxyTarget = new Proxy(
+    {
+        info: {
+            name: {
+                identity: 10,
+            },
+        },
+    },
+    {
+        get(target, key: string, receiver) {
+            const result = Reflect.get(target, key, receiver);
+            console.log(
+                `拦截到当前的get target：${JSON.stringify(
+                    target,
+                    null,
+                    2
+                )}   key：${key}`
+            );
+            // return Reflect.get(target, key, receiver);
+            return result;
+        },
+        set(target, key: string, value, receiver) {
+            const result = Reflect.set(target, key, value, receiver);
+            console.log(`拦截到当前的set target：${target}   key：${key}`);
+            return result;
+        },
+    }
+);
+
+proxyTarget.info.name;

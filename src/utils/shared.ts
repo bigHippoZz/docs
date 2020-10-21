@@ -23,9 +23,9 @@ export const isPlainObject = (val: unknown): val is object =>
 
 /**
  * 使用访问器进行访问
- * @param object 
- * @param key 
- * @param value 
+ * @param object
+ * @param key
+ * @param value
  */
 export const def = (object: object, key: string | symbol, value: any) => {
     Object.defineProperty(object, key, {
