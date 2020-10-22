@@ -1,3 +1,24 @@
-# vuejs 
+# app-ts
 
-平常开发中遇到的问题，及其收集各种优雅的实现和自己封装的工具函数
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
