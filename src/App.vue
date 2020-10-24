@@ -11,11 +11,14 @@ import { EnhanceWebSocket } from "./utils/webSocket";
 export default {
   name: "App",
   setup() {
-    const ws = new EnhanceWebSocket("ws://121.40.165.17:8801");
-    ws.listen((event) => {
-      console.log(event);
-    });
-    ws.send("hello world");
+    const ws = new EnhanceWebSocket("ws://121.40.165.18:8800");
+    // ws.listen((event) => {
+    //   console.log(event);
+    // });
+    // setInterval(() => {
+    //   ws.send("hello world");
+    // }, 2500);
+    // ws.send("hello world");
     // let index = 0;
     // let time: number | null = null;
     // time = setInterval(() => {
