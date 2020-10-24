@@ -6,6 +6,29 @@
   <router-view />
 </template>
 
+<script lang="ts">
+import { EnhanceWebSocket } from "./utils/webSocket";
+export default {
+  name: "App",
+  setup() {
+    const ws = new EnhanceWebSocket("ws://121.40.165.17:8801");
+    ws.listen((event) => {
+      console.log(event);
+    });
+    ws.send("hello world");
+    // let index = 0;
+    // let time: number | null = null;
+    // time = setInterval(() => {
+    //   index++;
+    //   if (index > 100) clearInterval(time as number);
+    //   ws.send(`hello world as ${index}`);
+    // });
+    // setTimeout(() => {
+    //   console.log(ws.queue);
+    // }, 1000);
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
