@@ -17,7 +17,6 @@ export default {
       age: 23,
     });
 
-    console.log(state,'state')
   },
 };
 </script>
