@@ -18,7 +18,7 @@ export class EnhanceWebSocket implements EnhanceWebSocketClass {
   private connectionAttempts: number;
   private reconnectionDelay: boolean; // 是否开启重连机制
   private setTimeoutId!: number | null; // 当前重连定时器id
-  private listener!: (event: MessageEvent) => void;
+  private listener: (event: MessageEvent) => void = () => {};
   constructor(path: string, reconnectionDelay = true) {
     this.path = path;
     this.reconnectionDelay = reconnectionDelay; // 是否开启重连机制
