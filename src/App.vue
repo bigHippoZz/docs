@@ -7,16 +7,14 @@
 </template>
 
 <script lang="ts">
-import { reactive } from "vue";
+import { reactive, markRaw } from "vue";
 import { EnhanceWebSocket } from "./utils/WebSocket";
 export default {
   name: "App",
   setup() {
-    const state = reactive({
-      name: "liwuzhou",
-      age: 23,
-    });
-
+    const state = { name: "liwuzhou" };
+    const currentState = markRaw(state);
+    console.log(currentState)
   },
 };
 </script>
