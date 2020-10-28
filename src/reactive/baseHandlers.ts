@@ -64,6 +64,7 @@ function createGetter(isReadonly = false, shallow = false) {
   };
 }
 
+const set = createSetter();
 function createSetter(shallow = false) {
   return function set(
     target: object,
