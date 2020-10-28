@@ -8,7 +8,7 @@ import {
   toRaw,
 } from "./index";
 import { isArray, hasOwn, isSymbol } from "@/shared";
-import { track } from "./effect";
+import { track, trigger } from "./effect";
 
 export const arrayInstrumentations: Record<string, Function> = {};
 
@@ -75,9 +75,9 @@ function createSetter(shallow = false) {
     if (!shallow) {
       value = toRaw(value);
     }
-
-    
     const result = Reflect.set(target, key, value, receiver);
+    // 触发依赖
+    trigger(target, TriggerOpTypes.SET, key, value, oldValue);
     return result;
   };
 }

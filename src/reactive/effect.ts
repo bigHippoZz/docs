@@ -1,4 +1,4 @@
-import { TargetType } from ".";
+import { isArray } from "@/shared";
 import { TrackOpTypes, TriggerOpTypes } from "./operations";
 
 // 依赖
@@ -164,4 +164,68 @@ export function track(target: object, type: TrackOpTypes, key: unknown) {
       });
     }
   }
+}
+// 触发依赖
+export  function trigger(
+  target: object,
+  type: TriggerOpTypes,
+  key?: unknown,
+  newValue?: unknown,
+  oldValue?: unknown,
+  oldTarget?: Map<unknown, unknown> | Set<unknown>
+) {
+  const depsMap = targetMap.get(target);
+  // 并未进行跟踪
+  if (!depsMap) {
+    return;
+  }
+  const effects = new Set<ReactiveEffect>();
+
+  // debugger
+  const add = (effectsToAdd: Set<ReactiveEffect> | undefined) => {
+    if (effectsToAdd) {
+      effectsToAdd.forEach((effect) => {
+        if (effect !== activeEffect || effect.allowRecurse) {
+          effects.add(effect);
+        }
+      });
+    }
+  };
+
+  if (type === TriggerOpTypes.CLEAR) {
+    depsMap.forEach(add);
+  } else if (key === "length" && isArray(target)) {
+    // 数组的特殊判断
+    depsMap.forEach((dep, key) => {
+      if (key === "length" || key >= (newValue as number)) {
+        add(dep);
+      }
+    });
+  } else {
+    if (key !== void 0) {
+      add(depsMap.get(key));
+    }
+  }
+
+  const run = (effect: ReactiveEffect) => {
+    if (effect.options.onTrigger) {
+      effect.options.onTrigger({
+        effect,
+        target,
+        key,
+        type,
+        newValue,
+        oldValue,
+        oldTarget,
+      });
+    }
+
+    if (effect.options.scheduler) {
+      effect.options.scheduler(effect);
+    } else {
+      effect();
+    }
+  };
+
+  effects.forEach(run);
 }
