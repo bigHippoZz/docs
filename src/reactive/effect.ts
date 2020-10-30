@@ -6,7 +6,7 @@ type Dep = Set<ReactiveEffect>;
 // key对应的依赖
 type KeyToDepMap = Map<any, Dep>;
 // 全局依赖收集
-const targetMap = new WeakMap<any, KeyToDepMap>();
+export const targetMap = new WeakMap<any, KeyToDepMap>();
 // 响应式数据的依赖
 export interface ReactiveEffect<T = any> {
   (): T;
@@ -48,24 +48,36 @@ export function isEffect(func: any): func is ReactiveEffect {
   return func && func._isEffect === true;
 }
 
-export function effect<T = any>(
-  fn: () => T,
-  options: ReactiveEffectOptions = {}
-): ReactiveEffect<T> {
-  //  如果是effect函数直接进行重新赋值
-  if (isEffect(fn)) {
-    fn = fn.raw;
+function cleanup(effect: ReactiveEffect) {
+  const { deps } = effect;
+  //极有可能处理内存引用问题
+  if (deps.length) {
+    for (let index = 0; index < deps.length; index++) {
+      deps[index].delete(effect);
+    }
+    deps.length = 0;
   }
-  // 创建effect
-  const effect = createReactiveEffect(fn, options);
-  // 是否具有lazy属性
-  if (!options.lazy) {
-    effect();
-  }
-  // 返回effect
-  return effect;
 }
+let shouldTrack = true;
 
+const trackStack: boolean[] = [];
+
+// 入栈 track   暂停跟踪
+export function pauseTracking() {
+  trackStack.push(shouldTrack);
+  shouldTrack = false;
+}
+// 开始跟踪
+export function enableTracking() {
+  trackStack.push(shouldTrack);
+  shouldTrack = true;
+}
+// 重置跟踪
+export function resetTracking() {
+  const last = trackStack.pop();
+  shouldTrack = last === undefined ? true : last;
+  //   shouldTrack = last ?? true;
+}
 let uid = 0;
 function createReactiveEffect<T = any>(
   fn: () => T,
@@ -75,7 +87,6 @@ function createReactiveEffect<T = any>(
     if (!effect.active) {
       return options.scheduler ? undefined : fn();
     }
-
     if (!effectStack.includes(effect)) {
       cleanup(effect);
       try {
@@ -107,37 +118,24 @@ function createReactiveEffect<T = any>(
   return effect;
 }
 
-function cleanup(effect: ReactiveEffect) {
-  const { deps } = effect;
-  //极有可能处理内存引用问题
-  if (deps.length) {
-    for (let index = 0; index < deps.length; index++) {
-      deps[index].delete(effect);
-    }
-    deps.length = 0;
+export function effect<T = any>(
+  fn: () => T,
+  options: ReactiveEffectOptions = {}
+): ReactiveEffect<T> {
+  //  如果是effect函数直接进行重新赋值
+  if (isEffect(fn)) {
+    fn = fn.raw;
   }
+  // 创建effect
+  const effect = createReactiveEffect(fn, options);
+  // 是否具有lazy属性
+  if (!options.lazy) {
+    effect();
+  }
+  // 返回effect
+  return effect;
 }
 
-let shouldTrack = true;
-
-const trackStack: boolean[] = [];
-
-// 入栈 track   暂停跟踪
-export function pauseTracking() {
-  trackStack.push(shouldTrack);
-  shouldTrack = false;
-}
-// 开始跟踪
-export function enableTracking() {
-  trackStack.push(shouldTrack);
-  shouldTrack = true;
-}
-// 重置跟踪
-export function resetTracking() {
-  const last = trackStack.pop();
-  shouldTrack = last === undefined ? true : last;
-  //   shouldTrack = last ?? true;
-}
 // 跟踪依赖
 export function track(target: object, type: TrackOpTypes, key: unknown) {
   if (!shouldTrack || activeEffect === undefined) {
@@ -166,7 +164,7 @@ export function track(target: object, type: TrackOpTypes, key: unknown) {
   }
 }
 // 触发依赖
-export  function trigger(
+export function trigger(
   target: object,
   type: TriggerOpTypes,
   key?: unknown,

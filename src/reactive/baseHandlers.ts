@@ -6,7 +6,7 @@ import {
   reactiveMap,
   ReactiveFlags,
   toRaw,
-} from "./index";
+} from "./reactive";
 import { isArray, hasOwn, isSymbol } from "@/shared";
 import { track, trigger } from "./effect";
 
@@ -21,12 +21,8 @@ export const builtInSymbols = new Set([
     .filter(isSymbol),
 ]);
 
-console.log(builtInSymbols, "builtinsymbol");
+// console.log(builtInSymbols, "builtinsymbol");
 
-const get = createGetter();
-const shallowGet = createGetter(false, true);
-const readonlyGet = createGetter(true);
-const shallowReadonlyGet = createGetter(true, true);
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: Target, key: string | symbol, receiver: object) {
     if (key === ReactiveFlags.IS_READONLY) {
@@ -64,7 +60,11 @@ function createGetter(isReadonly = false, shallow = false) {
   };
 }
 
-const set = createSetter();
+const get = createGetter();
+const shallowGet = createGetter(false, true);
+const readonlyGet = createGetter(true);
+const shallowReadonlyGet = createGetter(true, true);
+
 function createSetter(shallow = false) {
   return function set(
     target: object,
@@ -82,3 +82,9 @@ function createSetter(shallow = false) {
     return result;
   };
 }
+const set = createSetter();
+
+export const mutableHandlers: ProxyHandler<object> = {
+  get,
+  set,
+};
