@@ -12,34 +12,48 @@ import {
 } from "./utils/WebSocket";
 
 import {
-    effect,
     reactive,
-    targetMap
-} from "./reactive/index";
+    computed,
+    watchEffect
+} from "vue";
+// import {
+//     effect,
+//     reactive,
+//     targetMap
+// } from "./reactive/index";
 export default {
     name: "App",
     setup() {
         const state = reactive({
             name: "App",
             number: 23,
-        });
-        effect(() => {
-            const computed = state.number + 10;
-            console.log(`computed1 -> ${computed}`);
+            array: [1, 2, 3],
         });
 
-        effect(() => {
-            const computed = state.name;
-            console.log(`computed2 -> ${computed}`);
+        const array = [1, 23, 4, 56];
+        const proxyObj = new Proxy(array, {
+            get(target, key) {
+                return [""];
+            },
+            set(target, key, value) {
+                return false;
+            },
         });
-        effect(() => {
-            const computed = state.name + state.number;
-            console.log(`computed3 -> ${computed}`);
-        });
-
-        state.number = 10;
+        // watchEffect(() => {
+        //     const computed1 = state.array;
+        //     console.log(`computed1 -> ${computed1}`);
+        // });
+        // watchEffect(() => {
+        //     const computed2 = state.name;
+        //     console.log(`computed2 -> ${computed2}`);
+        // });
+        // watchEffect(() => {
+        //     const computed3 = state.name + state.number;
+        //     console.log(`computed3 -> ${computed3}`);
+        // });
+        // state.number = 10;
+        // state.array[3] = 10;
         console.log(state);
-        console.log(targetMap);
     },
 };
 </script>
