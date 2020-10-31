@@ -47,6 +47,35 @@ export interface DebuggerEventExtraInfo {
   oldValue?: any;
   oldTarget?: Map<any, any> | Set<any>;
 }
+// 入栈 track   暂停跟踪
+export function pauseTracking() {
+  trackStack.push(shouldTrack);
+  shouldTrack = false;
+}
+// 开始跟踪
+export function enableTracking() {
+  trackStack.push(shouldTrack);
+  shouldTrack = true;
+}
+// 重置跟踪
+export function resetTracking() {
+  const last = trackStack.pop();
+  shouldTrack = last === undefined ? true : last;
+  //   shouldTrack = last ?? true;
+}
+function cleanup(effect: ReactiveEffect) {
+  const { deps } = effect;
+  //极有可能处理内存引用问题
+  if (deps.length) {
+    for (let index = 0; index < deps.length; index++) {
+      deps[index].delete(effect);
+    }
+    deps.length = 0;
+  }
+}
+export function isEffect(func: any): func is ReactiveEffect {
+  return func && func._isEffect === true;
+}
 
 function createReactiveEffect<T = any>(
   fn: () => T,
@@ -193,33 +222,4 @@ export function trigger(
   };
 
   effects.forEach(run);
-}
-export function isEffect(func: any): func is ReactiveEffect {
-  return func && func._isEffect === true;
-}
-function cleanup(effect: ReactiveEffect) {
-  const { deps } = effect;
-  //极有可能处理内存引用问题
-  if (deps.length) {
-    for (let index = 0; index < deps.length; index++) {
-      deps[index].delete(effect);
-    }
-    deps.length = 0;
-  }
-}
-// 入栈 track   暂停跟踪
-export function pauseTracking() {
-  trackStack.push(shouldTrack);
-  shouldTrack = false;
-}
-// 开始跟踪
-export function enableTracking() {
-  trackStack.push(shouldTrack);
-  shouldTrack = true;
-}
-// 重置跟踪
-export function resetTracking() {
-  const last = trackStack.pop();
-  shouldTrack = last === undefined ? true : last;
-  //   shouldTrack = last ?? true;
 }

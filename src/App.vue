@@ -10,7 +10,7 @@
 import {
     EnhanceWebSocket
 } from "./utils/WebSocket";
-
+import "./utils/compile";
 import {
     reactive,
     computed,
