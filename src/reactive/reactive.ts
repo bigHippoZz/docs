@@ -3,10 +3,10 @@ import { toRawType, isObject, def } from "../shared/index";
 
 import { mutableHandlers } from './baseHandlers';
 export const enum ReactiveFlags {
-  SKIP = "__v_skip",
+  SKIP = "__v_skip", // 响应式白名单
   IS_REACTIVE = "__v_isReactive",
-  IS_READONLY = "__v_isReadonly",
-  RAW = "__v_raw",
+  IS_READONLY = "__v_isReadonly", 
+  RAW = "__v_raw", // 获取原始对象
 }
 
 export interface Target {
@@ -46,6 +46,9 @@ function targetTypeMap(rawType: string) {
 
 // console.log(targetTypeMap("Object"));
 function getTargetType(value: Target) {
+  // 这里有个响应式白名单 和判断当前对象是不是可扩展对象
+  // Object Array 基本的响应式对象 
+  // map set weakmap weakset 特殊的响应式对象
   return value[ReactiveFlags.SKIP] || !Object.isExtensible(value)
     ? TargetType.INVALID
     : targetTypeMap(toRawType(value));
@@ -71,7 +74,6 @@ function createReactiveObject(
   ) {
     return target;
   }
-
   // 判断可能当前对象已经具有代理对象
   const proxyMap = isReadonly ? readonlyMap : reactiveMap;
   const existingProxy = proxyMap.get(target);
@@ -83,6 +85,7 @@ function createReactiveObject(
   if (targetType === TargetType.INVALID) {
     return target;
   }
+  //添加响应式对象
   const result = new Proxy(
     target,
     targetType === TargetType.COLLECTION ? collectionHandlers : baseHandlers
@@ -98,26 +101,31 @@ export function reactive(target: object) {
   }
     return createReactiveObject(target,false,mutableHandlers,mutableHandlers)
 }
-
+// 判断是不是readonly
 export const isReadonly = (value: unknown): boolean => {
   return !!(value && (value as Target)[ReactiveFlags.IS_READONLY]);
 };
+
+// 去掉readonly 然后进行获取target[RAW]进行判断
 export const isReactive = (value: unknown): boolean => {
   if (isReadonly(value)) {
     return isReactive((value as Target)[ReactiveFlags.RAW]);
   }
   return !!(value && (value as Target)[ReactiveFlags.IS_REACTIVE]);
 };
+
+// 判断是不是响应式数据
 export const isProxy = (value: unknown): boolean => {
   return isReadonly(value) || isReactive(value);
 };
-
+// 获取原始数据
 export function toRaw<T>(observed: T): T {
   return (
     (observed && toRaw((observed as Target)[ReactiveFlags.RAW])) || observed
   );
 }
-
+// 将对象转换为响应式白名单    
+//关键代码 return value[ReactiveFlags.SKIP] || !Object.isExtensible(value)
 export const markRaw = <T extends object>(value: T): T => {
   def(value, ReactiveFlags.SKIP, true);
   return value;

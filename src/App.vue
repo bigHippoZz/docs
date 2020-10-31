@@ -1,82 +1,88 @@
 <template>
-<div id="nav">
+  <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
-</div>
-<router-view />
+  </div>
+  <router-view />
 </template>
 
 <script lang="ts">
-import {
-    EnhanceWebSocket
-} from "./utils/WebSocket";
+import { EnhanceWebSocket } from "./utils/WebSocket";
 import "./utils/compile";
-import {
-    reactive,
-    computed,
-    watchEffect
-} from "vue";
 // import {
-//     effect,
-//     reactive,
-//     targetMap
-// } from "./reactive/index";
+//   reactive,
+//   computed,
+//   watchEffect,
+//   readonly,
+//   isReadonly,
+//   isReactive,
+// } from "vue";
+import { effect, reactive, targetMap } from "./reactive/index";
 export default {
-    name: "App",
-    setup() {
-        const state = reactive({
-            name: "App",
-            number: 23,
-            array: [1, 2, 3],
-        });
+  name: "App",
+  setup() {
+    const array = reactive([1, 12, 3, 4, 5]);
+    effect(() => {
+      console.log(array.length);
+    });
+    array.pop()
+    // console.log(array.includes(reactive(item)));
+    // const state = reactive({
+    //     name: "App",
+    //     number: 23,
+    //     array: [1, 2, 3],
+    // });
 
-        const array = [1, 23, 4, 56];
-        const proxyObj = new Proxy(array, {
-            get(target, key) {
-                return [""];
-            },
-            set(target, key, value) {
-                return false;
-            },
-        });
-        // watchEffect(() => {
-        //     const computed1 = state.array;
-        //     console.log(`computed1 -> ${computed1}`);
-        // });
-        // watchEffect(() => {
-        //     const computed2 = state.name;
-        //     console.log(`computed2 -> ${computed2}`);
-        // });
-        // watchEffect(() => {
-        //     const computed3 = state.name + state.number;
-        //     console.log(`computed3 -> ${computed3}`);
-        // });
-        // state.number = 10;
-        // state.array[3] = 10;
-        console.log(state);
-    },
+    // const array = [1, 23, 4, 56];
+    // const proxyObj = new Proxy(array, {
+    //     get(target, key) {
+    //         return [""];
+    //     },
+    //     set(target, key, value) {
+    //         return false;
+    //     },
+    // });
+    // const readonlyState = readonly(state)
+    // console.log(isReactive(readonlyState))
+
+    // watchEffect(() => {
+    //     const computed1 = state.array;
+    //     console.log(`computed1 -> ${computed1}`);
+    // });
+    // watchEffect(() => {
+    //     const computed2 = state.name;
+    //     console.log(`computed2 -> ${computed2}`);
+    // });
+    // watchEffect(() => {
+    //     const computed3 = state.name + state.number;
+    //     console.log(`computed3 -> ${computed3}`);
+    // });
+    // state.number = 10;
+    // state.array[3] = 10;
+    // console.log(state);
+  },
 };
 </script>
 
 <style>
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
 #nav {
-    padding: 30px;
+  padding: 30px;
 }
 
 #nav a {
-    font-weight: bold;
-    color: #2c3e50;
+  font-weight: bold;
+  color: #2c3e50;
 }
 
 #nav a.router-link-exact-active {
-    color: #42b983;
+  color: #42b983;
 }
 </style>
