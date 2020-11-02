@@ -52,7 +52,6 @@ export const builtInSymbols = new Set([
 // console.log(builtInSymbols, "builtinsymbol");
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: Target, key: string | symbol, receiver: object) {
-    console.log(key)
     // 判断当前是不是readonly
     if (key === ReactiveFlags.IS_READONLY) {
       return isReadonly;

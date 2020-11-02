@@ -27,3 +27,6 @@ export const def = (object: object, key: string | symbol, value: any) =>
 export const isArray = Array.isArray;
 export const isSymbol = (val: unknown): val is symbol =>
   typeof val === "symbol";
+// 判断当前变量是否发生变更， 排除NaN
+export const hasChanged = (newVal: unknown, oldVal: unknown): boolean =>
+  newVal !== oldVal && (newVal === newVal || oldVal === oldVal);

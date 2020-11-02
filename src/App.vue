@@ -9,57 +9,43 @@
 <script lang="ts">
 import { EnhanceWebSocket } from "./utils/WebSocket";
 import "./utils/compile";
-// import {
-//   reactive,
-//   computed,
-//   watchEffect,
-//   readonly,
-//   isReadonly,
-//   isReactive,
-// } from "vue";
-import { effect, reactive, targetMap } from "./reactive/index";
+import {
+  reactive,
+  computed,
+  watchEffect,
+  readonly,
+  isReadonly,
+  isReactive,
+  ref,
+  customRef,
+} from "vue";
+import { trigger } from "./reactive/effect";
+// import { effect, reactive, targetMap, ref, shallowRef } from "./reactive/index";
 export default {
   name: "App",
   setup() {
-    const array = reactive([1, 12, 3, 4, 5]);
-    effect(() => {
-      console.log(array.length);
-    });
-    array.pop()
-    // console.log(array.includes(reactive(item)));
-    // const state = reactive({
-    //     name: "App",
-    //     number: 23,
-    //     array: [1, 2, 3],
-    // });
-
-    // const array = [1, 23, 4, 56];
-    // const proxyObj = new Proxy(array, {
-    //     get(target, key) {
-    //         return [""];
-    //     },
-    //     set(target, key, value) {
-    //         return false;
-    //     },
-    // });
-    // const readonlyState = readonly(state)
-    // console.log(isReactive(readonlyState))
-
-    // watchEffect(() => {
-    //     const computed1 = state.array;
-    //     console.log(`computed1 -> ${computed1}`);
-    // });
-    // watchEffect(() => {
-    //     const computed2 = state.name;
-    //     console.log(`computed2 -> ${computed2}`);
-    // });
-    // watchEffect(() => {
-    //     const computed3 = state.name + state.number;
-    //     console.log(`computed3 -> ${computed3}`);
-    // });
-    // state.number = 10;
-    // state.array[3] = 10;
-    // console.log(state);
+    let value = 10;
+    const customize = customRef((track, tigger) => ({
+      get() {
+        console.log(track)
+        track();
+        return value;
+      },
+      set(newValue: number) {
+        tigger();
+        value = newValue;
+      },
+    }));
+    console.log(customize.value)
+    customize.value = 20
+    console.log(customize.value)
+    // const refObject = shallowRef({ name: "li" });
+    // console.log(refObject);
+    // refObject.value = "liwuzhou";
+    // const refNumber = ref(ref(10));
+    // console.log(refNumber);
+    // refNumber.value = 110;
+    // console.log(refNumber.value)
   },
 };
 </script>
