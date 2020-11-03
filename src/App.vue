@@ -42,11 +42,6 @@ export default {
       name: "liwuzhou",
       age: 23,
     };
-
-    Object.keys(cloneObject).forEach((key) => {
-      if (key === "name") return;
-      console.log(key);
-    });
     // let value = 10;
     // const customize = customRef((track, tigger) => ({
     //   get() {

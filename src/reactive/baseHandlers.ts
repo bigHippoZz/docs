@@ -1,15 +1,16 @@
 import { TrackOpTypes, TriggerOpTypes } from "./operations";
-
 import {
   Target,
   readonlyMap,
   reactiveMap,
   ReactiveFlags,
   toRaw,
+  reactive,
 } from "./reactive";
-import { isArray, hasOwn, isSymbol } from "@/shared";
+import { isArray, hasOwn, isSymbol, isIntegerKey, isObject } from "@/shared";
 import { track, trigger, pauseTracking, resetTracking } from "./effect";
-import { isRef } from './ref';
+import { isRef } from "./ref";
+import { readonly } from 'vue';
 
 export const arrayInstrumentations: Record<string, Function> = {};
 
@@ -79,13 +80,13 @@ function createGetter(isReadonly = false, shallow = false) {
     if (shallow) {
       return result;
     }
-
     if (isRef(result)) {
-
       // 是数组的话将返回ref,不进行解包
-      // // 
-      // const shouldUnwrap = !targetIsArray || !isIntegerKey(key);
-      // return shouldUnwrap ? result.value : result;
+      const shouldUnwrap = !targetIsArray || !isIntegerKey(key);
+      return shouldUnwrap ? result.value : result;
+    }
+    if(isObject(result)){
+      return isReadonly ? readonly(result) : reactive(result) 
     }
     return result;
   };

@@ -33,3 +33,13 @@ export const isString = (val: unknown): val is string =>
 // 判断当前变量是否发生变更， 排除NaN
 export const hasChanged = (newVal: unknown, oldVal: unknown): boolean =>
   newVal !== oldVal && (newVal === newVal || oldVal === oldVal);
+// 输入必须是整数型
+export const isIntegerKey = (key: unknown) => {
+  return (
+    isString(key) &&
+    key !== "NaN" &&
+    key[0] !== "-" &&
+    "" + parseInt(key, 10) === key
+  );
+};
+
