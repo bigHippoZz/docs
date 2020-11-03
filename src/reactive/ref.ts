@@ -92,8 +92,37 @@ export function proxyRefs<T extends object>(objectWithObject: T) {
     : new Proxy(objectWithObject, shallowUnwrapHandlers);
 }
 
+export type CustomRefFactory<T> = (
+  track: () => void,
+  tigger: () => void
+) => {
+  get: () => T;
+  set: (value: T) => void;
+};
 
+// 自定义ref
+export class CustomRefsImpl<T> {
+  private readonly _get: ReturnType<CustomRefFactory<T>>["get"];
+  private readonly _set: ReturnType<CustomRefFactory<T>>["set"];
+  public readonly __v_isRef = true;
+  constructor(factory: CustomRefFactory<T>) {
+    const { get, set } = factory(
+      () => track(this, TrackOpTypes.GET, "value"),
+      () => trigger(this, TriggerOpTypes.SET, "value")
+    );
+    this._get = get;
+    this._set = set;
+  }
 
-class CustomRefsImpl { 
-  
+  get value() {
+    return this._get();
+  }
+
+  set value(newVal) {
+    this._set(newVal);
+  }
+}
+// 实例自定义ref
+export function customRef<T>(factory: CustomRefFactory<T>): Ref<T> {
+  return new CustomRefsImpl(factory) as any;
 }
