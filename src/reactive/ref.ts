@@ -1,7 +1,7 @@
-import { hasChanged, isObject } from "@/shared";
+import { hasChanged, isArray, isObject } from "@/shared";
 import { track, trigger } from "./effect";
 import { TrackOpTypes, TriggerOpTypes } from "./operations";
-import { isReactive, reactive, toRaw } from "./reactive";
+import { isProxy, isReactive, reactive, toRaw } from "./reactive";
 
 declare const RefSymbol: unique symbol;
 
@@ -122,7 +122,41 @@ export class CustomRefsImpl<T> {
     this._set(newVal);
   }
 }
+
+class ObjectRefImpl<T extends object, K extends keyof T> {
+  public readonly __v_isRef = true;
+  constructor(private readonly _object: T, private readonly _key: K) {}
+  get value() {
+    return this._object[this._key];
+  }
+  set value(newVal) {
+    this._object[this._key] = newVal;
+  }
+}
 // 实例自定义ref
 export function customRef<T>(factory: CustomRefFactory<T>): Ref<T> {
   return new CustomRefsImpl(factory) as any;
+}
+// 将响应式对象的property进行响应式连接
+// https://v3.cn.vuejs.org/api/refs-api.html#toref
+/**
+ * const state = reative({name:'liwuzhou'})
+ * const statePropertyName = toRef(state,'name')
+ */
+export function toRef<T extends object, K extends keyof T>(object: T, key: K) {
+  return isRef(object[key]) ? object[key] : new ObjectRefImpl(object, key);
+}
+// 将整个对象中的基本类型转换为ref对象，防止缺失响应式
+export function toRefs<T extends {}>(object: T) {
+  // 判断当前是不是响应式对象
+  if (!isProxy(object)) {
+    console.log("toRefs object is not a proxy object");
+  }
+  // 判断是对象还是数组 这样返回的数据好有数
+  const result: any = isArray(object) ? new Array(object.length) : {};
+  for (const key in object) {
+    // 转换为Ref对象
+    result[key] = toRef(object, key);
+  }
+  return result;
 }

@@ -9,6 +9,7 @@ import {
 } from "./reactive";
 import { isArray, hasOwn, isSymbol } from "@/shared";
 import { track, trigger, pauseTracking, resetTracking } from "./effect";
+import { isRef } from './ref';
 
 export const arrayInstrumentations: Record<string, Function> = {};
 
@@ -18,9 +19,9 @@ export const arrayInstrumentations: Record<string, Function> = {};
 (["includes", "indexOf", "lastIndexOf"] as const).forEach((key) => {
   const method = Array.prototype[key] as any;
   arrayInstrumentations[key] = function(this: unknown[], ...args: unknown[]) {
-    console.log(this)
+    console.log(this);
     const arr = toRaw(this); // 返回原始对象
-    console.log(arr,'arr');
+    console.log(arr, "arr");
     // 添加响应式
     for (let i = 0, l = this.length; i < l; i++) {
       track(arr, TrackOpTypes.GET, i + "");
@@ -78,8 +79,15 @@ function createGetter(isReadonly = false, shallow = false) {
     if (shallow) {
       return result;
     }
+
+    if (isRef(result)) {
+
+      // 是数组的话将返回ref,不进行解包
+      // // 
+      // const shouldUnwrap = !targetIsArray || !isIntegerKey(key);
+      // return shouldUnwrap ? result.value : result;
+    }
     return result;
-    
   };
 }
 
