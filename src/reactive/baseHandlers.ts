@@ -10,8 +10,8 @@ import {
 import { isArray, hasOwn, isSymbol, isIntegerKey, isObject } from "@/shared";
 import { track, trigger, pauseTracking, resetTracking } from "./effect";
 import { isRef } from "./ref";
-import { readonly } from 'vue';
-
+import { readonly } from "vue";
+export const ITERATE_KEY = Symbol("");
 export const arrayInstrumentations: Record<string, Function> = {};
 
 // Symbol()没有全局登记机制 Symbol.for('string')具有全局登记机制
@@ -46,11 +46,17 @@ export const arrayInstrumentations: Record<string, Function> = {};
   };
 });
 
-export const builtInSymbols = new Set([
+const builtInSymbols = new Set(
   Object.getOwnPropertyNames(Symbol)
     .map((key) => (Symbol as any)[key])
-    .filter(isSymbol),
-]);
+    .filter(isSymbol)
+);
+
+// const builtInSymbols = new Set(
+//   Object.getOwnPropertyNames(Symbol)
+//     .map(key => (Symbol as any)[key])
+//     .filter(isSymbol)
+// )
 // console.log(builtInSymbols, "builtinsymbol");
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: Target, key: string | symbol, receiver: object) {
@@ -86,8 +92,8 @@ function createGetter(isReadonly = false, shallow = false) {
       // 当不是为数组的时候或者不是整数的时候,才进行做某些事情
       return shouldUnwrap ? result.value : result;
     }
-    if(isObject(result)){
-      return isReadonly ? readonly(result) : reactive(result) 
+    if (isObject(result)) {
+      return isReadonly ? readonly(result) : reactive(result);
     }
     return result;
   };
@@ -116,8 +122,38 @@ function createSetter(shallow = false) {
   };
 }
 const set = createSetter();
+// 拦截删除的操作
+function deleteProperty(target: object, key: string | symbol): boolean {
+  // hasOwn 只是检测浅层
+  const hadKey = hasOwn(target, key);
+  const oldValue = (target as any)[key];
+  const result = Reflect.deleteProperty(target, key);
+  // 删除深层的包括原型链的话，不会触发依赖
+  if (hadKey && result) {
+    // 触发依赖
+    trigger(target, TriggerOpTypes.DELETE, key, undefined, oldValue);
+  }
+  return result;
+}
+// 拦截has的操作
+function has(target: object, key: string | symbol): boolean {
+  const result = Reflect.has(target, key);
+  // symbol并不能触发响应式
+  if (!isSymbol(key) || !builtInSymbols.has(key)) {
+    track(target, TrackOpTypes.HAS, key);
+  }
+  return result;
+}
+// 列举所有的keys 也会进行依赖追踪
+function ownKeys(target: object): (string | number | symbol)[] {
+  track(target, TrackOpTypes.ITERATE, isArray(target) ? "length" : ITERATE_KEY);
+  return Reflect.ownKeys(target);
+}
 
 export const mutableHandlers: ProxyHandler<object> = {
   get,
   set,
+  deleteProperty,
+  has,
+  ownKeys,
 };
