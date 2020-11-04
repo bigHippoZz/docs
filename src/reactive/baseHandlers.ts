@@ -51,12 +51,6 @@ const builtInSymbols = new Set(
     .map((key) => (Symbol as any)[key])
     .filter(isSymbol)
 );
-
-// const builtInSymbols = new Set(
-//   Object.getOwnPropertyNames(Symbol)
-//     .map(key => (Symbol as any)[key])
-//     .filter(isSymbol)
-// )
 // console.log(builtInSymbols, "builtinsymbol");
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: Target, key: string | symbol, receiver: object) {
@@ -127,6 +121,8 @@ function deleteProperty(target: object, key: string | symbol): boolean {
   // hasOwn 只是检测浅层
   const hadKey = hasOwn(target, key);
   const oldValue = (target as any)[key];
+  // Reflect 并不会删除原型链上的数据
+  // 返回值代表是否会删除成功 例如 Object.freeze() 中就不会删除成功
   const result = Reflect.deleteProperty(target, key);
   // 删除深层的包括原型链的话，不会触发依赖
   if (hadKey && result) {
@@ -135,7 +131,7 @@ function deleteProperty(target: object, key: string | symbol): boolean {
   }
   return result;
 }
-// 拦截has的操作
+// 拦截has的操作 也就是 in 的拦截，但是for in 并不会进行拦截
 function has(target: object, key: string | symbol): boolean {
   const result = Reflect.has(target, key);
   // symbol并不能触发响应式
@@ -145,6 +141,9 @@ function has(target: object, key: string | symbol): boolean {
   return result;
 }
 // 列举所有的keys 也会进行依赖追踪
+// Object.getOwnPropertyNames() 只会列举string number类型的key 还包括不可枚举的属性
+// Object.getOwnPropertySymbols() 列举 symbol 类型的key symbol能够被列举出来
+// Object.keys() 列举string number中的可枚举属性 symbol 不能被列举出来
 function ownKeys(target: object): (string | number | symbol)[] {
   track(target, TrackOpTypes.ITERATE, isArray(target) ? "length" : ITERATE_KEY);
   return Reflect.ownKeys(target);
