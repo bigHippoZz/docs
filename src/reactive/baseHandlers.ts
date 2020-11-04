@@ -83,6 +83,7 @@ function createGetter(isReadonly = false, shallow = false) {
     if (isRef(result)) {
       // 是数组的话将返回ref,不进行解包
       const shouldUnwrap = !targetIsArray || !isIntegerKey(key);
+      // 当不是为数组的时候或者不是整数的时候,才进行做某些事情
       return shouldUnwrap ? result.value : result;
     }
     if(isObject(result)){
