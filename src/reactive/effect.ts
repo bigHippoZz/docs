@@ -135,6 +135,7 @@ export function effect<T = any>(
 // 跟踪依赖
 export function track(target: object, type: TrackOpTypes, key: unknown) {
   if (!shouldTrack || activeEffect === undefined) {
+    console.log(`Does not trigger responsive -> key:[${key}]`);
     return;
   }
   let depsMap = targetMap.get(target);

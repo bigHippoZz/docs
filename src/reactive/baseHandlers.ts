@@ -7,7 +7,7 @@ import {
   toRaw,
   reactive,
 } from "./reactive";
-import { isArray, hasOwn, isSymbol, isIntegerKey, isObject } from "@/shared";
+import { isArray, hasOwn, isSymbol, isIntegerKey, isObject, extend } from "@/shared";
 import { track, trigger, pauseTracking, resetTracking } from "./effect";
 import { isRef } from "./ref";
 import { readonly } from "vue";
@@ -51,7 +51,8 @@ const builtInSymbols = new Set(
     .map((key) => (Symbol as any)[key])
     .filter(isSymbol)
 );
-// console.log(builtInSymbols, "builtinsymbol");
+
+console.log(builtInSymbols, "builtinsymbol");
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: Target, key: string | symbol, receiver: object) {
     // 判断当前是不是readonly
@@ -116,12 +117,15 @@ function createSetter(shallow = false) {
   };
 }
 const set = createSetter();
+
+const shallowSet = /*#__PURE__*/ createSetter(true)
 // 拦截删除的操作
 function deleteProperty(target: object, key: string | symbol): boolean {
-  // hasOwn 只是检测浅层
+  // hasOwn 只是检测浅层，但是由于Refect.deleteProperty(target, key) 中不管有没有key 都会返回true
+  // 所以要进行判断
   const hadKey = hasOwn(target, key);
   const oldValue = (target as any)[key];
-  // Reflect 并不会删除原型链上的数据
+  // Reflect 并不会删除原型链上的数据，如果属性不可配置，则返回false
   // 返回值代表是否会删除成功 例如 Object.freeze() 中就不会删除成功
   const result = Reflect.deleteProperty(target, key);
   // 删除深层的包括原型链的话，不会触发依赖
@@ -135,6 +139,7 @@ function deleteProperty(target: object, key: string | symbol): boolean {
 function has(target: object, key: string | symbol): boolean {
   const result = Reflect.has(target, key);
   // symbol并不能触发响应式
+  // builtInSymbols.has(key))暂时理解为访问原型链上的属性并不会触发依赖追踪
   if (!isSymbol(key) || !builtInSymbols.has(key)) {
     track(target, TrackOpTypes.HAS, key);
   }
@@ -145,10 +150,10 @@ function has(target: object, key: string | symbol): boolean {
 // Object.getOwnPropertySymbols() 列举 symbol 类型的key symbol能够被列举出来
 // Object.keys() 列举string number中的可枚举属性 symbol 不能被列举出来
 function ownKeys(target: object): (string | number | symbol)[] {
+  // 枚举时 数组的话会依赖追踪他的length
   track(target, TrackOpTypes.ITERATE, isArray(target) ? "length" : ITERATE_KEY);
   return Reflect.ownKeys(target);
 }
-
 export const mutableHandlers: ProxyHandler<object> = {
   get,
   set,
@@ -156,3 +161,32 @@ export const mutableHandlers: ProxyHandler<object> = {
   has,
   ownKeys,
 };
+
+export const readonlyHandlers: ProxyHandler<object> = {
+  get: readonlyGet,
+  set() {
+    console.log("failed(set):target is readonly");
+    return true;
+  },
+  deleteProperty() {
+    console.log("faild(deleteProperty):target is readonly");
+    return true;
+  },
+};
+
+export const shallowReactiveHandlers: ProxyHandler<object> = extend(
+  {},
+  mutableHandlers,
+  {
+    get: shallowGet,
+    set: shallowSet,
+  }
+);
+export const shallowReadonlyHandlers: ProxyHandler<object> = extend(
+  {},
+  readonlyHandlers,
+  {
+    get: shallowReadonlyGet
+  }
+)
+

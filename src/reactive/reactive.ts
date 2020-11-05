@@ -1,7 +1,7 @@
 import { toRawType, isObject, def } from "../shared/index";
 
 
-import { mutableHandlers } from './baseHandlers';
+import { mutableHandlers, readonlyHandlers, shallowReactiveHandlers } from './baseHandlers';
 export const enum ReactiveFlags {
   SKIP = "__v_skip", // 响应式白名单
   IS_REACTIVE = "__v_isReactive",
@@ -101,6 +101,30 @@ export function reactive(target: object) {
   }
     return createReactiveObject(target,false,mutableHandlers,mutableHandlers)
 }
+
+
+// export function shallowReactive<T extends object>(target: T): T {
+//   return createReactiveObject(
+//     target,
+//     false,
+//     shallowReactiveHandlers,
+//     shallowCollectionHandlers
+//   )
+// }
+
+
+
+// export function readonly<T extends object>(
+//   target: T
+// ){
+//   return createReactiveObject(
+//     target,
+//     true,
+//     readonlyHandlers,
+//     readonlyCollectionHandlers
+//   )
+// }
+
 // 判断是不是readonly
 export const isReadonly = (value: unknown): boolean => {
   return !!(value && (value as Target)[ReactiveFlags.IS_READONLY]);

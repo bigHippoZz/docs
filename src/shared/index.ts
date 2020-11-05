@@ -43,3 +43,4 @@ export const isIntegerKey = (key: unknown) => {
   );
 };
 
+export const extend = Object.assign;
