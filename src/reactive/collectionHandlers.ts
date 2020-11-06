@@ -63,6 +63,6 @@ function size(target: IterableCollections, isReadonly = false) {
 }
 
 
-function add(this:SetTypes,value:unknown){
+// function add(this:SetTypes,value:unknown){
     
-}
+// }

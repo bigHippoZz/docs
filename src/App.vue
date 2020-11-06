@@ -36,23 +36,23 @@ function useuseFeatureX() {
 export default {
   name: "App",
   setup() {
-    const reactiveArr = reactive([1, 2, 3, 4, 5, ref(6)]);
-    console.log(reactiveArr[5]);
-    const current = { name: "liwuzhou" };
-    const p = new Proxy(current, {
-      get<T extends {}, K extends keyof T>(target: T, key: K) {
-        console.log(key);
-        console.log(target[key]);
-        return target[key];
-      },
-      set<T extends object, K extends keyof T>(target: T, key: K, value: any) {
-        return (target[key] = value);
-      },
-      has(target, key) {
-        console.log(key, "has -> key");
-        return Reflect.has(target, key);
-      },
-    });
+    // const reactiveArr = reactive([1, 2, 3, 4, 5, ref(6)]);
+    // console.log(reactiveArr[5]);
+    // const current = { name: "liwuzhou" };
+    // const p = new Proxy(current, {
+    //   get<T extends {}, K extends keyof T>(target: T, key: K) {
+    //     console.log(key);
+    //     console.log(target[key]);
+    //     return target[key];
+    //   },
+    //   set<T extends object, K extends keyof T>(target: T, key: K, value: any) {
+    //     return (target[key] = value);
+    //   },
+    //   has(target, key) {
+    //     console.log(key, "has -> key");
+    //     return Reflect.has(target, key);
+    //   },
+    // });
     // console.log(Object.getOwnPropertySymbols(Symbol.prototype));
     // console.log(Object.getOwnPropertyNames(Symbol.prototype));
     // const reativeStateArr = reactive([1, 2, 3, 4, 5, 6]);
@@ -60,11 +60,11 @@ export default {
     //   console.log(Object.keys(reativeStateArr).length);
     // })
     // console.log(reativeStateArr.push(10));
-    const object = reactive({ name: "liwuzhou" });
-    watchEffect(() => {
-      console.log(Object.keys(object));
-    });
-    (object as any)["age"] = "23";
+    // const object = reactive({ name: "liwuzhou" });
+    // watchEffect(() => {
+    //   console.log(Object.keys(object));
+    // });
+    // (object as any)["age"] = "23";
   },
 };
 </script>
