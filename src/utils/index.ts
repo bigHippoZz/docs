@@ -256,31 +256,115 @@ class FlyweightFactory {
   }
 }
 
-
 const factory = new FlyweightFactory([
-  ['Chevrolet', 'Camaro2018', 'pink'],
-  ['Mercedes Benz', 'C300', 'black'],
-  ['Mercedes Benz', 'C500', 'red'],
-  ['BMW', 'M5', 'red'],
-  ['BMW', 'X6', 'white'],
+  ["Chevrolet", "Camaro2018", "pink"],
+  ["Mercedes Benz", "C300", "black"],
+  ["Mercedes Benz", "C500", "red"],
+  ["BMW", "M5", "red"],
+  ["BMW", "X6", "white"],
   // ...
 ]);
 
 function addCarToPoliceDatabase(
-  ff: FlyweightFactory, plates: string, owner: string,
-  brand: string, model: string, color: string,
+  ff: FlyweightFactory,
+  plates: string,
+  owner: string,
+  brand: string,
+  model: string,
+  color: string
 ) {
-  console.log('\nClient: Adding a car to database.');
+  console.log("\nClient: Adding a car to database.");
   const flyweight = ff.getFlyweight([brand, model, color]);
   // The client code either stores or calculates extrinsic state and passes it
   // to the flyweight's methods.
   flyweight.operation([plates, owner]);
 }
-addCarToPoliceDatabase(factory, 'CL234IR', 'James Doe', 'BMW', 'M5', 'red');
-addCarToPoliceDatabase(factory, 'CL234IR', 'James Doe', 'BMW', 'X1', 'red');
-factory.listFlyweights();
+// addCarToPoliceDatabase(factory, "CL234IR", "James Doe", "BMW", "M5", "red");
+// addCarToPoliceDatabase(factory, "CL234IR", "James Doe", "BMW", "X1", "red");
+// factory.listFlyweights();
 
-console.log(factory)
+// console.log(factory);
+
+interface Command {
+  execute(): void;
+}
+
+class SimpleCommand implements Command {
+  private payload: string;
+  constructor(payload: string) {
+    this.payload = payload;
+  }
+  execute(): void {
+    console.log(`simple: do someting ${this.payload}`);
+  }
+}
+
+class ComplexCommand implements Command {
+  private receiver: Receiver;
+  private a: string;
+  private b: string;
+  constructor(receiver: Receiver, a: string, b: string) {
+    this.receiver = receiver;
+    this.a = a;
+    this.b = b;
+  }
+  execute(): void {
+    console.log(
+      "ComplexCommand: Complex stuff should be done by a receiver object."
+    );
+    this.receiver.dosomething(this.a);
+    this.receiver.doSomethingElse(this.b);
+  }
+}
+
+class Receiver {
+  dosomething(a: string) {
+    console.log("a", a);
+  }
+  doSomethingElse(b: string) {
+    console.log("b", b);
+  }
+}
+
+class Invoke {
+  private onStart!: Command;
+  private onEnd!: Command;
+  setOnStart(command: Command): void {
+    this.onStart = command;
+  }
+  setOnFinish(command: Command): void {
+    this.onEnd = command;
+  }
+  doSomethingImportant() {
+    if (this.isCommand(this.onStart)) {
+      this.onStart.execute();
+    }
+    if (this.isCommand(this.onEnd)) {
+      this.onEnd.execute();
+    }
+  }
+  private isCommand(object: unknown): object is Command {
+    return (object as Command)?.execute !== undefined;
+  }
+}
+
+// const invoke  = new Invoke()
+// const receiver = new Receiver()
+// const command = new ComplexCommand(receiver,'a','b')
+// invoke.setOnStart(command)
+// invoke.doSomethingImportant()
 
 
 
+
+// 将具体业务有中介者进行分发，组件只负责处理事件
+interface Mediator {
+  notify(): void;
+}
+
+
+class BaseMediator implements Mediator {
+  notify() {
+    console.log("notify");
+  }
+}
