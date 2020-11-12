@@ -30,6 +30,14 @@ export const isSymbol = (val: unknown): val is symbol =>
 // 判断当前是不是string类型
 export const isString = (val: unknown): val is string =>
   typeof val === "string";
+// 判断当前是不是map类型
+export const isMap = (val: unknown): val is Map<any, any> =>
+  toTypeString(val) === "[object Map]";
+// 判断当前是不是set类型
+export const isSet = (val: unknown): val is Set<any> =>
+  toTypeString(val) === "[object Set]";
+export const isFunction = (val: unknown): val is Function =>
+  typeof val === "function";
 // 判断当前变量是否发生变更， 排除NaN
 export const hasChanged = (newVal: unknown, oldVal: unknown): boolean =>
   newVal !== oldVal && (newVal === newVal || oldVal === oldVal);

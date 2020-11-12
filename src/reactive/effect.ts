@@ -1,6 +1,7 @@
-import { isArray } from "@/shared";
+import { isArray, isIntegerKey, isMap } from "@/shared";
+import { ITERATE_KEY } from './baseHandlers';
 import { TrackOpTypes, TriggerOpTypes } from "./operations";
-
+export const MAP_KEY_ITERATE_KEY = Symbol("");
 // 依赖
 type Dep = Set<ReactiveEffect>;
 // key对应的依赖
@@ -47,6 +48,7 @@ export interface DebuggerEventExtraInfo {
   oldValue?: any;
   oldTarget?: Map<any, any> | Set<any>;
 }
+
 // 入栈 track   暂停跟踪
 export function pauseTracking() {
   trackStack.push(shouldTrack);
@@ -73,6 +75,18 @@ function cleanup(effect: ReactiveEffect) {
     deps.length = 0;
   }
 }
+
+
+export function stop(effect: ReactiveEffect) {
+  if (effect.active) {
+    cleanup(effect);
+    if (effect.options.onStop) {
+      effect.options.onStop();
+    }
+    effect.active = false;
+  }
+}
+
 export function isEffect(func: any): func is ReactiveEffect {
   return func && func._isEffect === true;
 }
@@ -82,10 +96,14 @@ function createReactiveEffect<T = any>(
   options: ReactiveEffectOptions
 ): ReactiveEffect<T> {
   const effect = function reactiveEffect(): unknown {
+    // 停止响应式追踪
     if (!effect.active) {
+      // 如果有scheduler就会停止响应
       return options.scheduler ? undefined : fn();
     }
+    // 防止多层嵌套
     if (!effectStack.includes(effect)) {
+      console.log('%cstart effectStack track','color:red')
       cleanup(effect);
       try {
         // 开始进行跟踪
@@ -121,6 +139,7 @@ export function effect<T = any>(
 ): ReactiveEffect<T> {
   //  如果是effect函数直接进行重新赋值
   if (isEffect(fn)) {
+    console.log(fn,'fn')
     fn = fn.raw;
   }
   // 创建effect
@@ -134,6 +153,7 @@ export function effect<T = any>(
 }
 // 跟踪依赖
 export function track(target: object, type: TrackOpTypes, key: unknown) {
+  
   if (!shouldTrack || activeEffect === undefined) {
     console.log(`Does not trigger responsive -> key:[${key}]`);
     return;
@@ -160,6 +180,7 @@ export function track(target: object, type: TrackOpTypes, key: unknown) {
     }
   }
 }
+
 // 触发依赖
 export function trigger(
   target: object,
@@ -169,13 +190,13 @@ export function trigger(
   oldValue?: unknown,
   oldTarget?: Map<unknown, unknown> | Set<unknown>
 ) {
+  
   const depsMap = targetMap.get(target);
   // 并未进行跟踪
   if (!depsMap) {
     return;
   }
   const effects = new Set<ReactiveEffect>();
-
   // debugger
   const add = (effectsToAdd: Set<ReactiveEffect> | undefined) => {
     if (effectsToAdd) {
@@ -200,6 +221,32 @@ export function trigger(
     if (key !== void 0) {
       add(depsMap.get(key));
     }
+  }
+  switch (type) {
+    case TriggerOpTypes.ADD:
+      if(!isArray(target)){
+        add(depsMap.get(ITERATE_KEY))
+        if(isMap(target)){
+          add(depsMap.get(MAP_KEY_ITERATE_KEY))
+        }
+      }else if(isIntegerKey(key)){
+        add(depsMap.get('length'))
+      }
+      break;
+  
+    case TriggerOpTypes.DELETE:
+      if(!isArray(target)){
+        add(depsMap.get(ITERATE_KEY))
+        if(isMap(target)){
+          add(depsMap.get(MAP_KEY_ITERATE_KEY))
+        }
+      }
+      break;
+    case TriggerOpTypes.SET:
+      if(isMap(target)){
+        add(depsMap.get(ITERATE_KEY))
+      }
+      break;
   }
 
   const run = (effect: ReactiveEffect) => {

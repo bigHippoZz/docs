@@ -1,19 +1,17 @@
 import { toRawType, isObject, def } from "../shared/index";
-
-
 import { mutableHandlers, readonlyHandlers, shallowReactiveHandlers } from './baseHandlers';
+import { readonlyCollectionHandlers, shallowCollectionHandlers } from './collectionHandlers';
 export const enum ReactiveFlags {
   SKIP = "__v_skip", // 响应式白名单
   IS_REACTIVE = "__v_isReactive",
   IS_READONLY = "__v_isReadonly", 
   RAW = "__v_raw", // 获取原始对象
 }
-
 export interface Target {
-  [ReactiveFlags.SKIP]?: boolean;
+  [ReactiveFlags.SKIP]?: boolean; /** 转化为响应式白名单 */
   [ReactiveFlags.IS_REACTIVE]?: boolean;
   [ReactiveFlags.IS_READONLY]?: boolean;
-  [ReactiveFlags.RAW]?: any;
+  [ReactiveFlags.RAW]?: any; /** 原始对象 */
 }
 
 export const reactiveMap = new WeakMap<Target, any>();
@@ -103,27 +101,27 @@ export function reactive(target: object) {
 }
 
 
-// export function shallowReactive<T extends object>(target: T): T {
-//   return createReactiveObject(
-//     target,
-//     false,
-//     shallowReactiveHandlers,
-//     shallowCollectionHandlers
-//   )
-// }
+export function shallowReactive<T extends object>(target: T): T {
+  return createReactiveObject(
+    target,
+    false,
+    shallowReactiveHandlers,
+    shallowCollectionHandlers
+  )
+}
 
 
 
-// export function readonly<T extends object>(
-//   target: T
-// ){
-//   return createReactiveObject(
-//     target,
-//     true,
-//     readonlyHandlers,
-//     readonlyCollectionHandlers
-//   )
-// }
+export function readonly<T extends object>(
+  target: T
+){
+  return createReactiveObject(
+    target,
+    true,
+    readonlyHandlers,
+    readonlyCollectionHandlers
+  )
+}
 
 // 判断是不是readonly
 export const isReadonly = (value: unknown): boolean => {

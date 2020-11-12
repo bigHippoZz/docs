@@ -6,11 +6,20 @@ import {
   ReactiveFlags,
   toRaw,
   reactive,
+  readonly,
 } from "./reactive";
-import { isArray, hasOwn, isSymbol, isIntegerKey, isObject, extend } from "@/shared";
+import {
+  isArray,
+  hasOwn,
+  isSymbol,
+  isIntegerKey,
+  isObject,
+  extend,
+  hasChanged,
+} from "@/shared";
 import { track, trigger, pauseTracking, resetTracking } from "./effect";
 import { isRef } from "./ref";
-import { readonly } from "vue";
+
 export const ITERATE_KEY = Symbol("");
 export const arrayInstrumentations: Record<string, Function> = {};
 
@@ -109,16 +118,29 @@ function createSetter(shallow = false) {
     const oldValue = (target as any)[key];
     if (!shallow) {
       value = toRaw(value);
+      if (!isArray(target) && isRef(oldValue) && !isRef(value)) {
+        oldValue.value = value;
+        return true;
+      }
     }
+    const hadKey =
+      isArray(target) && isIntegerKey(key)
+        ? Number(key) < target.length
+        : hasOwn(target, key);
     const result = Reflect.set(target, key, value, receiver);
-    // 触发依赖
-    trigger(target, TriggerOpTypes.SET, key, value, oldValue);
+    if (target === toRaw(receiver)) {
+      if (!hadKey) {
+        trigger(target, TriggerOpTypes.ADD, key, value);
+      } else if (hasChanged(value, oldValue)) {
+        trigger(target, TriggerOpTypes.SET, key, value, oldValue);
+      }
+    }
     return result;
   };
 }
 const set = createSetter();
 
-const shallowSet = /*#__PURE__*/ createSetter(true)
+const shallowSet = /*#__PURE__*/ createSetter(true);
 // 拦截删除的操作
 function deleteProperty(target: object, key: string | symbol): boolean {
   // hasOwn 只是检测浅层，但是由于Refect.deleteProperty(target, key) 中不管有没有key 都会返回true
@@ -186,7 +208,6 @@ export const shallowReadonlyHandlers: ProxyHandler<object> = extend(
   {},
   readonlyHandlers,
   {
-    get: shallowReadonlyGet
+    get: shallowReadonlyGet,
   }
-)
-
+);

@@ -9,20 +9,27 @@
 <script lang="ts">
 import { EnhanceWebSocket } from "./utils/WebSocket";
 import "./utils/compile";
-import {
-  reactive,
-  computed,
-  watchEffect,
-  readonly,
-  isReadonly,
-  isReactive,
-  ref,
-  customRef,
-  toRef,
-  toRefs,
-} from "vue";
+// import {
+//   reactive,
+//   computed,
+//   watchEffect,
+//   readonly,
+//   isReadonly,
+//   isReactive,
+//   ref,
+//   customRef,
+//   toRef,
+//   toRefs,
+// } from "vue";
 
-// import { effect, reactive, targetMap, ref, shallowRef } from "./reactive/index";
+import {
+  effect,
+  reactive,
+  targetMap,
+  ref,
+  shallowRef,
+  computed,
+} from "./reactive/index";
 import { trigger } from "./reactive/effect";
 
 function useuseFeatureX() {
@@ -36,6 +43,30 @@ function useuseFeatureX() {
 export default {
   name: "App",
   setup() {
+    const numberReative = reactive({ name: 10 });
+    const numberComputed = computed(() => numberReative.name + 1);
+    const nextComputed = computed(()=>numberComputed.value+10)
+    console.log(numberComputed.value);
+    console.log(nextComputed.value);
+    numberReative.name  = 20
+    console.log(nextComputed.value)
+    // console.log(numberComputed.value);
+    // console.log(numberComputed.effect)
+    // const stringReative = reactive({ string: 100 });
+    // const numberComputed = computed(
+    //   () => numberReative.name + 12 + stringReative.string
+    // );
+    // const state = reactive({
+    //   computed: numberComputed,
+    // });
+    // const nextComputed = computed(() => numberComputed.value + 1);
+    // ++stringReative.string;
+    // console.log(numberComputed.value);
+    // ++numberReative.name;
+    // // console.log(++numberReative.name);
+    // // console.log();
+    // console.log(numberComputed.value);
+    // console.log(nextComputed.value)
     // const reactiveArr = reactive([1, 2, 3, 4, 5, ref(6)]);
     // console.log(reactiveArr[5]);
     // const current = { name: "liwuzhou" };
