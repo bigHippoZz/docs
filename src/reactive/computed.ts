@@ -40,9 +40,9 @@ class ComputedRefImpl<T> {
     this.effect = effect(getter, {
       lazy: true, // 延迟执行
       scheduler: () => {
-          
         if (!this._dirty) {
           this._dirty = true; // 将数据弄脏
+        //   执行依赖当前computed的依赖
           trigger(toRaw(this), TriggerOpTypes.SET, "value");
         }
       },

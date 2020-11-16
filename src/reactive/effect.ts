@@ -28,10 +28,10 @@ export interface ReactiveEffect<T = any> {
 }
 
 export interface ReactiveEffectOptions {
-  lazy?: boolean;
-  scheduler?: (job: ReactiveEffect) => void;
-  onTrack?: (event: DebuggerEvent) => void;
-  onTrigger?: (event: DebuggerEvent) => void;
+  lazy?: boolean;// 是否延迟执行
+  scheduler?: (job: ReactiveEffect) => void;//调度函数
+  onTrack?: (event: DebuggerEvent) => void;//追踪时触发
+  onTrigger?: (event: DebuggerEvent) => void;//触发回调时触发
   onStop?: () => void;
   allowRecurse?: boolean;
 }
@@ -153,7 +153,8 @@ export function effect<T = any>(
 }
 // 跟踪依赖
 export function track(target: object, type: TrackOpTypes, key: unknown) {
-  
+  // 根据shouldTrack进行判断是否停止依赖追踪
+  // activeEffect判断当前是否有effect执行
   if (!shouldTrack || activeEffect === undefined) {
     console.log(`Does not trigger responsive -> key:[${key}]`);
     return;

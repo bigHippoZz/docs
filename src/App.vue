@@ -43,59 +43,23 @@ function useuseFeatureX() {
 export default {
   name: "App",
   setup() {
-    const numberReative = reactive({ name: 10 });
-    const numberComputed = computed(() => numberReative.name + 1);
-    const nextComputed = computed(()=>numberComputed.value+10)
-    console.log(numberComputed.value);
-    console.log(nextComputed.value);
-    numberReative.name  = 20
-    console.log(nextComputed.value)
+    const nums = reactive({ num1: 1, num2: 2 });
+    const func1 = () => {
+      nums.num1 = nums.num2;
+    };
+    const func2 = () => {
+      nums.num2 = nums.num1;
+    };
+    effect(func1)
+    effect(func2)
+    nums.num2 = 10
+    // const numberReative = reactive({ name: 10 });
+    // const numberComputed = computed(() => numberReative.name + 1);
+    // const nextComputed = computed(()=>numberComputed.value+10)
     // console.log(numberComputed.value);
-    // console.log(numberComputed.effect)
-    // const stringReative = reactive({ string: 100 });
-    // const numberComputed = computed(
-    //   () => numberReative.name + 12 + stringReative.string
-    // );
-    // const state = reactive({
-    //   computed: numberComputed,
-    // });
-    // const nextComputed = computed(() => numberComputed.value + 1);
-    // ++stringReative.string;
-    // console.log(numberComputed.value);
-    // ++numberReative.name;
-    // // console.log(++numberReative.name);
-    // // console.log();
-    // console.log(numberComputed.value);
+    // console.log(nextComputed.value);
+    // numberReative.name  = 20
     // console.log(nextComputed.value)
-    // const reactiveArr = reactive([1, 2, 3, 4, 5, ref(6)]);
-    // console.log(reactiveArr[5]);
-    // const current = { name: "liwuzhou" };
-    // const p = new Proxy(current, {
-    //   get<T extends {}, K extends keyof T>(target: T, key: K) {
-    //     console.log(key);
-    //     console.log(target[key]);
-    //     return target[key];
-    //   },
-    //   set<T extends object, K extends keyof T>(target: T, key: K, value: any) {
-    //     return (target[key] = value);
-    //   },
-    //   has(target, key) {
-    //     console.log(key, "has -> key");
-    //     return Reflect.has(target, key);
-    //   },
-    // });
-    // console.log(Object.getOwnPropertySymbols(Symbol.prototype));
-    // console.log(Object.getOwnPropertyNames(Symbol.prototype));
-    // const reativeStateArr = reactive([1, 2, 3, 4, 5, 6]);
-    // effect(()=>{
-    //   console.log(Object.keys(reativeStateArr).length);
-    // })
-    // console.log(reativeStateArr.push(10));
-    // const object = reactive({ name: "liwuzhou" });
-    // watchEffect(() => {
-    //   console.log(Object.keys(object));
-    // });
-    // (object as any)["age"] = "23";
   },
 };
 </script>
