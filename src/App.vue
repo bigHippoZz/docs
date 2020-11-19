@@ -53,13 +53,6 @@ export default {
     effect(func1)
     effect(func2)
     nums.num2 = 10
-    // const numberReative = reactive({ name: 10 });
-    // const numberComputed = computed(() => numberReative.name + 1);
-    // const nextComputed = computed(()=>numberComputed.value+10)
-    // console.log(numberComputed.value);
-    // console.log(nextComputed.value);
-    // numberReative.name  = 20
-    // console.log(nextComputed.value)
   },
 };
 </script>
