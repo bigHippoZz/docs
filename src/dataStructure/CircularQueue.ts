@@ -1,20 +1,16 @@
-class CircularQueue<T> {
-  private head: number;
-  private tail: number;
-  private queue: Array<T>;
-  private len: number;
+class Queue<T> {
+  len: number;
+  head: number;
+  tail: number;
+  queue: Array<T>;
+
   constructor(len: number) {
-    // 头部
-    this.head = -1;
-    // 尾部
-    this.tail = -1;
-    // 当前队列
-    this.queue = [];
-    // 当前队列最大容量
     this.len = len;
+    this.head = -1;
+    this.tail = -1;
+    this.queue = [];
   }
-  //   队列添加项
-  enQueue(value: T): boolean {
+  enQueue(value: T) {
     if (this.isFull()) {
       return false;
     }
@@ -25,8 +21,7 @@ class CircularQueue<T> {
     this.queue[this.tail] = value;
     return true;
   }
-  //   队列删除项
-  deQueue(): boolean {
+  deQueue() {
     if (this.isEmpty()) {
       return false;
     }
@@ -37,31 +32,24 @@ class CircularQueue<T> {
     }
     return true;
   }
-  //   是不是空
-  isEmpty(): boolean {
+  isEmpty() {
     return this.head === -1;
   }
-  //   是不是满了
-  isFull(): boolean {
+  isFull() {
     return this.head === (this.tail + 1) % this.len;
-  }
-  //   获取首个元素
-  Front(): T {
-    return this.queue[this.head];
-  }
-  //   获取最后的元素
-  Rear(): T {
-    return this.queue[this.tail];
   }
 }
 
-// 首先不会清空队列的！！！！
-// 然后用新的数据进行替代
-const queue = new CircularQueue(3);
+const queue = new Queue(3);
+
 queue.enQueue(10);
-queue.enQueue(20);
-queue.enQueue(30);
+queue.enQueue(10);
+queue.enQueue(10);
 queue.deQueue();
 queue.deQueue();
-// queue.deQueue();
 console.log(queue.isEmpty());
+console.log(queue);
+// head tail 初始值为-1
+// 利用求余来进行循环
+// tail 永远追不上 head
+// head 可以追上 tail
