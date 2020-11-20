@@ -43,7 +43,7 @@ function useuseFeatureX() {
 export default {
   name: "App",
   setup() {
-    useForEachNode("#nav").then((res) => console.log(res));
+    useForEachNode("#app").then((res) => console.log(res));
   },
 };
 </script>
