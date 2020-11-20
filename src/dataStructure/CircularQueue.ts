@@ -64,4 +64,4 @@ queue.enQueue(30);
 queue.deQueue();
 queue.deQueue();
 // queue.deQueue();
-console.log(queue.isEmpty());
+// console.log(queue.isEmpty());
