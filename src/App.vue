@@ -21,7 +21,7 @@ import "./utils/compile";
 //   toRef,
 //   toRefs,
 // } from "vue";
-
+import { onMounted } from "vue";
 import {
   effect,
   reactive,
@@ -31,7 +31,7 @@ import {
   computed,
 } from "./reactive/index";
 import { trigger } from "./reactive/effect";
-
+import { useForEachNode } from "./algorithm/BSF";
 function useuseFeatureX() {
   const state = reactive({
     foo: 1,
@@ -43,16 +43,7 @@ function useuseFeatureX() {
 export default {
   name: "App",
   setup() {
-    const nums = reactive({ num1: 1, num2: 2 });
-    const func1 = () => {
-      nums.num1 = nums.num2;
-    };
-    const func2 = () => {
-      nums.num2 = nums.num1;
-    };
-    effect(func1)
-    effect(func2)
-    nums.num2 = 10
+    useForEachNode("#app").then((res) => console.log(res));
   },
 };
 </script>

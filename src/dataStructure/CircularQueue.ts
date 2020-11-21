@@ -47,9 +47,5 @@ queue.enQueue(10);
 queue.enQueue(10);
 queue.deQueue();
 queue.deQueue();
-console.log(queue.isEmpty());
-console.log(queue);
-// head tail 初始值为-1
-// 利用求余来进行循环
-// tail 永远追不上 head
-// head 可以追上 tail
+// queue.deQueue();
+// console.log(queue.isEmpty());
