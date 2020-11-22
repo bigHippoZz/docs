@@ -14,4 +14,3 @@ contextReactive.keys().forEach((file) => contextReactive(file));
 
 const dataStructure = require.context("./dataStructure", true, /\.ts$/);
 dataStructure.keys().forEach((file) => dataStructure(file));
-
