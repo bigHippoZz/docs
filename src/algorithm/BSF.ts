@@ -124,55 +124,46 @@ export function useForEachNode(el: string) {
 // 类似一种藤曼的衍生 最重要的是怎样添加下一轮的队列搜索 然后处理边界问题
 // 在每一轮的搜索，或者是出队列的时候做一些事情
 
-interface RoutesMap {
-  [props: string]: Set<number>;
-}
 function numBusesToDestination(
   routes: number[][],
   S: number,
   T: number
 ): number {
-  function swip(a: unknown, b: unknown) {
-    const temp = a;
-    a = b;
-    b = temp;
-  }
-  const routesMap: RoutesMap = {};
+  if (S === T) return 0;
+  const routesMap = new Map<number, Set<number>>();
   for (let row = 0; row < routes.length; row++) {
-    for (let col = 0; col < routes[row].length; col++) {
-      if (!routesMap[routes[row][col]]) {
-        routesMap[routes[row][col]] = new Set<number>();
+    for (const stop of routes[row]) {
+      if (!routesMap.has(stop)) {
+        routesMap.set(stop, new Set<number>());
       }
-      for (let i = 0; i < routes[row].length; i++) {
-        if (i === col) continue;
-        routesMap[routes[row][col]].add(routes[row][i]);
-      }
+      routesMap.get(stop)?.add(row);
     }
   }
-
-  const routesSet = new Set();
-  routesSet.add(S);
-  const startingQueue = [[S, 0]];
-  const endQueue = [[T, 0]];
-  while (startingQueue.length && endQueue.length) {
-    if (startingQueue.length > endQueue.length) {
-      swip(startingQueue, endQueue);
-    }
-    const len = startingQueue.length;
+  const queue = [S];
+  let count = 0;
+  const routesSet = new Set<number>();
+  while (queue.length) {
+    const len = queue.length;
+    count++
     for (let i = 0; i < len; i++) {
-      const [cur, count] = startingQueue.shift() as Array<number>;
-      const index = endQueue.findIndex(([target]) => target === cur);
-      if (index !== -1) return count;
-      const nextRoutes = routesMap[cur];
-      if (nextRoutes instanceof Set) {
-        for (const route of nextRoutes) {
-          if (routesSet.has(route)) continue;
-          routesSet.add(route);
-          startingQueue.push([route, count + 1]);
+      const cur = queue.shift();
+      if (cur === undefined) continue;
+      const nextRoute = routesMap.get(cur);
+      if (nextRoute === undefined) continue;
+      for (const bus of nextRoute) {
+        if (routesSet.has(bus)) continue;
+        routesSet.add(bus);
+        for (const stop of routes[bus]) {
+          if (stop === T) return count;
+          queue.push(stop);
         }
       }
     }
   }
   return -1;
 }
+
+const result = numBusesToDestination([[7,12],[4,5,15],[6],[15,19],[9,12,13]], 15, 12);
+
+console.log(result);
 
