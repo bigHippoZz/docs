@@ -44,10 +44,6 @@ export default {
   name: "App",
   setup() {
     useForEachNode("#app").then((res) => console.log(res));
-   
-   
-
-
   },
 };
 </script>
