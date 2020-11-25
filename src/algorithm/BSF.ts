@@ -165,5 +165,5 @@ function numBusesToDestination(
 
 const result = numBusesToDestination([[7,12],[4,5,15],[6],[15,19],[9,12,13]], 15, 12);
 
-console.log(result);
+// console.log(result);
 
