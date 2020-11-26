@@ -47,3 +47,75 @@ function minRemoveToMakeValid(s: string): boolean {
 }
 
 // console.log(minRemoveToMakeValid("lee(t((c)o)de"));
+
+// 简单计算器
+
+function Test(s: string) {
+  const OPERATOR = {
+    "+": (a: number, b: number) => a + b,
+    "-": (a: number, b: number) => a - b,
+  };
+
+  const WHITESPACE = /\s/;
+
+  const NUMBERS = /[0-9]/;
+
+  let currentString = "";
+  let currentNumber = 0;
+  let currentFunction = OPERATOR["+"];
+
+  const stack = [];
+  let index = 0;
+  while (index < s.length) {
+    let char = s[index];
+
+    if (WHITESPACE.test(char)) {
+      index++;
+      continue;
+    }
+
+    if (NUMBERS.test(char)) {
+      let value = "";
+      while (NUMBERS.test(char)) {
+        value += char;
+        char = s[++index];
+      }
+      currentString = value;
+      continue;
+    }
+
+    if (char === "(") {
+      stack.push(currentNumber, currentFunction);
+      currentNumber = 0;
+      currentFunction = OPERATOR["+"];
+      currentString = "";
+      index++;
+      continue;
+    }
+
+    if (char === ")") {
+      currentNumber = currentFunction(currentNumber, Number(currentString));
+      currentNumber = stack.length
+        ? (stack.pop() as Function)(stack.pop(), currentNumber)
+        : currentNumber;
+      index++;
+      currentString = "";
+      continue;
+    }
+
+    if (char === "+" || char === "-") {
+      currentNumber = currentFunction(currentNumber, Number(currentString));
+      currentFunction = OPERATOR[char];
+      currentString = "";
+      index++;
+      continue;
+    }
+  }
+
+  if (currentString !== "") {
+    currentNumber = currentFunction(currentNumber, Number(currentString));
+  }
+  return currentNumber;
+}
+
+
