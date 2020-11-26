@@ -194,24 +194,42 @@ function entityParser(text: string): string {
     ["&lt;", `<`],
     ["&frasl;", `/`],
   ]);
-  let result = ''
-  let key  = ''
-  let index = 0
+  console.log(textMap.get("&quot;"));
+  let result = "";
+  let key = "";
+  let index = 0;
   while (index < text.length) {
-    let char = text.charAt(index)
-    if(char === '&'){
-      key = '&'
-      index++
-      continue
-    }
-    if(char === ';'){
-      key+=char
-      result += textMap.get(key) || key
+    let char = text.charAt(index);
+    // 遇到&进行判断，但是注意&&&
+    // 思路：将最近的字符串进行保存也可以说是缓存，然后在特定的情况下
+    // 进行清空重置 也就是& ； 的时候，
+    // 首先遇到 & 最开始的判断，先将key累加到result 然后重置状态
+    // 遇到；这时候就要判断key是不是 标识符 如果是就进处理，然后累加 不是标识符就直接累加
+    // ad[we,t]9
+    // 正常来讲就是简单的累加收集状态，但是遇到& ；时就会变得特殊
+    // & 重置状态 但是有可能连续的&& 那么就先将key重置
+    // ；时就是处理结果，但是可能不是 所谓的标志符，这时候就要加一个判断，如果是就替换之后累加
+    // 如果不是就简单的累加
+    if (char === "&") {
+      result += key;
+      key = "&";
       index++;
-      continue
+      continue;
     }
-    key+=char
-    index++
+    if (char === ";") {
+      key += char;
+      console.log(textMap.get(key));
+      result += textMap.get(key) || key;
+      key = "";
+      index++;
+      continue;
+    }
+    key += char;
+    index++;
   }
-  return result+=key
+  return (result += key);
 }
+
+// const result = entityParser("&amp; is an HTML entity but &ambassador; is not.");
+
+// console.log(result);
