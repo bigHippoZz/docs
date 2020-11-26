@@ -66,12 +66,20 @@ function BreadthFirstSearch(node: Element) {
   };
 }
 
+export function querySelector(el: string) {
+  return document.querySelector(el);
+}
 export function useForEachNode(el: string) {
   return new Promise((resolve, reject) => {
     onMounted(() => {
-      const node = document.querySelector(el);
+      const node = querySelector(el);
       if (!node) return reject(new Error("Node not found"));
-      resolve(BreadthFirstSearchTemplate(node));
+      setTimeout(
+        () => {
+          resolve(BreadthFirstSearchTemplate(node));
+        },
+        1000
+      );
     });
   });
 }
@@ -144,7 +152,7 @@ function numBusesToDestination(
   const routesSet = new Set<number>();
   while (queue.length) {
     const len = queue.length;
-    count++
+    count++;
     for (let i = 0; i < len; i++) {
       const cur = queue.shift();
       if (cur === undefined) continue;
@@ -163,7 +171,10 @@ function numBusesToDestination(
   return -1;
 }
 
-const result = numBusesToDestination([[7,12],[4,5,15],[6],[15,19],[9,12,13]], 15, 12);
+const result = numBusesToDestination(
+  [[7, 12], [4, 5, 15], [6], [15, 19], [9, 12, 13]],
+  15,
+  12
+);
 
 // console.log(result);
-

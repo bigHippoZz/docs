@@ -117,5 +117,3 @@ function Test(s: string) {
   }
   return currentNumber;
 }
-
-

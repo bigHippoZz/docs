@@ -32,6 +32,8 @@ import {
 } from "./reactive/index";
 import { trigger } from "./reactive/effect";
 import { useForEachNode } from "./algorithm/BSF";
+
+import { useDFSforEachNode } from "./algorithm/DFS";
 function useuseFeatureX() {
   const state = reactive({
     foo: 1,
@@ -43,7 +45,10 @@ function useuseFeatureX() {
 export default {
   name: "App",
   setup() {
-    useForEachNode("#app").then((res) => console.log(res));
+    // useForEachNode("#app").then((res) => console.log(res));
+    useDFSforEachNode("#app").then((response) => {
+      console.log(response, "responseNode");
+    });
   },
 };
 </script>
