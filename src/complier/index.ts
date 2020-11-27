@@ -240,7 +240,7 @@ function minRemoveToMakeValidTest(s: string): string {
   const stack: Array<StackItem> = [];
   let index = 0;
   while (index < s.length) {
-    let char = s.charAt(index);
+    const char = s.charAt(index);
     if (char === "(") {
       stack.push(["(", index]);
       index++;
