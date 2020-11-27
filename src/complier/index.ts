@@ -132,7 +132,7 @@ function Test(s: string) {
   return currentNumber;
 }
 
-var isValid = function(s: string) {
+const isValid = function(s: string) {
   //  利用递归进行操作
   const pattern = /abc/;
   if (s.includes("abc")) {
@@ -164,7 +164,7 @@ var isValid = function(s: string) {
 
 function validateStackSequences(pushed: number[], popped: number[]) {
   if (pushed.length !== popped.length) return false;
-  let stack = [];
+  const stack = [];
   let j = 0;
   let i = 0;
   // i 最大值为pushed数组的长度
@@ -199,7 +199,7 @@ function entityParser(text: string): string {
   let key = "";
   let index = 0;
   while (index < text.length) {
-    let char = text.charAt(index);
+    const char = text.charAt(index);
     // 遇到&进行判断，但是注意&&&
     // 思路：将最近的字符串进行保存也可以说是缓存，然后在特定的情况下
     // 进行清空重置 也就是& ； 的时候，
@@ -231,5 +231,88 @@ function entityParser(text: string): string {
 }
 
 // const result = entityParser("&amp; is an HTML entity but &ambassador; is not.");
+// console.log(result);
 
+// 1249. 移除无效的括号  https://leetcode-cn.com/problems/minimum-remove-to-make-valid-parentheses/
+type StackItem = [string, number];
+function minRemoveToMakeValidTest(s: string): string {
+  if (!s.length) return "";
+  const stack: Array<StackItem> = [];
+  let index = 0;
+  while (index < s.length) {
+    let char = s.charAt(index);
+    if (char === "(") {
+      stack.push(["(", index]);
+      index++;
+      continue;
+    }
+    if (char === ")") {
+      const stackPeek = stack[stack.length - 1]?.[0];
+      if (stackPeek === "(") {
+        stack.pop();
+      } else {
+        stack.push([")", index]);
+      }
+      index++;
+      continue;
+    }
+    index++;
+  }
+  // 优先遍历长度小的
+  // 字符串并不能进行使用[index] 索引进行修改
+  // 可以先将字符串转为数组 再转为 字符串
+  const result = s.split("");
+  for (const [, index] of stack) {
+    result[index] = "";
+  }
+  return result.join("");
+}
+// const result = minRemoveToMakeValidTest("lee(t(c)o)de)");
+// console.log(result);
+
+///227. 基本计算器 II  https://leetcode-cn.com/problems/basic-calculator-ii/
+
+// 利用位运算进行 string -> number  并不会出现NaN的情况!!
+//  'hello world'|0     -> result  0
+//  '100' | 0           -> result  100
+const calculate = function(s: string) {
+  const SYMBOLS = /\D/; /** 匹配非数字 */
+  const WHITESPACE = /\s/; /**  匹配空格 */
+  const stack: any[] = []; //栈
+  let index = 0; //索引
+  let currentString = ""; //保存当前的currentString
+  let currentFunction = "+"; /** 保存当前的currentFunction */
+  while (index < s.length || currentString) {
+    const char = s.charAt(index); 
+    if (WHITESPACE.test(char)) {
+      index++;
+      continue;
+    }
+    if (SYMBOLS.test(char) || index >= s.length) {
+      switch (currentFunction) {
+        case "+":
+          stack.push(+currentString);
+          break;
+        case "-":
+          stack.push(-currentString);
+          break;
+        case "*":
+          stack.push(stack.pop() * +currentString);
+          break;
+        case "/":
+          stack.push((stack.pop() / +currentString) | 0);
+          break;
+      }
+      currentFunction = char;
+      currentString = "";
+      index++;
+      continue;
+    }
+    currentString += char;
+    index++;
+  }
+  return stack.reduce((a, b) => a + b);
+};
+
+// const result = calculate("10 + 29 * 10");
 // console.log(result);

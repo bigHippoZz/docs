@@ -46,9 +46,9 @@ export default {
   name: "App",
   setup() {
     // useForEachNode("#app").then((res) => console.log(res));
-    useDFSforEachNode("#app").then((response) => {
-      console.log(response, "responseNode");
-    });
+    // useDFSforEachNode("#app").then((response) => {
+    //   console.log(response, "responseNode");
+    // });
   },
 };
 </script>
