@@ -1,4 +1,11 @@
-// 循环队列
+/**
+ * 循环队列
+ *
+ * 思路：
+ * 1.队尾不能与队头重叠，队尾永远追不上队头
+ * 2.队头可以与队尾重叠，这种情况下队列中只剩一个元素
+ * 3.利用求余数来进行指针的移动
+ */
 class Queue<T> {
   len: number;
   head: number;
@@ -11,6 +18,10 @@ class Queue<T> {
     this.tail = -1;
     this.queue = [];
   }
+  /**
+   * 入队列
+   * @param value T
+   */
   enQueue(value: T) {
     if (this.isFull()) {
       return false;
@@ -22,6 +33,9 @@ class Queue<T> {
     this.queue[this.tail] = value;
     return true;
   }
+  /**
+   * 出队列
+   */
   deQueue() {
     if (this.isEmpty()) {
       return false;
@@ -71,7 +85,7 @@ class TwoWayCircularQueue {
     this.head = node;
     this.tail = node;
   }
-  createNode(val: number = -1) {
+  createNode(val = -1) {
     return new ListNode(val);
   }
 

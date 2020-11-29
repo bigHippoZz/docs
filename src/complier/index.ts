@@ -270,7 +270,7 @@ function minRemoveToMakeValidTest(s: string): string {
 // console.log(result);
 // 实现一个基本的计算器来计算一个简单的字符串表达式的值。
 // 字符串表达式仅包含非负整数，+， - ，*，/ 四种运算符和空格。整数除法仅保留整数部分。
-// 示例1: 
+// 示例1:
 // 输入: "3+2*2"
 // 输出: 7
 // 示例 2:
@@ -290,8 +290,6 @@ function minRemoveToMakeValidTest(s: string): string {
 // 2.入栈的时应该放入什么样的数据结构？
 // 按照刚刚的逻辑我们只需要将当前的字符串转为数字入栈即可
 //  总结 : 遍历到运算符的时候我们并不是处理当前的运算符进行入栈出栈操作，而是操控上一个运算符，这样做的根本目的还是我们可以拿到运算符左右的数字，只要理解这一点这题基本上就理解了，还是要注意一点，我们要设置一个变量来保存我们当前的数字。
-
-
 
 function calculate(s: string) {
   if (!s.length) return 0;
@@ -338,3 +336,5 @@ function calculate(s: string) {
 
 // const result = calculate("10 + 29 * 10");
 // console.log(result);
+
+

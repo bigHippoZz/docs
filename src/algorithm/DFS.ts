@@ -1,6 +1,8 @@
 // 深度优先搜索模板
 import { onMounted } from "vue";
 import { querySelector } from "./BSF";
+
+import { TreeNode } from "./BinaryTreeForEach";
 // 非递归版本
 function DepthFirstSearchTemplate(node: Element) {
   const nodes = [];
@@ -79,13 +81,8 @@ function numIslands(grid: string[][]): number {
   return count;
 }
 
-export interface Tree {
-  val: string | number;
-  left?: Tree | undefined;
-  right?: Tree | undefined;
-}
 // 树状结构中序遍历
-export function inorderTraversalStack(root: Tree | undefined) {
+export function inorderTraversalStack(root: TreeNode | null) {
   const nodes = [];
   const stack = [];
   while (root || stack.length) {
@@ -96,24 +93,24 @@ export function inorderTraversalStack(root: Tree | undefined) {
       root = root.left;
     }
     // 备注 此时的root一定是 undefined
-    root = stack.pop() as Tree;
+    root = stack.pop() as TreeNode;
     nodes.push({ context: root, value: root.val });
     // 出栈那一刻就会进入right的分支
     root = root.right;
   }
   return nodes;
 }
-export const tree: Tree = {
-  val: 1,
+export const tree: TreeNode = {
+  val: 8,
   left: {
     val: 2,
-    left: { val: 23 },
-    right: { val: 89 },
+    left: null,
+    right: { val: 3, left: null, right: null },
   },
   right: {
-    val: 101,
-    left: { val: 46 },
-    right: { val: 100 },
+    val: 9,
+    left: null,
+    right: null,
   },
 };
 
@@ -121,9 +118,9 @@ export const tree: Tree = {
 // console.log(result);
 
 // 递归版本的遍历
-export const inorderTraversal = (root: Tree) => {
+export const inorderTraversal = (root: TreeNode) => {
   const result: Array<string | number> = [];
-  function forEach(root: Tree | undefined) {
+  function forEach(root: TreeNode | null) {
     if (!root) return;
     forEach(root.left);
     result.push(root.val);
@@ -151,4 +148,3 @@ const findTargetSumWays = function(nums: number[], S: number) {
   loop(0, 0);
   return count;
 };
-
