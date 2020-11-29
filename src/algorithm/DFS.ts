@@ -85,7 +85,7 @@ export interface Tree {
   right?: Tree | undefined;
 }
 // 树状结构中序遍历
-export function inorderTraversal_stack(root: Tree | undefined) {
+export function inorderTraversalStack(root: Tree | undefined) {
   const nodes = [];
   const stack = [];
   while (root || stack.length) {
@@ -137,7 +137,7 @@ export const inorderTraversal = (root: Tree) => {
 
 // 利用递归深度进行计算
 // 利用递归进行计算 然后得出最终的结果，进行n++
-var findTargetSumWays = function(nums: number[], S: number) {
+const findTargetSumWays = function(nums: number[], S: number) {
   let count = 0;
   const loop = (index: number, sum: number) => {
     if (nums.length > index) {

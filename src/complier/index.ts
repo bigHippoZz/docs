@@ -184,7 +184,6 @@ function validateStackSequences(pushed: number[], popped: number[]) {
 // const result = validateStackSequences([1, 2, 3, 4, 5], [4, 3, 5, 1, 2]);
 
 // console.log(result);
-
 function entityParser(text: string): string {
   const textMap = new Map<string, string>([
     ["&quot;", `"`],
@@ -269,50 +268,73 @@ function minRemoveToMakeValidTest(s: string): string {
 }
 // const result = minRemoveToMakeValidTest("lee(t(c)o)de)");
 // console.log(result);
+// 实现一个基本的计算器来计算一个简单的字符串表达式的值。
+// 字符串表达式仅包含非负整数，+， - ，*，/ 四种运算符和空格。整数除法仅保留整数部分。
+// 示例1: 
+// 输入: "3+2*2"
+// 输出: 7
+// 示例 2:
+// 输入: " 3/2 "
+// 输出: 1
+// 示例 3:
+// 输入: " 3+5 / 2 "
+// 输出: 5
+// 来源：力扣（LeetCode）
+// 链接：https://leetcode-cn.com/problems/basic-calculator-ii
+// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+// 思路：最容易想到的就是 * / 优先 + - 其次
+// 然后就是栈系列问题的基本思路
+// 1.什么时机进行入栈什么时机进行出栈，两种情况：
+//    选择数字入栈的时候进行处理入栈出栈，仔细思考比如 1 + 5 * 6 当我们遍历到 5 的时候我们进行处理运算或者入栈，正好也有一个棘手的问题我们无法预料后面的数字和运算符，可能有的人会说怎么可能，我们可以利用栈的缓存性到达5（还是刚刚的例子1+5*6）的时候处理 1 的逻辑，但是你会发现选择遍历到运算符的时候进行处理入栈或者出栈不是更好嘛。
 
-///227. 基本计算器 II  https://leetcode-cn.com/problems/basic-calculator-ii/
+// 2.入栈的时应该放入什么样的数据结构？
+// 按照刚刚的逻辑我们只需要将当前的字符串转为数字入栈即可
+//  总结 : 遍历到运算符的时候我们并不是处理当前的运算符进行入栈出栈操作，而是操控上一个运算符，这样做的根本目的还是我们可以拿到运算符左右的数字，只要理解这一点这题基本上就理解了，还是要注意一点，我们要设置一个变量来保存我们当前的数字。
 
-// 利用位运算进行 string -> number  并不会出现NaN的情况!!
-//  'hello world'|0     -> result  0
-//  '100' | 0           -> result  100
-const calculate = function(s: string) {
-  const SYMBOLS = /\D/; /** 匹配非数字 */
-  const WHITESPACE = /\s/; /**  匹配空格 */
-  const stack: any[] = []; //栈
-  let index = 0; //索引
-  let currentString = ""; //保存当前的currentString
-  let currentFunction = "+"; /** 保存当前的currentFunction */
-  while (index < s.length || currentString) {
-    const char = s.charAt(index); 
-    if (WHITESPACE.test(char)) {
-      index++;
+
+
+function calculate(s: string) {
+  if (!s.length) return 0;
+  const len = s.length;
+  const NUMBERS = /[0-9]/; // 匹配数字
+  const WHITESPACE = /\s/; // 匹配空格
+  let currentString = ""; //保存当前的字符串可以说是没有转成数字的字符串
+  let currentFunc = "+"; //保存当前的运算规则
+  const stack: number[] = [];
+  // 注意这里 i <= len 由于操作的是上一次的运算符，所以我们要多遍历一次，这个不难理解
+  for (let i = 0; i <= len; i++) {
+    // charAt() api当索引超出字符串长度的时候就会返回空 ''
+    const char = s.charAt(i);
+    if (WHITESPACE.test(char)) continue;
+
+    if (NUMBERS.test(char)) {
+      currentString += char;
       continue;
     }
-    if (SYMBOLS.test(char) || index >= s.length) {
-      switch (currentFunction) {
-        case "+":
-          stack.push(+currentString);
-          break;
-        case "-":
-          stack.push(-currentString);
-          break;
-        case "*":
-          stack.push(stack.pop() * +currentString);
-          break;
-        case "/":
-          stack.push((stack.pop() / +currentString) | 0);
-          break;
-      }
-      currentFunction = char;
-      currentString = "";
-      index++;
-      continue;
+    switch (currentFunc) {
+      case "+":
+        stack.push(+currentString);
+        break;
+      case "-":
+        stack.push(-currentString);
+        break;
+      case "*":
+        stack.push((stack.pop() as number) * +currentString);
+        break;
+      case "/":
+        // 知识点：字符串转为数字类型的有那几种方法？
+        // parseInt(str) -> 输入''空的话会返回NaN
+        // parseFloat(str) -> 输入'' 返回NaN
+        // ( str | 0)   -> 输入''返回 0,返回规则是向下取舍 (10.9 | 0) => 10
+        // Number(str)  -输入''返回 0
+        stack.push(((stack.pop() as number) / +currentString) | 0);
+        break;
     }
-    currentString += char;
-    index++;
+    currentFunc = char;
+    currentString = "";
   }
-  return stack.reduce((a, b) => a + b);
-};
+  return stack.reduce((a, b) => a + b, 0);
+}
 
 // const result = calculate("10 + 29 * 10");
 // console.log(result);
