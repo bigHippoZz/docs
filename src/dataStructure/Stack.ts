@@ -389,6 +389,7 @@ const minInsertions = function(s: string) {
 
 function isValidTest(code: string): boolean {
   debugger;
+  if (!code.length || !code.includes("<")) return false;
   let index = 0;
   let currentString = "";
   const START_TAG = /<([A-Z]{1,9})>/; // 开始标签
