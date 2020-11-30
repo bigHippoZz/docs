@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { EnhanceWebSocket } from "./utils/WebSocket";
-import "./utils/compile";
+// import "./utils/compile";
 // import {
 //   reactive,
 //   computed,
