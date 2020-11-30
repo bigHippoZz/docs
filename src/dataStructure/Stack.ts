@@ -1,3 +1,5 @@
+import { stringifyQuery } from "vue-router";
+
 class Stack {
   private stack: Array<any>;
   private index: number;
@@ -376,6 +378,75 @@ const minInsertions = function(s: string) {
   return res + need;
 };
 
-const result = minInsertions("()))");
+// const result = minInsertions("()))");
 
+// console.log(result);
+
+// 1. 闭合标签
+// 2. 大写标签 必须是大写的 返回在 [1-9]之间
+// 3. 可以包含任意闭合标签 cdata 任意字符
+//   不匹配
+
+function isValidTest(code: string): boolean {
+  debugger;
+  let index = 0;
+  let currentString = "";
+  const START_TAG = /<([A-Z]{1,9})>/; // 开始标签
+  const END_TAG = /<\/([A-Z]{1,9})>/; // 结束标签
+  const stack = [];
+  while (index < code.length) {
+    let char = code[index];
+    if (char === "<") {
+      function isTag(reg: RegExp) {
+        let value = "";
+        let currentIndex = 0;
+        while (char !== ">" && currentIndex < 11) {
+          currentIndex++;
+          value += char;
+          char = code[++index];
+        }
+        value += char;
+        return {
+          isTag: reg.test(value),
+          TagName: RegExp.$1,
+        };
+      }
+      // 下一个元素 进行判断是开始还是结束
+      const nextChar = code[index + 1];
+      switch (nextChar) {
+        // 结束标签
+        case "/":
+          const endTagRes = isTag(END_TAG);
+          if (!endTagRes.isTag) return false;
+          if (
+            stack.length &&
+            stack[stack.length - 1].tag === endTagRes.TagName
+          ) {
+            stack.pop();
+          }
+          break;
+        // 特殊判断
+        case "!":
+          break;
+        // 开始标签
+        case (nextChar.match(/[A-Z]/) || {}).input:
+          const startRegRes = isTag(START_TAG);
+          if (!startRegRes.isTag) return false;
+          stack.push({ tag: startRegRes.TagName });
+          break;
+        // 不匹配就滚蛋
+        default:
+          return false;
+      }
+      continue;
+    }
+    currentString += char;
+    index++;
+  }
+  console.log(stack);
+  return !stack.length;
+}
+const result = isValidTest(
+  "<DIV>  unmatched start tag <B>  and unmatched end tag </C>  </DIV>"
+);
 console.log(result);
