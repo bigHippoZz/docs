@@ -388,13 +388,22 @@ const minInsertions = function(s: string) {
 //   不匹配
 
 function isValidTest(code: string): boolean {
-  debugger;
-  if (!code.length || !code.includes("<")) return false;
   let index = 0;
-  let currentString = "";
   const START_TAG = /<([A-Z]{1,9})>/; // 开始标签
   const END_TAG = /<\/([A-Z]{1,9})>/; // 结束标签
+  const FILTER_TAG = /<!\[CDATA\[(.*?)\]\]>/g; // 特殊标签
   const stack = [];
+  let currentString = "";
+  let isClosureTag = false; // 判断是不是嵌套表标签
+  const cdata = code.match(FILTER_TAG);
+  if (cdata && cdata[0]) {
+    if (code.indexOf(cdata[0]) === 0) return false;
+    if (code.length - cdata[0].length === code.lastIndexOf(cdata[0]))
+      return false;
+  }
+  code = code.replace(FILTER_TAG, "");
+  if (!code.length || !code.includes("<")) return false;
+  if(code[0]!== '<') return false; 
   while (index < code.length) {
     let char = code[index];
     if (char === "<") {
@@ -407,6 +416,7 @@ function isValidTest(code: string): boolean {
           char = code[++index];
         }
         value += char;
+        index++;
         return {
           isTag: reg.test(value),
           TagName: RegExp.$1,
@@ -414,6 +424,7 @@ function isValidTest(code: string): boolean {
       }
       // 下一个元素 进行判断是开始还是结束
       const nextChar = code[index + 1];
+      if (!nextChar) return false;
       switch (nextChar) {
         // 结束标签
         case "/":
@@ -423,16 +434,21 @@ function isValidTest(code: string): boolean {
             stack.length &&
             stack[stack.length - 1].tag === endTagRes.TagName
           ) {
+            currentString = "";
             stack.pop();
+          } else {
+            return false;
           }
-          break;
-        // 特殊判断
-        case "!":
           break;
         // 开始标签
         case (nextChar.match(/[A-Z]/) || {}).input:
           const startRegRes = isTag(START_TAG);
           if (!startRegRes.isTag) return false;
+          if (!stack[stack.length - 1]) {
+            if (isClosureTag) return false;
+            isClosureTag = true;
+          }
+          currentString = "";
           stack.push({ tag: startRegRes.TagName });
           break;
         // 不匹配就滚蛋
@@ -445,9 +461,11 @@ function isValidTest(code: string): boolean {
     index++;
   }
   console.log(stack);
+  console.log(currentString);
+  if (currentString) return false;
   return !stack.length;
 }
-const result = isValidTest(
-  "<DIV>  unmatched start tag <B>  and unmatched end tag </C>  </DIV>"
-);
-console.log(result);
+
+// const string = "<DIV>This is the first line</DIV>";
+// const result = isValidTest(string);
+// console.log(result);
