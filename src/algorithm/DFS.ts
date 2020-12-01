@@ -164,8 +164,6 @@ const findTargetSumWays = function(nums: number[], S: number) {
 //    15   7
 // 返回它的最大深度 3 。
 
-
-
 // 提示：
 
 // 节点总数 <= 10000
@@ -204,10 +202,27 @@ function maxDepth(root: TreeNode | null): number {
   }
   return count;
 }
-// 使用DFS
+// 使用DFS  自底向上
 function maxDepthDFS(root: TreeNode | null): number {
   if (!root) return 0;
   const left = maxDepthDFS(root.left);
   const right = maxDepthDFS(root.right);
   return Math.max(left + 1, right + 1);
 }
+// 自顶向下
+function forEachTree(root: TreeNode | null) {
+  let ans = 0;
+  function loop(root: TreeNode | null, sum: number) {
+    if (!root) return;
+    if (!root.left && !root.right) {
+      ans = Math.max(ans, sum);
+    }
+    loop(root.left, sum + 1);
+    loop(root.right, sum + 1);
+  }
+  loop(root, 1);
+  return ans;
+}
+const result = forEachTree(tree);
+
+console.log(result);
