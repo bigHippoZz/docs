@@ -403,7 +403,7 @@ function isValidTest(code: string): boolean {
   }
   code = code.replace(FILTER_TAG, "");
   if (!code.length || !code.includes("<")) return false;
-  if(code[0]!== '<') return false; 
+  if (code[0] !== "<") return false;
   while (index < code.length) {
     let char = code[index];
     if (char === "<") {
@@ -469,3 +469,120 @@ function isValidTest(code: string): boolean {
 // const string = "<DIV>This is the first line</DIV>";
 // const result = isValidTest(string);
 // console.log(result);
+
+// 895. 最大频率栈
+// 实现 FreqStack，模拟类似栈的数据结构的操作的一个类。
+
+// FreqStack 有两个函数：
+
+// push(int x)，将整数 x 推入栈中。
+// pop()，它移除并返回栈中出现最频繁的元素。
+// 如果最频繁的元素不只一个，则移除并返回最接近栈顶的元素。
+//
+
+// 示例：
+
+// 输入：
+// ["FreqStack","push","push","push","push","push","push","pop","pop","pop","pop"],
+// [[],[5],[7],[5],[7],[4],[5],[],[],[],[]]
+// 输出：[null,null,null,null,null,null,null,5,7,5,4]
+// 解释：
+// 执行六次 .push 操作后，栈自底向上为 [5,7,5,7,4,5]。然后：
+
+// pop() -> 返回 5，因为 5 是出现频率最高的。
+// 栈变成 [5,7,5,7,4]。
+
+// pop() -> 返回 7，因为 5 和 7 都是频率最高的，但 7 最接近栈顶。
+// 栈变成 [5,7,5,4]。
+
+// pop() -> 返回 5 。
+// 栈变成 [5,7,4]。
+
+// pop() -> 返回 4 。
+// 栈变成 [5,7]。
+//
+
+// 提示：
+
+// 对 FreqStack.push(int x) 的调用中 0 <= x <= 10^9。
+// 如果栈的元素数目为零，则保证不会调用  FreqStack.pop()。
+// 单个测试样例中，对 FreqStack.push 的总调用次数不会超过 10000。
+// 单个测试样例中，对 FreqStack.pop 的总调用次数不会超过 10000。
+// 所有测试样例中，对 FreqStack.push 和 FreqStack.pop 的总调用次数不会超过 150000。
+//
+
+// 来源：力扣（LeetCode）
+// 链接：https://leetcode-cn.com/problems/maximum-frequency-stack
+// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+class FreqStack {
+  map: Map<number, number>;
+  groupMap: Map<number, Array<number>>;
+  maxFreq: number;
+  constructor() {
+    this.map = new Map<number, number>();
+    this.groupMap = new Map<number, Array<number>>();
+    this.maxFreq = 0;
+  }
+  push(val: number) {
+    let count = this.map.has(val) ? (this.map.get(val) as number) + 1 : 0;
+    this.map.set(val, count);
+    if (count > this.maxFreq) {
+      this.maxFreq = count;
+    }
+    if (this.groupMap.has(count)) {
+      (this.groupMap.get(count) as Array<number>).push(val);
+    } else {
+      this.groupMap.set(count, [val]);
+    }
+    console.log(val);
+  }
+  pop(): number {
+    const data = (this.groupMap.get(this.maxFreq) as Array<
+      number
+    >).pop() as number;
+    this.map.set(data, (this.map.get(data) as number) - 1);
+    if ((this.groupMap.get(this.maxFreq) as Array<number>).length === 0)
+      this.maxFreq--;
+    return data;
+  }
+}
+// var FreqStack = function() {
+//   this.map = new Map();
+//   this.groupMap = new Map();
+//   this.maxFreq = 0;
+// };
+
+// /**
+// * @param {number} x
+// * @return {void}
+// */
+// FreqStack.prototype.push = function(x) {
+//   let count = this.map.has(x) ? (this.map.get(x) + 1) : 0;
+//   this.map.set(x, count)
+//   if (count > this.maxFreq) {
+//       this.maxFreq = count;
+//   }
+//   if (this.groupMap.has(count))
+//       this.groupMap.get(count).push(x)
+//   else
+//       this.groupMap.set(count, [x]);
+// };
+
+// /**
+// * @return {number}
+// */
+// FreqStack.prototype.pop = function() {
+//   let data = this.groupMap.get(this.maxFreq).pop();
+//   this.map.set(data, this.map.get(data) - 1);
+//   if (this.groupMap.get(this.maxFreq).length === 0)
+//       this.maxFreq--;
+//   return data;
+// };
+
+// /**
+// * Your FreqStack object will be instantiated and called as such:
+// * var obj = new FreqStack()
+// * obj.push(x)
+// * var param_2 = obj.pop()
+// */
