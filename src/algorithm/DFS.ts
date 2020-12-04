@@ -226,3 +226,58 @@ function forEachTree(root: TreeNode | null) {
 const result = forEachTree(tree);
 
 console.log(result);
+
+// 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+
+// 说明: 叶子节点是指没有子节点的节点。
+
+// 示例:
+// 给定如下二叉树，以及目标和 sum = 22，
+
+//               5
+//              / \
+//             4   8
+//            /   / \
+//           11  13  4
+//          /  \      \
+//         7    2      1
+// 返回 true, 因为存在目标和为 22 的根节点到叶子节点的路径 5->4->11->2。
+
+// 来源：力扣（LeetCode）
+// 链接：https://leetcode-cn.com/problems/path-sum
+// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+// 思路： 这道题目一样就能瞅出题解，一开始我的思路是用自顶而下的思路，将遍历节点的val进行累加，
+// 然后进行一个边界判断(!root.left&&!root.right)当前累加的值跟目标和是否一致然后返回结果。
+
+// 这是第一遍的代码
+function hasPathSum(root: TreeNode | null, sum: number) {
+  let flag = false;
+  function loop(root: TreeNode | null, num: number) {
+    if (!root) return;
+    if (!root.left && !root.right) {
+      sum === num + root.val && (flag = true);
+    }
+    loop(root.left, num + root.val);
+    loop(root.right, num + root.val);
+  }
+  loop(root, 0);
+  return flag;
+}
+
+
+
+// 看到大神写的代码，真是简洁明了啊 
+// function hasPathSum(root: TreeNode | null, sum: number): boolean {
+//   if (!root) return false;
+//   if (!root.left && !root.right) {
+//     return sum === root.val;
+//   }
+//   return (
+//     hasPathSum(root.left, sum - root.val) ||
+//     hasPathSum(root.right, sum - root.val)
+//   );
+// }
+// 时间复杂度：O(N) 其中N是树的节点数，每个节点都会进行访问
+// 空间复杂度：O(H) 其中H是树的高度，在啰嗦一遍进行DFS分析复杂度的时候一定不能忘掉栈的开销最坏的情况下树呈链状，空间复杂度为O(N)，
+// 但是平均情况下，空间复杂度为O(logN)
