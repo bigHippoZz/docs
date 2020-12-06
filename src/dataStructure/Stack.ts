@@ -342,7 +342,7 @@ function removeDuplicates(s: string, k: number): string {
 const removeOuterParentheses = function(S: string) {
   let res = "";
   let opened = 0;
-  for (let c of S) {
+  for (const c of S) {
     if (c === "(" && opened++ > 0) res += c;
     if (c === ")" && opened-- > 1) res += c;
   }
@@ -525,7 +525,7 @@ class FreqStack {
     this.maxFreq = 0;
   }
   push(val: number) {
-    let count = this.map.has(val) ? (this.map.get(val) as number) + 1 : 0;
+    const count = this.map.has(val) ? (this.map.get(val) as number) + 1 : 0;
     this.map.set(val, count);
     if (count > this.maxFreq) {
       this.maxFreq = count;
