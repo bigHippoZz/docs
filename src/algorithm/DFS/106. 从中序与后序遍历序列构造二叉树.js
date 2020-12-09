@@ -72,26 +72,27 @@ function Test(inorder, postorder) {
   inorder.forEach((value, index) => {
     treeMap.set(value, index);
   });
-
   let index = postorder.length - 1; //对于后序遍历的指针
   function helper(left, right) {
     console.log(left, right);
     // left > right 这样理解 left 大于 right 的时候才会执行，所以 0 > 0 会返回false 不会执行return
-    // 这是很多地方容易进行犯错的地方 记住一点就是我们使用 left > right 的时候注意判断 两个数字都相同的时候他会返回false 
+    // 这是很多地方容易进行犯错的地方 记住一点就是我们使用 left > right 的时候注意判断 两个数字都相同的时候他会返回false
     // 在if()条件中他并不会进行执行，而在while循环中left > right 的时候就会终止循环 这是一定要进行区分
+    // 这里如果用index进行结束递归条件的话，会出现right没办法进行判断临界点
     if (left > right) return null;
     const rootVal = postorder[index];
     const currentIndex = treeMap.get(rootVal);
     const root = new TreeNode(rootVal);
     index--;
+    // 这里注意先对right进行处理
     root.right = helper(currentIndex + 1, right);
     root.left = helper(left, currentIndex - 1);
     return root;
   }
   return helper(0, inorder.length - 1);
+  //   时间复杂度 O(n) 需要递归每个节点 所以时间复杂度正好是 N
+  //   空间复杂度 O(n) 由于需要储存树的节点的下标所以 空间复杂度为 N ， 在此递归调用栈的最大深度为 H 由于N > H 所以为 N
 }
-
-
 
 // 思路
 // 注意一个规律 后序遍历最后的一个元素正好是根元素，而中序遍历根据根元素可将中序遍历的数组分成两部分，然后依次进行递归
