@@ -41,6 +41,8 @@ var sortedArrayToBST = function(nums) {
   }
 
   return helper(0, nums.length - 1);
+//   时间复杂度为O(n)
+//   空间复杂度为O(logn)
 };
 
 // 思路 这道题还是容易理解的，从数组的中间取值，然后向两边进行扩散
