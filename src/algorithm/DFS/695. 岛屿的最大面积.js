@@ -63,5 +63,7 @@ var maxAreaOfIsland = function(grid) {
     return left + top + right + bottom + 1;
   }
   return result;
+  // 时间复杂度 O(r * c) 遍历所有的网格
+  // 空间复杂度 O(r * c) 递归调用栈可能是整个网格的数量
 };
 // 思路 这道题是一道平淡无奇的海岛问题，采用BFS DFS都可以进行解决，最后重要的思路就是将遍历的岛屿进行沉没设置为 0 防止在进行递归
