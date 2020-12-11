@@ -1,21 +1,41 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <div class="tree-container">
+      <BSTTree :model="treeObject" />
+    </div>
   </div>
 </template>
-
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import BSTTree from "./BST.vue";
 
-
-import { reactive } from 'vue';
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
-
-@Options({
+export default {
+  name: "Home",
   components: {
-    HelloWorld
-  }
-})
-export default class Home extends Vue {}
+    BSTTree,
+  },
+
+  data() {
+    return {
+      treeObject: {
+        val: "1",
+        left: {
+          val: "12",
+          left: { val: "23" },
+        },
+        right: {
+          val: "12",
+        },
+      },
+    };
+  },
+};
 </script>
+
+
+<style scoped>
+.tree-container{
+  margin: auto;
+  display: inline-block;
+}
+</style>
