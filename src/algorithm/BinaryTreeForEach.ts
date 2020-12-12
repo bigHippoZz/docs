@@ -1,9 +1,8 @@
-import { tree } from "./DFS";
-
-
 /**
  * 二叉树所有的搜索方法
  */
+
+import { tree } from "./DFS";
 
 // 二叉树结构
 export class TreeNode<T = any> {
@@ -21,9 +20,9 @@ export class TreeNode<T = any> {
  * @param val treeNode
  */
 function logger(val: TreeNode) {
-    console.log(val.val);
-  }
-  
+  console.log(val);
+}
+
 type Logger = typeof logger;
 
 /**
@@ -73,9 +72,9 @@ export function InOrder(tree: TreeNode | null, callback: Function = logger) {
   if (!tree) {
     return;
   }
-  PreOrder(tree.left, callback);
+  InOrder(tree.left, callback);
   callback(tree);
-  PreOrder(tree.right, callback);
+  InOrder(tree.right, callback);
 }
 
 /**
@@ -84,23 +83,29 @@ export function InOrder(tree: TreeNode | null, callback: Function = logger) {
  * @param {Function} callback
  */
 export function PostOrder(tree: TreeNode | null, callback: Function = logger) {
-  if (!tree) {
-    return;
-  }
-  PreOrder(tree.left, callback);
-  PreOrder(tree.right, callback);
+  if (tree === null) return;
+  PostOrder(tree.left, callback);
+  PostOrder(tree.right, callback);
   callback(tree);
 }
+// console.log(tree);
+// PostOrder(tree);
+
+type TreeNodeValue<T> = T extends TreeNode ? T["val"] : never;
 
 /**
  * 先序遍历 非递归
  * @param {TreeNode} tree
  * @param {Function} callback
  */
-export function PreOrder2(tree: TreeNode | null, callback: Function = logger) {
+export function PreOrder2(
+  tree: TreeNode | null,
+  callback: (val: TreeNodeValue<TreeNode>) => void
+) {
   const stack = [];
   while (tree || stack.length) {
     while (tree) {
+      // 入栈的那一刻进行处理
       callback(tree);
       stack.push(tree);
       tree = tree.left;
@@ -109,15 +114,18 @@ export function PreOrder2(tree: TreeNode | null, callback: Function = logger) {
     tree = tree.right;
   }
 }
-
 /**
  * 中序遍历 非递归
  * @param {TreeNode} tree
  * @param {Function} callback
  */
-export function InOrder2(tree: TreeNode | null, callback: Function = logger) {
+export function InOrder2(
+  tree: TreeNode | null,
+  callback: (val: TreeNodeValue<TreeNode>) => void
+) {
   const stack = [];
   while (tree || stack.length) {
+    // 进行入栈操作
     while (tree) {
       stack.push(tree);
       tree = tree.left;
@@ -154,6 +162,8 @@ export function PostOrder2(tree: TreeNode | null, callback: Function = logger) {
   }
 }
 
+
+// PostOrder2(tree)
 /**
  * 利用语法糖
  * 先序、中序以此类推
@@ -169,4 +179,3 @@ export const postorderTraversal = function(tree: TreeNode | null): number[] {
         tree.val,
       ];
 };
-

@@ -101,16 +101,16 @@ export function inorderTraversalStack(root: TreeNode | null) {
   return nodes;
 }
 export const tree: TreeNode = {
-  val: 8,
+  val: 4,
   left: {
     val: 2,
-    left: null,
+    left: { val: 1, left: null, right: null },
     right: { val: 3, left: null, right: null },
   },
   right: {
-    val: 9,
+    val: 5,
     left: null,
-    right: null,
+    right: { val: 6, left: null, right: null },
   },
 };
 
@@ -223,9 +223,9 @@ function forEachTree(root: TreeNode | null) {
   loop(root, 1);
   return ans;
 }
-const result = forEachTree(tree);
+// const result = forEachTree(tree);
 
-console.log(result);
+// console.log(result);
 
 // 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
 
@@ -265,9 +265,7 @@ function hasPathSum(root: TreeNode | null, sum: number) {
   return flag;
 }
 
-
-
-// 看到大神写的代码，真是简洁明了啊 
+// 看到大神写的代码，真是简洁明了啊
 // function hasPathSum(root: TreeNode | null, sum: number): boolean {
 //   if (!root) return false;
 //   if (!root.left && !root.right) {
