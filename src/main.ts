@@ -15,10 +15,8 @@ contextReactive.keys().forEach((file) => contextReactive(file));
 const dataStructure = require.context("./dataStructure", true, /\.ts$/);
 dataStructure.keys().forEach((file) => dataStructure(file));
 
-
 const complier = require.context("./complier", true, /\.ts$/);
 complier.keys().forEach((file) => complier(file));
-
 
 const algorithm = require.context("./algorithm", true, /\.ts$/);
 algorithm.keys().forEach((file) => algorithm(file));
