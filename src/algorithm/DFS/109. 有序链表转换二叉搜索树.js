@@ -38,7 +38,7 @@
  * @param {ListNode} head
  * @return {TreeNode}
  */
-var sortedListToBST = function(head) {
+var _sortedListToBST = function(head) {
   // 跟108差不多 就是将链表进行遍历获取一个新的数组然后进行生成新的二叉树
   //   const array = [];
   //   while (head) {
