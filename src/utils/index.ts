@@ -67,7 +67,7 @@ class ConcreteFactory2 implements AbstractFactory {
     return new ProductBButton();
   }
 }
-console.log(new CloseDialog(new ConcreteFactory1()));
+// console.log(new CloseDialog(new ConcreteFactory1()));
 
 class Car {
   public parts: string[] = [];

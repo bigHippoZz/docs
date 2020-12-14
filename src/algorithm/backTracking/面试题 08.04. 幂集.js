@@ -24,21 +24,30 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-var subsets = function(nums) {
-  const res = [];
-  const dfs = (path, index) => {
-    res.push(path.slice());
-    for (let i = index; i < nums.length; i++) {
-      path.push(nums[i]);
-      dfs(path, i + 1);
-      path.pop();
-    }
-  };
+const subsets = function(nums) {
+  const len = nums.length
+  const result  = []
 
-  dfs([], 0);
-  return res;
+  // path可以理解为当前递归树的路径
+  // index是终结递归的条件
+  function dfs(path,index){
+    result.push(path.slice())
+    for(let i = index; i < len ; i++){
+      // 添加路径，类似前序遍历处理地方
+      path.push(nums[i])
+      dfs(path,i+1)
+      path.pop()
+      // 删除路径，类似后序遍历处理的地方
+    }
+  }
+  dfs([],0)  
+  return result
 };
 
-const result = subsets([1, 2, 3]);
+// const result = subsets([1, 2, 3]);
 
-console.log(result);
+// console.log(result);
+
+
+
+//思路：这道题算是回溯算法的入门题目，我的理解是DFS，进一一步说的话就是栈的理解，在特定的时机进行出栈入栈操作，这才是精髓所在.

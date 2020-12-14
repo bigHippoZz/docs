@@ -61,7 +61,7 @@ const builtInSymbols = new Set(
     .filter(isSymbol)
 );
 
-console.log(builtInSymbols, "builtinsymbol");
+// console.log(builtInSymbols, "builtinsymbol");
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: Target, key: string | symbol, receiver: object) {
     // 判断当前是不是readonly

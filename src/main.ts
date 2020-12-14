@@ -18,5 +18,5 @@ dataStructure.keys().forEach((file) => dataStructure(file));
 const complier = require.context("./complier", true, /\.ts$/);
 complier.keys().forEach((file) => complier(file));
 
-const algorithm = require.context("./algorithm", true, /\.ts$/);
+const algorithm = require.context("./algorithm", true, /\.[j,t]s$/);
 algorithm.keys().forEach((file) => algorithm(file));
