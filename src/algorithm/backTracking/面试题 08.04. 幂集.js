@@ -27,7 +27,6 @@
 const subsets = function(nums) {
   const len = nums.length
   const result  = []
-
   // path可以理解为当前递归树的路径
   // index是终结递归的条件
   function dfs(path,index){
@@ -45,9 +44,5 @@ const subsets = function(nums) {
 };
 
 // const result = subsets([1, 2, 3]);
-
 // console.log(result);
-
-
-
 //思路：这道题算是回溯算法的入门题目，我的理解是DFS，进一一步说的话就是栈的理解，在特定的时机进行出栈入栈操作，这才是精髓所在.
