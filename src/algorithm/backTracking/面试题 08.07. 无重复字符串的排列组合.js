@@ -26,7 +26,6 @@ const permutation = function(S) {
   const target = S.split("");
   const len = target.length;
   const result = [];
-
   function dfs(index) {
     if (index === len) {
       result.push(target.join(""));
