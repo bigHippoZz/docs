@@ -23,7 +23,7 @@
  * @param {number} k
  * @return {number[][]}
  */
-var combine = function(n, k) {
+const combine = function(n, k) {
   const result = [];
   function backTracking(path, index) {
     if (index === k) {
