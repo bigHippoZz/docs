@@ -45,8 +45,8 @@ const letterCombinations = function(digits) {
   return result;
 };
 
-const result = letterCombinations("23");
-console.log(result);
+// const result = letterCombinations("23");
+// console.log(result);
 // 时间复杂度 O(4n)
 // 空间复杂度 O(n)
 // 思路 我多次怀疑自己的思路有问题，我的想法是利用栈的结构来进行不断的尝试，基本上差不多，然后抽象成树结构
