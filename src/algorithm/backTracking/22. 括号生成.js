@@ -48,5 +48,7 @@ const generateParenthesis = function(n) {
 // 思路：本质是一种DFS的二叉树。分别是 （ ） 两种选择，但是左括号不能无限的选择下去，只能选择当前传入的参数n次，
 // 右括号的选择必须是当前的左括号小于右括号才能进行选择右括号 
 // 一定要理解递归 有来有回，也就是先到达最深层，然后慢慢的回来，回溯就是在到达最深的地方然后进行回溯撤销
-const result = generateParenthesis(3);
-console.log(result);
+
+
+// const result = generateParenthesis(3);
+// console.log(result);
