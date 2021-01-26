@@ -32,15 +32,18 @@ const permute = function(nums) {
       return;
     }
     for (let i = index; i < length; i++) {
-
       [nums[index], nums[i]] = [nums[i], nums[index]];
       console.log(
-        `回溯 前！！！！！ index -> ${index} ， i -> ${i} nums[i] -> ${nums[i]} current -> ${nums.slice()}`
+        `回溯 前！！！！！ index -> ${index} ， i -> ${i} nums[i] -> ${
+          nums[i]
+        } current -> ${nums.slice()}`
       );
       helper(index + 1);
       [nums[index], nums[i]] = [nums[i], nums[index]];
       console.log(
-        `回溯 后 index -> ${index} ， i -> ${i} nums[i] -> ${nums[i]} current -> ${nums.slice()}`
+        `回溯 后 index -> ${index} ， i -> ${i} nums[i] -> ${
+          nums[i]
+        } current -> ${nums.slice()}`
       );
     }
   }
@@ -49,5 +52,5 @@ const permute = function(nums) {
 };
 
 
-// const result = permute([1, 2, 3]);
+// const result = permute([1, 1, 3]);
 // console.log(result);

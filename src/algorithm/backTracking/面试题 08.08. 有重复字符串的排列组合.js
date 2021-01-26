@@ -23,26 +23,33 @@
  * @return {string[]}
  */
 const permutation = function(S) {
-  const { length } = S;
-  if (!length) return [];
-  const result = [];
-  S = S.split("").sort();
+  // const { length } = S;
+  // if (!length) return [];
+  // const result = [];
+  // S = S.split("").sort();
+  // function backTracking(index) {
+  //   if (index === length) {
+  //     result.push(S.join(""));
+  //   }
+  //   for (let i = index; i < length; i++) {
+  //     if (S[i - 1] === S[i]) continue;
+  //     [S[i], S[index]] = [S[index], S[i]];
+  //     backTracking(index + 1);
+  //     [S[i], S[index]] = [S[index], S[i]];
+  //   }
+  // }
 
-  function backTracking(index) {
-    if (index === length) {
-      result.push(S.join(""));
-    }
-    for (let i = index; i < length; i++) {
-      if (S[i - 1] && S[i - 1] === S[i]) continue;
-      [S[i], S[index]] = [S[index], S[i]];
-      backTracking(index + 1);
-      [S[i], S[index]] = [S[index], S[i]];
-    }
-  }
+  // backTracking(0);
+  // return result;
 
-  backTracking(0);
-  return result;
+  const result  = []
+
+  const { length  } = S.length
+
+  const used =  new Array(length)
+
+  
 };
 
-const result = permutation("qqe");
-console.log(result);
+// const result = permutation("qqe");
+// console.log(result);
