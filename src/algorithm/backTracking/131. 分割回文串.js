@@ -16,11 +16,33 @@
 // 来源：力扣（LeetCode）
 // 链接：https://leetcode-cn.com/problems/palindrome-partitioning
 // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+/**
+ * 
+ * @param {string} str 
+ * @param {number} left 
+ * @param {number} right 
+ */
+function isPal(str, left, right) {
+  while (left < right) {
+    if (str.charAt(left)!== str.charAt(right)) {
+      return false;
+    }
+    left++;
+    right--;
+  }
+  return true;
+}
+
+
+
 /**
  * @param {string} s
  * @return {string[][]}
  */
 const partition = function(s) {
+  
   const result = [];
   const { length } = s;
   let nums = 0
@@ -65,19 +87,3 @@ const partition = function(s) {
 
 
 
-/**
- * 
- * @param {string} str 
- * @param {number} left 
- * @param {number} right 
- */
-function isPal(str, left, right) {
-  while (left < right) {
-    if (str.charAt(left)!== str.charAt(right)) {
-      return false;
-    }
-    left++;
-    right--;
-  }
-  return true;
-}

@@ -75,16 +75,24 @@ const permuteUnique = function(nums) {
   const { length } = nums;
 
   function helper(paths, index) {
+
     if (index === length) {
       result.push(paths.slice());
       return;
     }
 
     for (let i = 0; i < length; i++) {
+
       const preNums = nums[i - 1];
       const currentNums = nums[i];
       const preUsed = used[i - 1];
-      if (i && nums[i - 1] === nums[i] && !used[i - 1]) {
+
+      // if (i && nums[i - 1] === nums[i] && !used[i - 1]) {
+      //   continue;
+      // }
+
+      // 利用used进行判断当前的index索引指针是否被使用过
+      if (i && nums[i - 1] === nums[i]) {
         continue;
       }
       if (used[i]) {
@@ -104,5 +112,5 @@ const permuteUnique = function(nums) {
   return result;
 };
 
-const result = permuteUnique([1, 3, 1]);
-console.log(result);
+// const result = permuteUnique([1, 3, 1]);
+// console.log(result);
