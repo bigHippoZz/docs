@@ -11,7 +11,6 @@ class Queue<T> {
   head: number;
   tail: number;
   queue: Array<T>;
-
   constructor(len: number) {
     this.len = len;
     this.head = -1;

@@ -1,5 +1,3 @@
-import { stringifyQuery } from "vue-router";
-
 class Stack {
   private stack: Array<any>;
   private index: number;

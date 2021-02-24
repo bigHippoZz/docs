@@ -58,5 +58,3 @@ const totalNQueens = function(n) {
   return result;
 };
 
-
-console.log(totalNQueens(5))

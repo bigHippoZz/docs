@@ -65,7 +65,6 @@ const solveNQueens = function(n) {
     }
   }
   helper(0, []);
-  console.log(result);
   return result;
 };
 
