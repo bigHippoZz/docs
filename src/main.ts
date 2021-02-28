@@ -12,7 +12,7 @@ createApp(App)
 const contextReactive = require.context("./reactive", true, /\.ts$/);
 contextReactive.keys().forEach((file) => contextReactive(file));
 
-const dataStructure = require.context("./dataStructure", true, /\.ts$/);
+const dataStructure = require.context("./dataStructure", true, /\.[j,t]s$/);
 dataStructure.keys().forEach((file) => dataStructure(file));
 
 const complier = require.context("./complier", true, /\.ts$/);
