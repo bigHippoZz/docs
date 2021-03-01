@@ -70,22 +70,33 @@ const reverseList = function(head) {
   //   }
   //   return prev;
 
-  let prev = null;
-  let curr = head;
+  // let prev = null;
+  // let curr = head;
 
-  while (curr) {
-    const nextCurr = curr.next;
-    curr.next = prev;
-    // 一定是进行prev地址的保存
-    prev = curr;
-    curr = nextCurr;
-    console.log(prev);
-  }
-  // 为什莫最后返回的是prev
-  //
-  return prev;
+  // while (curr) {
+  //   const nextCurr = curr.next;
+  //   curr.next = prev;
+  //   // 一定是进行prev地址的保存
+  //   prev = curr;
+  //   curr = nextCurr;
+  //   console.log(prev);
+  // }
+  // // 为什莫最后返回的是prev
+  // //
+  // return prev;
 
   /* 递归 */
+  if (head === null || head.next === null) {
+    return head;
+  }
+  const newNode = reverseList(head.next);
+  newNode.next = head;
+  console.log(head, "head");
+  head.next = null;
+  console.log(JSON.stringify(newNode), "newNode");
+  return newNode;
 };
 
-// reverseList(input);
+const result = reverseList(input);
+
+console.log(result);
