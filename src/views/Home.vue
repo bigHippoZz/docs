@@ -1,18 +1,18 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <!-- <img alt="Vue logo" src="../assets/logo.png" />
     <div class="tree-container">
       <BSTTree :model="treeObject" />
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts">
-import BSTTree from "./BST.vue";
+// import BSTTree from "./BST.vue";
 
 export default {
   name: "Home",
   components: {
-    BSTTree,
+    // BSTTree,
   },
 
   data() {
@@ -32,9 +32,8 @@ export default {
 };
 </script>
 
-
 <style scoped>
-.tree-container{
+.tree-container {
   margin: auto;
   display: inline-block;
 }
