@@ -97,6 +97,6 @@ const reverseList = function(head) {
   return newNode;
 };
 
-const result = reverseList(input);
+// const result = reverseList(input);
 
-console.log(result);
+// console.log(result);
