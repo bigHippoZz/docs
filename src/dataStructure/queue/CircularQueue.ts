@@ -95,12 +95,46 @@ class CircularDeque {
     const nextNode = this.head.next;
     currentNode.prev = this.head;
     currentNode.next = nextNode;
-    if (nextNode) {
-      nextNode.prev = currentNode;
-    }
+    (nextNode as ListNode<string>).prev = currentNode;
+    this.head.next = currentNode;
     this.length++;
     return true;
   }
+  insertLast(val: string) {
+    if (this.isFull()) {
+      return false;
+    }
+    const currentNode = this.createNode(val);
+    const prevNode = this.last.prev;
+    this.last.prev = currentNode;
+    currentNode.next = this.last;
+    currentNode.prev = prevNode;
+    (prevNode as ListNode<string>).next = currentNode;
+    this.length++;
+    return true;
+  }
+  deleteFront() {
+    if (this.isEmpty()) {
+      return false;
+    }
+    const currentNode = this.head.next?.next as ListNode<string>;
+    this.head.next = currentNode;
+    currentNode.prev = this.head;
+    this.length--;
+    return true;
+  }
+
+  deleteLast() {
+    if (this.isEmpty()) {
+      return false;
+    }
+    const currentNode = this.last.prev?.prev as ListNode<string>;
+    this.last.prev = currentNode;
+    currentNode.next = this.last;
+    this.length--;
+    return true;
+  }
+
   isFull() {
     return this.length >= this.max;
   }
@@ -108,4 +142,8 @@ class CircularDeque {
     return this.length === 0;
   }
 }
-console.log(new CircularDeque(10));
+const result = new CircularDeque(3);
+
+console.log(result);
+result.insertFront('hello')
+result.insertLast('world')
