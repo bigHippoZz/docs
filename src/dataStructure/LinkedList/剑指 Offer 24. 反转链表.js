@@ -20,7 +20,7 @@
  * }
  */
 
-class ListNode {
+export class ListNode {
   constructor(val) {
     this.val = val;
     this.next = null;
@@ -43,6 +43,14 @@ export function generateLinkedList(array) {
   }
   return result;
 }
+// /**
+//  * 数组生成链表
+//  * @param {array} array
+//  */
+// function genetateTree(array) {
+  
+// }
+
 
 // console.log(generateLinkedList([1, 2, 3, 4, 5, 6]));
 
