@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-
+import '@/global'
 import "./utils/index.ts";
 createApp(App)
   .use(store)
