@@ -4,9 +4,9 @@ export { ref, shallowRef } from "./ref";
 
 export {
   computed,
-  ComputedRef,
-  WritableComputedRef,
-  WritableComputedOptions,
-  ComputedGetter,
-  ComputedSetter,
+  // ComputedRef,
+  // WritableComputedRef,
+  // WritableComputedOptions,
+  // ComputedGetter,
+  // ComputedSetter,
 } from "./computed";

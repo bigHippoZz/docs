@@ -1,3 +1,3 @@
-import lodash from "lodash";
+// import lodash from "lodash";
 
-Reflect.set(globalThis, "_", lodash);
+// Reflect.set(globalThis, "_", lodash);

@@ -144,6 +144,7 @@ class CircularDeque {
 }
 const result = new CircularDeque(3);
 
-console.log(result);
-result.insertFront('hello')
-result.insertLast('world')
+// console.log(result);
+// result.insertFront('hello')
+// result.insertLast('world')
+
