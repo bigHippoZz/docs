@@ -1,6 +1,6 @@
 // 108. 将有序数组转换为二叉搜索树
 // 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
-
+import { TreeNode } from './../BinaryTreeForEach'
 // 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
 
 // 示例:
@@ -26,11 +26,13 @@
  *     this.left = this.right = null;
  * }
  */
+
+
 /**
  * @param {number[]} nums
  * @return {TreeNode}
  */
-var sortedArrayToBST = function(nums) {
+export const sortedArrayToBST = function (nums) {
   function helper(left, right) {
     if (left > right) return null;
     const minIndex = Math.floor((left + right) / 2);
@@ -41,8 +43,9 @@ var sortedArrayToBST = function(nums) {
   }
 
   return helper(0, nums.length - 1);
-//   时间复杂度为O(n)
-//   空间复杂度为O(logn)
+  //   时间复杂度为O(n)
+  //   空间复杂度为O(logn)
 };
 
 // 思路 这道题还是容易理解的，从数组的中间取值，然后向两边进行扩散
+

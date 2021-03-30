@@ -40,7 +40,7 @@ var spiralOrder = function (matrix) {
     let top = 0,
         right = colLen - 1,
         bottom = rowLen - 1,
-        left = 0,
+        left = 0
 
     while (result.length !== size) {
         for (let i = left; i <= right; i++) {

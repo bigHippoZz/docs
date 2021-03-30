@@ -29,3 +29,5 @@ let allPattern = /[\s\S]/; /* [^] 来代替匹配所有的字符 */
 // 注意空格
 // console.log("1 - 5".match(/\d-\d/));
 // console.log("1 - 5".match(/\d\s-\s\d/));
+
+// console.log(/[\s\S]/)
