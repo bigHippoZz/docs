@@ -13,4 +13,8 @@ export default defineConfig({
       "@": resolve("src"),
     },
   },
+  server: {
+    open: true,
+    port: 4396,
+  },
 });

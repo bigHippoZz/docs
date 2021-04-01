@@ -65,7 +65,7 @@ const diff = "100 10 1";
 // console.log(diff.match(B));
 // console.log(diff.match(C));
 
-const pattern = /\{\{(.*)\}\}/;
+const pattern = /\{\{(.+?)\}\}/;
 string = "{{  string 0}}";
 // console.log(string.match(pattern));
 const htmlTag = /<\/?[a-z][0-9a-z]*>/gim;

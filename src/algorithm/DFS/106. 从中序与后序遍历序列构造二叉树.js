@@ -32,7 +32,7 @@
  * @param {number[]} postorder
  * @return {TreeNode}
  */
-var buildTree = function(inorder, postorder) {
+var buildTree = function (inorder, postorder) {
   let postIdx;
   const postMap = new Map();
   const helper = (left, right) => {

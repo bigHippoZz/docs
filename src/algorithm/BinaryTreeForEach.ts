@@ -9,7 +9,7 @@ export class TreeNode<T = any> {
   val: T;
   left: TreeNode<T> | null;
   right: TreeNode<T> | null;
-  constructor(val: T, left: TreeNode<T>, right: TreeNode<T>) {
+  constructor(val: T, left?: TreeNode<T>, right?: TreeNode<T>) {
     this.val = val;
     this.left = left === undefined ? null : left;
     this.right = right === undefined ? null : right;

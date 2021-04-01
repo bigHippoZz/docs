@@ -79,7 +79,7 @@ export function tokenizer(input) {
   return tokens;
 }
 
-console.log(tokenizer("(add 2 (subtract 4 2))"));
+// console.log(tokenizer("(add 2 (subtract 4 2))"));
 
 // (add 2 (subtract 4 2))   =>   [{ type: 'paren', value: '(' }, ...]
 
@@ -142,9 +142,9 @@ function parser(tokens) {
   return ast;
 }
 
-console.log(parser(tokenizer("(add 2 (subtract 4 2))")));
+// console.log(parser(tokenizer("(add 2 (subtract 4 2))")));
 
-console.log(transformer(parser(tokenizer("(add 2 (subtract 4 2))"))));
+// console.log(transformer(parser(tokenizer("(add 2 (subtract 4 2))"))));
 
 function traverser(ast, visitor) {
   // `traverseArray`函数，这个函数允许我们遍历一个数组并且调用我们接下来定义的函数："traverseNode`。
@@ -318,6 +318,6 @@ function codeGenerator(node) {
       throw new TypeError(node.type);
   } 
 }
-console.time("time");
-console.log(codeGenerator(transformer(parser(tokenizer("(add 2 2)"))))); 
-console.timeEnd("time");
+// console.time("time");
+// console.log(codeGenerator(transformer(parser(tokenizer("(add 2 2)"))))); 
+// console.timeEnd("time");
