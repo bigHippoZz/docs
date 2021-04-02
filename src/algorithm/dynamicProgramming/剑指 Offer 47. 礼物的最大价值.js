@@ -26,9 +26,22 @@
  * @param {number[][]} grid
  * @return {number}
  */
-const maxValue = function(grid) {
-  
-  const row = grid.length;
-  const col = grid[0].length;
-  
+const maxValue = function (grid) {
+  const rowLen = grid.length;
+  const colLen = grid[0].length;
+  const dp = new Int32Array(colLen);
+  for (let i = 0; i < rowLen; i++) {
+    for (let j = 0; j < colLen; j++) {
+      let a = i - 1 < 0 ? 0 : dp[j];
+      let b = j - 1 < 0 ? 0 : dp[j - 1];
+      dp[j] = grid[i][j] + Math.max(a, b);
+    }
+  }
+  return dp[colLen - 1];
 };
+
+// maxValue([
+//   [1, 3, 1],
+//   [1, 5, 1],
+//   [4, 2, 1],
+// ]);
