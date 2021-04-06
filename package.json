@@ -2,9 +2,9 @@
   "name": "vite-project",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "serve": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "dev": "vite preview"
   },
   "dependencies": {
     "@types/lodash": "^4.14.168",
