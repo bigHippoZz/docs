@@ -2,20 +2,30 @@
   <img alt="Vue logo" src="./assets/logo.png" />
   <HelloWorld />
 
-  <Tree :model="data" />
+  <Drag id="header">
+    <Tree :model="data" />
+    <template #footer>
+      <div>Footer</div>
+    </template>
+  </Drag>
+  <HipppDrag />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { TreeNode } from "./algorithm/BinaryTreeForEach";
 import HelloWorld from "./components/HelloWorld.vue";
+import Drag from "./components/Drag.vue";
+import Tree from "./views/Tree.vue";
 
-import Tree from './views/Tree.vue';
+import HipppDrag from "@/components/HippoDrag/index.vue";
 export default defineComponent({
   name: "App",
   components: {
     HelloWorld,
     Tree,
+    Drag,
+    HipppDrag,
   },
   setup() {
     function generateTree(array: number[]) {
