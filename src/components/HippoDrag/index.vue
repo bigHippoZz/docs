@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div class="el-form test" :ref="getEl">
-      
+    <div class="el-form test" :ref="getEl">Test</div>
+    <div class="box">
+      <div class="a"></div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { onMounted, ref } from "vue";
-import { getParentOrHost, tiggerClass, css,matrix } from "./utils";
+import { getParentOrHost, tiggerClass, css, matrix, getRect } from "./utils";
 export default {
   name: "test",
   setup() {
@@ -22,8 +23,11 @@ export default {
       console.log(elRef.value?.style);
       console.log(void 0);
       console.log(document.defaultView, "document defaultView");
+      // console.log(getRect(document.querySelector(".a"),true));
+      // console.log(css(elRef.value));
       // console.log(window.getComputedStyle(elRef.value as HTMLElement));
-      console.log(matrix(elRef.value));
+      // console.log(matrix(elRef.value));
+      console;
     });
     return {
       getEl,
@@ -32,8 +36,25 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.el-form{
+.el-form {
   width: 100px;
   height: 100px;
+  transform: scale(2);
+}
+
+.box {
+  width: 400px;
+  height: 400px;
+  background: red;
+  transform: translateX(200px);
+  transform: scale(2);
+  .a {
+    width: 200px;
+    height: 200px;
+    background: blue;
+    position: fixed;
+    top: 100px;
+    // transform: scale(2);
+  }
 }
 </style>

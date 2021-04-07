@@ -123,95 +123,96 @@ export function tiggerClass(el, name, state) {
 }
 /**
  * 获取 更改元素css样式
- * @param {HTMLElement} el 
- * @param {string} prop 
- * @param {*} value 
+ * @param {HTMLElement} el
+ * @param {string} prop
+ * @param {*} value
  */
 export function css(el, prop, value) {
-  console.log(arguments);
   // 以此判断 el prop value 是不是 void 0
-  const style = el && el.style
+  const style = el && el.style;
   if (!style) {
-    return
+    return;
   }
   // 知识点 undefined === void 0
   if (value === void 0) {
-    // window代表当前浏览器打开的窗口 
+    // window代表当前浏览器打开的窗口
     // document代表整个HTML文档
     // 我们可以通过使用 getComputedStyle 读取样式，通过 element.style 修改样式。
     /**
      * https://www.runoob.com/w3cnote/window-getcomputedstyle-method.html
      * 在许多在线的演示代码中, getComputedStyle 是通过 document.defaultView 对象
      * 来调用的。大部分情况下，这是不需要的， 因为可以直接通过 window 对象调用。
-     * 但有一种情况，你必需要使用 defaultView, 那是在 Firefox 3.6 
+     * 但有一种情况，你必需要使用 defaultView, 那是在 Firefox 3.6
      * 上访问子框架内的样式 (iframe)。
      * 而且除了在 IE8 浏览器中 document.defaultView === window 返回的是 false 外
      * 其他的浏览器（包括 IE9 ）返回的都是 true。
      * 所以后面直接使用 window 就好，不用在输入那么长的代码了。
-     * 
+     *
      */
     // get
     if (document.defaultView && document.defaultView.getComputedStyle) {
       // 当参数为空的时候 可以进行利用
-      value = document.defaultView.getComputedStyle(el)
+      value = document.defaultView.getComputedStyle(el);
       // getComputedStyle 读取的样式是最终样式，包括了内联样式、嵌入样式和外部样式。
     } else if (el.currentStyle) {
-      value = el.currentStyle
+      value = el.currentStyle;
     }
     // 如果prop为空就返回所有的样式
-    return prop === void 0 ? value : value[prop]
+    return prop === void 0 ? value : value[prop];
   } else {
     // set
-    if (!(prop in style) && prop.indexOf('webkit') === -1) {
-      prop = '-webkit-' + prop
+    if (!(prop in style) && prop.indexOf("webkit") === -1) {
+      prop = "-webkit-" + prop;
     }
-    style[prop] = value + (typeof value === 'string' ? '' : 'px')
+    style[prop] = value + (typeof value === "string" ? "" : "px");
   }
 }
 
-
 export function matrix(el, selfOnly) {
-  let appliedTransforms = ''
-  if (typeof el === 'string') {
-    appliedTransforms = el
+  let appliedTransforms = "";
+  if (typeof el === "string") {
+    appliedTransforms = el;
   } else {
     do {
-      let transform = css(el, 'transform')
-      if (transform && transform !== 'none') {
-        appliedTransforms = transform + " " + appliedTransforms
+      let transform = css(el, "transform");
+      console.log(transform);
+      if (transform && transform !== "none") {
+        appliedTransforms = transform + " " + appliedTransforms;
       }
     } while (!selfOnly && (el = el.parentNode));
   }
-  const matrixFn = window.DOMMatrix || window.WebKitCSSMatrix || window.CSSMatrix || window.MSCSSMatrix
+  const matrixFn =
+    window.DOMMatrix ||
+    window.WebKitCSSMatrix ||
+    window.CSSMatrix ||
+    window.MSCSSMatrix;
 
-  return matrixFn && (new matrixFn(appliedTransforms))
-
+  return matrixFn && new matrixFn(appliedTransforms);
 }
 
 /**
- * 
- * @param {HTMLElement} ctx 
- * @param {string} tagName 
- * @param {*} iterator 
- * @returns 
+ *
+ * @param {HTMLElement} ctx
+ * @param {string} tagName
+ * @param {*} iterator
+ * @returns
  */
 function find(ctx, tagName, iterator) {
   // 大体意思 传入el 判断有没有回调，有的话进行遍历，没有则返回 el的 getElementsByTagName 的
   // 集合
   if (!ctx) {
-    return []
+    return [];
   }
   let list = ctx.getElementsByTagName(tagName),
     i = 0,
-    n = list.length
+    n = list.length;
   if (iterator) {
     for (; i < n; i++) {
-      iterator(list, list[i], i)
+      iterator(list, list[i], i);
     }
   }
-  return list
+  return list;
 }
-
 
 // 获取滚动元素
 function getWindowScrollingElement() {
@@ -219,10 +220,107 @@ function getWindowScrollingElement() {
   // document.scrollingElement 获取当前滚动元素
   let scrollingElement = document.scrollingElement;
   if (scrollingElement) {
-    return scrollingElement
+    return scrollingElement;
   } else {
     // document.documentElement 获取根元素
     // document.body 获取body
-    return document.documentElement
+    return document.documentElement;
   }
+}
+/**
+ * 返回指定元素的rect returns the bounding client rect of given element
+ * @param {HTMLElement} el
+ * @param {boolean} relativeToContainingBlock rect是否应相对于（包括）容器的容纳块
+ * @param {boolean} relativeToNonStaticParent 文本是否应相对于（包括）容器的相对父对象
+ * @param {boolean} undoScale 容器的scale（）是否应撤消 wether the container‘s scale() should be undone
+ * @param {HTMLElement} container 元素将放置在的父元素中
+ * @returns {object}
+ */
+export function getRect(
+  el,
+  relativeToContainingBlock,
+  relativeToNonStaticParent,
+  undoScale,
+  container
+) {
+  if (!el.getBoundingClientRect && el !== window) return;
+
+  let elRect, top, left, bottom, right, height, width;
+
+  if (el !== window && el.parentNode && el !== getWindowScrollingElement()) {
+    elRect = el.getBoundingClientRect();
+    top = elRect.top;
+    left = elRect.left;
+    bottom = elRect.bottom;
+    right = elRect.right;
+    height = elRect.height;
+    width = elRect.width;
+  } else {
+    top = 0;
+    left = 0;
+    bottom = window.innerHeight;
+    right = window.innerWidth;
+    height = window.innerHeight;
+    width = window.innerWidth;
+  }
+
+  if (
+    (relativeToContainingBlock || relativeToNonStaticParent) &&
+    el !== window
+  ) {
+    // Adjust for translate()
+    container = container || el.parentNode;
+
+    // solves #1123 (see: https://stackoverflow.com/a/37953806/6088312)
+    // Not needed on <= IE11
+
+    do {
+      if (
+        container &&
+        container.getBoundingClientRect &&
+        (css(container, "transform") !== "none" ||
+          (relativeToNonStaticParent &&
+            css(container, "position") !== "static"))
+      ) {
+        let containerRect = container.getBoundingClientRect();
+
+        // Set relative to edges of padding box of container
+        top -= containerRect.top + parseInt(css(container, "border-top-width"));
+        left -=
+          containerRect.left + parseInt(css(container, "border-left-width"));
+        bottom = top + elRect.height;
+        right = left + elRect.width;
+
+        break;
+      }
+      /* jshint boss:true */
+    } while ((container = container.parentNode));
+  }
+
+  if (undoScale && el !== window) {
+    // Adjust for scale()
+    let elMatrix = matrix(container || el),
+      scaleX = elMatrix && elMatrix.a,
+      scaleY = elMatrix && elMatrix.d;
+
+    if (elMatrix) {
+      top /= scaleY;
+      left /= scaleX;
+
+      width /= scaleX;
+      height /= scaleY;
+
+      bottom = top + height;
+      right = left + width;
+    }
+  }
+
+  return {
+    top: top,
+    left: left,
+    bottom: bottom,
+    right: right,
+    width: width,
+    height: height,
+  };
 }
