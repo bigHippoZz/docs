@@ -139,7 +139,8 @@ export function css(el, prop, value) {
     // document代表整个HTML文档
     // 我们可以通过使用 getComputedStyle 读取样式，通过 element.style 修改样式。
     /**
-     * https://www.runoob.com/w3cnote/window-getcomputedstyle-method.html
+     * @see {@link https://www.runoob.com/w3cnote/window-getcomputedstyle-method.html}
+     *
      * 在许多在线的演示代码中, getComputedStyle 是通过 document.defaultView 对象
      * 来调用的。大部分情况下，这是不需要的， 因为可以直接通过 window 对象调用。
      * 但有一种情况，你必需要使用 defaultView, 那是在 Firefox 3.6
@@ -216,7 +217,9 @@ function find(ctx, tagName, iterator) {
 
 // 获取滚动元素
 function getWindowScrollingElement() {
-  // https://blog.csdn.net/suolong914/article/details/87971172
+  /**
+   * @see {@link https://blog.csdn.net/suolong914/article/details/87971172}
+   */
   // document.scrollingElement 获取当前滚动元素
   let scrollingElement = document.scrollingElement;
   if (scrollingElement) {

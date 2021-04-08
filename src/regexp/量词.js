@@ -61,9 +61,9 @@ const C = /10*/g; // 当前的 0 有或者没有 有个话可以是多个
 
 const diff = "100 10 1";
 
-// console.log(diff.match(A));
-// console.log(diff.match(B));
-// console.log(diff.match(C));
+// console.log(diff.match(A)); 10 10 1 
+// console.log(diff.match(B)); 100 10 
+// console.log(diff.match(C)); 100 10 1 
 
 const pattern = /\{\{(.+?)\}\}/;
 string = "{{  string 0}}";
