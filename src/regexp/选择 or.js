@@ -10,7 +10,7 @@ let string = "First HTML appeared, then CSS, then JavaScript python";
 string = "grey";
 pattern = /gr(a|e)y/g;
 // gr(a|e)y ===  gr[ae]y
-console.log(string.match(pattern));
+// console.log(string.match(pattern));
 
 // 23:59
 // 01:00

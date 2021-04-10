@@ -4,6 +4,9 @@
 let string = `He said: "She's the one!".`;
 
 // ['"](?<expression>.+)\1 当前的正则失效是因为 没有加() 所以没有拿到捕获组
-let pattern = /(["])(?<expression>[^"]+)\1/g;
+let pattern = /(?<quote>["])(?<expression>.+?)\k<quote>/;
 
-console.log(string.match(pattern))
+// console.log(string.match(pattern))
+
+
+
