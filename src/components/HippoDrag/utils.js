@@ -8,13 +8,13 @@ const captureMode = {
  * 注册事件
  * @param {HTMLElement} el
  * @param {string} event
- * @param {function} func
+ * @param {export function} func
  */
-function on(el, event, func) {
+export function on(el, event, func) {
   el.addEventListener(event, func);
 }
 
-function off(el, event, func) {
+export function off(el, event, func) {
   el.removeEventListener(event, func);
 }
 
@@ -25,7 +25,7 @@ function off(el, event, func) {
  * @param {*} selector
  * @returns
  */
-function matches(el, selector) {
+export function matches(el, selector) {
   if (!selector) return;
   // 判断是不是 ">" 开头，如果是的话将 ">" 进行截取
   selector[0] === ">" && (selector = selector.substring(1));
@@ -64,7 +64,7 @@ export function getParentOrHost(el) {
  * @param {HTMLElement} ctx
  * @param {*} includeCtx
  */
-function closest(el, selector, ctx, includeCtx) {
+export function closest(el, selector, ctx, includeCtx) {
   if (el) {
     ctx = ctx || document;
 
@@ -198,7 +198,7 @@ export function matrix(el, selfOnly) {
  * @param {*} iterator
  * @returns
  */
-function find(ctx, tagName, iterator) {
+export function find(ctx, tagName, iterator) {
   // 大体意思 传入el 判断有没有回调，有的话进行遍历，没有则返回 el的 getElementsByTagName 的
   // 集合
   if (!ctx) {
@@ -216,7 +216,7 @@ function find(ctx, tagName, iterator) {
 }
 
 // 获取滚动元素
-function getWindowScrollingElement() {
+export function getWindowScrollingElement() {
   /**
    * @see {@link https://blog.csdn.net/suolong914/article/details/87971172}
    */
@@ -330,260 +330,239 @@ export function getRect(
 
 /**
  * 获取有滚动效果的父元素
- * @param {HTMLElement} el 
- * @param {boolean} includeSelf 
- * @returns 
+ * @param {HTMLElement} el
+ * @param {boolean} includeSelf
+ * @returns
  */
-function getParentAutoScrollElement(el, includeSelf) {
-  if (!el || !el.getBoundingClientRect) return getWindowScrollingElement()
+export function getParentAutoScrollElement(el, includeSelf) {
+  if (!el || !el.getBoundingClientRect) return getWindowScrollingElement();
 
   let elem = el;
-  let gotSelf = false
+  let gotSelf = false;
 
   do {
-    if (elem.clientWidth < elem.scrollWidth || elem.clientHeight < el.scrollHeight) {
+    if (
+      elem.clientWidth < elem.scrollWidth ||
+      elem.clientHeight < el.scrollHeight
+    ) {
       // 获取一次进行缓存
-      let elemCSS = css(elem)
+      let elemCSS = css(elem);
 
       if (
-        (elem.clientWidth < elem.scrollWidth && (elemCSS.overflowX == 'auto' || elemCSS.overflowX == 'scroll')) ||
-        (elem.clientHeight < elem.scrollHeight && (elemCSS.overflowY == 'auto' || elemCSS.overflowY == 'scroll'))
+        (elem.clientWidth < elem.scrollWidth &&
+          (elemCSS.overflowX == "auto" || elemCSS.overflowX == "scroll")) ||
+        (elem.clientHeight < elem.scrollHeight &&
+          (elemCSS.overflowY == "auto" || elemCSS.overflowY == "scroll"))
       ) {
         if (!elem.getBoundingClientRect || elem === document.body) {
-          return getWindowScrollingElement()
+          return getWindowScrollingElement();
         }
         if (includeSelf || gotSelf) {
-          return elem
+          return elem;
         }
-        gotSelf = true
+        gotSelf = true;
       }
     }
-
-  } while (elem = elem.parentNode);
-  return getWindowScrollingElement()
+  } while ((elem = elem.parentNode));
+  return getWindowScrollingElement();
 }
 
-
-function isScrolledPast(el, elSide, parentSide) {
-
+export function isScrolledPast(el, elSide, parentSide) {
   let parent = getParentAutoScrollElement(el, true),
-    elSideVal = getRect(el)[elSide]
+    elSideVal = getRect(el)[elSide];
 
   while (parent) {
     let parentSideVal = getRect(parent)[parentSide],
-      visible
-    if (parentSide === 'top' || parentSide === 'left') {
-      visible = elSideVal >= parentSideVal
+      visible;
+    if (parentSide === "top" || parentSide === "left") {
+      visible = elSideVal >= parentSideVal;
     } else {
-      visible = elSideVal <= parentSideVal
+      visible = elSideVal <= parentSideVal;
     }
     if (!visible) {
-      return parent
+      return parent;
     }
-    if (parent === getWindowScrollingElement()) break
-    parent = getParentAutoScrollElement(parent, false)
-
+    if (parent === getWindowScrollingElement()) break;
+    parent = getParentAutoScrollElement(parent, false);
   }
-  return false
-
-
+  return false;
 }
 
-
-
-function getChild(el, childNum, options) {
+export function getChild(el, childNum, options) {
   let currentChild = 0,
     i = 0,
     children = el.children;
 
   while (i < children.length) {
     if (
-      children[i].style.display !== 'none' &&
+      children[i].style.display !== "none" &&
       // children[i] !== Sortable.ghost &&
       // children[i] !== Sortable.dragged &&
       closest(children[i], options.draggable, el, false)
     ) {
       if (currentChild === childNum) {
-        return children[i]
+        return children[i];
       }
-      currentChild++
+      currentChild++;
     }
-    i++
+    i++;
   }
-  return null
+  return null;
 }
 
-
-
 /**
- * 
- * @param {HTMLElement} el 
- * @param {string} selector 
+ *
+ * @param {HTMLElement} el
+ * @param {string} selector
  */
-function lastChild(el, selector) {
-  let last = el.lastElementChild
-  while (last &&
-    (
-      // last === Sortable.ghost ||
-      css(last, 'display') === 'none' ||
-      selector && !matches(last, selector)
-    )
+export function lastChild(el, selector) {
+  let last = el.lastElementChild;
+  while (
+    last &&
+    // last === Sortable.ghost ||
+    (css(last, "display") === "none" || (selector && !matches(last, selector)))
   ) {
-    last = last.previousElementSibling
-
+    last = last.previousElementSibling;
   }
-  return last || null
-
+  return last || null;
 }
-
 
 /**
- * 
- * @param {HTMLElement} el 
- * @param {string} selector 
- * @returns 
+ *
+ * @param {HTMLElement} el
+ * @param {string} selector
+ * @returns
  */
-function index(el, selector) {
-  let index = 0
+export function index(el, selector) {
+  let index = 0;
   if (!el || !el.parentNode) {
-    return -1
+    return -1;
   }
 
-  while (el = el.previousElementSibling) {
+  while ((el = el.previousElementSibling)) {
     // && el !== Sortable.clone
-    if ((el.nodeName.toUpperCase() !== 'TEMPLATE') && (!selector || matches(el, selector))) {
-      index++
+    if (
+      el.nodeName.toUpperCase() !== "TEMPLATE" &&
+      (!selector || matches(el, selector))
+    ) {
+      index++;
     }
   }
-  return index
+  return index;
 }
 
-
-function getRelativeScrollOffset(el) {
-
+export function getRelativeScrollOffset(el) {
   let offsetLeft = 0,
     offsetTop = 0,
-    winScroller = getWindowScrollingElement()
+    winScroller = getWindowScrollingElement();
 
   if (el) {
-
     do {
-
       let elMatrix = matrix(el),
         scaleX = elMatrix.a,
         scaleY = elMatrix.d;
-      offsetLeft += el.scrollLeft * scaleX
-      offsetTop += el.scrollTop * scaleY
+      offsetLeft += el.scrollLeft * scaleX;
+      offsetTop += el.scrollTop * scaleY;
     } while (el !== winScroller && (el = el.parentNode));
   }
-  return [offsetLeft, offsetTop]
+  return [offsetLeft, offsetTop];
 }
 
-
-
 /**
- * 
- * @param {Array} arr 
- * @param {Object} obj 
+ *
+ * @param {Array} arr
+ * @param {Object} obj
  */
-function indexOfObject(arr, obj) {
+export function indexOfObject(arr, obj) {
   for (let i in arr) {
     if (!arr.hasOwnProperty(i)) {
-      continue
+      continue;
     }
     for (let key in obj) {
       if (obj.hasOwnProperty(key) && obj[key] === arr[i][key]) {
-        return Number(i)
+        return Number(i);
       }
     }
   }
-  return -1
+  return -1;
 }
 
-function extend(dst, src) {
+export function extend(dst, src) {
   if (dst && src) {
     for (let key in src) {
       if (src.hasOwnProperty(key)) {
-        dst[key] = src[key]
+        dst[key] = src[key];
       }
     }
   }
-  return dst
+  return dst;
 }
 
-
-
-function scrollBy(el, x, y) {
-  el.scrollLeft += x
-  el.scrollTop += y
+export function scrollBy(el, x, y) {
+  el.scrollLeft += x;
+  el.scrollTop += y;
 }
 
-let _throttleTimeout
+let _throttleTimeout;
 
-function _throttle(callBack, ms) {
+export function _throttle(callBack, ms) {
   return function () {
-    let _this = this
-    let args = arguments
+    let _this = this;
+    let args = arguments;
     if (!_throttleTimeout) {
       if (args.length === 1) {
-        callBack.call(_this, args[0])
+        callBack.call(_this, args[0]);
       } else {
-        callBack.apply(_this, args)
+        callBack.apply(_this, args);
       }
       _throttleTimeout = setTimeout(() => {
-        _throttleTimeout = void 0
+        _throttleTimeout = void 0;
       }, ms);
     }
+  };
+}
+
+export function cancelThrottle() {
+  clearTimeout(_throttleTimeout);
+  _throttleTimeout = void 0;
+}
+
+export function clone(el) {
+  let Polymer = window.Polymer;
+  let $ = window.jQuery || window.Zepto;
+
+  if (Polymer && Polymer.dom) {
+    return Polymer.dom(el).cloneNode(true);
+  } else if ($) {
+    return $(el).clone(true)[0];
+  } else {
+    return el.cloneNode(true);
   }
 }
 
-function cancelThrottle() {
-  clearTimeout(_throttleTimeout)
-  _throttleTimeout = void 0
-}
-
-
-
-function clone(el) {
-	let Polymer = window.Polymer;
-	let $ = window.jQuery || window.Zepto;
-
-	if (Polymer && Polymer.dom) {
-		return Polymer.dom(el).cloneNode(true);
-	}
-	else if ($) {
-		return $(el).clone(true)[0];
-	}
-	else {
-		return el.cloneNode(true);
-	}
-}
-
-
-function isRectEqual(rect1, rect2) {
-  return Math.round(rect1.top) === Math.round(rect2.top) &&
+export function isRectEqual(rect1, rect2) {
+  return (
+    Math.round(rect1.top) === Math.round(rect2.top) &&
     Math.round(rect1.left) === Math.round(rect2.left) &&
     Math.round(rect1.height) === Math.round(rect2.height) &&
-    Math.round(rect1.width) === Math.round(rect2.width);
+    Math.round(rect1.width) === Math.round(rect2.width)
+  );
 }
 
-
-function setRect(el, rect) {
-  css(el, 'position', 'absolute');
-  css(el, 'top', rect.top);
-  css(el, 'left', rect.left);
-  css(el, 'width', rect.width);
-  css(el, 'height', rect.height);
+export function setRect(el, rect) {
+  css(el, "position", "absolute");
+  css(el, "top", rect.top);
+  css(el, "left", rect.left);
+  css(el, "width", rect.width);
+  css(el, "height", rect.height);
 }
 
-function unsetRect(el) {
-  css(el, 'position', '');
-  css(el, 'top', '');
-  css(el, 'left', '');
-  css(el, 'width', '');
-  css(el, 'height', '');
+export function unsetRect(el) {
+  css(el, "position", "");
+  css(el, "top", "");
+  css(el, "left", "");
+  css(el, "width", "");
+  css(el, "height", "");
 }
 
-
-const expando = 'Sortable' + (new Date).getTime();
-
+export const expando = "Sortable" + new Date().getTime();

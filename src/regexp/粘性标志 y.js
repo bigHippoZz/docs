@@ -10,3 +10,5 @@ let pattern = /\w+/g;
 // 	console.log(result);
 // }
 
+// y 修饰符可以大幅度提升性能
+
