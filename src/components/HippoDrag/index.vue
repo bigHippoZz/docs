@@ -1,15 +1,20 @@
 <template>
     <div>
         <div class="el-form test" :ref="getEl">Test</div>
-
-        <div class="box">
+        <ul id="el-drag">
+            <li v-for="item of state.array" :key="item">
+                {{ item }}
+            </li>
+        </ul>
+        <!-- <div class="box">
             <div class="a"></div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 import { getParentOrHost, tiggerClass, css, matrix, getRect } from './utils'
+import ElTableColumn from 'element-plus/lib/el-table/src/tableColumn'
 export default {
     name: 'test',
     setup() {
@@ -19,6 +24,11 @@ export default {
             // console.log(el.style)
             elRef.value = el
         }
+        const state = reactive({
+            array: Array(10)
+                .fill(1)
+                .map((_, index) => index),
+        })
         onMounted(() => {
             // console.log()
             console.log(elRef.value?.style)
@@ -32,32 +42,62 @@ export default {
                 class Sortable {
                     el: HTMLElement
                     constructor(el: HTMLElement) {
-                        this.el = el
-                        let currentDragEl = null
-                        const slice = [].slice
-
-                        this.el.addEventListener('dragstart', (evt) => {
-                            console.log(evt)
-                            currentDragEl = evt.target
-                            console.log(currentDragEl)
-                            this.el.addEventListener('dragover', (evt) => {})
-                            this.el.addEventListener('dragend', (evt) => {})
-                        })
-                        const _dragover = (evt: DragEvent) => {
-                            const target = evt.target
-
-                            console.log(evt)
+                        const _dragover = <T extends DragEvent>(evt: T) => {
+                           evt.preventDefault()
+                            const target = evt.target as HTMLElement
+                            if (evt.dataTransfer) {
+                                evt.dataTransfer.dropEffect = 'move'
+                            }
+                            if (
+                                target &&
+                                target !== currentDragEl &&
+                                target.nodeName === 'LI'
+                            ) {
+                                this.el.insertBefore(
+                                    currentDragEl,
+                                    target.nextSibling || target
+                                )
+                            }
                         }
-                        const _dragend = (evt: DragEvent) => {
+                        const _dragend = <T extends DragEvent>(evt: T) => {
                             this.el.removeEventListener('dragover', _dragover)
                             this.el.removeEventListener('dragend', _dragend)
                         }
+                        this.el = el
+                        let currentDragEl = {} as HTMLElement
+                        const slice = [].slice
+                        slice
+                            .call(this.el.children)
+                            .forEach((child: HTMLElement) => {
+                                child.draggable = true
+                            })
+
+                        this.el.addEventListener(
+                            'dragstart',
+                            (evt: DragEvent) => {
+                                // evt.preventDefault()
+                                // evt.stopPropagation()
+                                currentDragEl = evt.target as HTMLElement
+                                if (evt.dataTransfer)
+                                    evt.dataTransfer.effectAllowed = 'move'
+                                currentDragEl.addEventListener(
+                                    'dragover',
+                                    _dragover
+                                )
+                                currentDragEl.addEventListener(
+                                    'dragend',
+                                    _dragend
+                                )
+                            }
+                        )
                     }
                 }
+                new Sortable(document.getElementById('el-drag') as HTMLElement)
             })()
         })
         return {
             getEl,
+            state,
         }
     },
 }
@@ -82,6 +122,11 @@ export default {
         position: fixed;
         top: 100px;
         // transform: scale(2);
+    }
+}
+ul {
+    li {
+        height: 40px;
     }
 }
 </style>
