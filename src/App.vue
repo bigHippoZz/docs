@@ -1,6 +1,6 @@
 <template>
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld />
+    <!-- <img alt="Vue logo" src="./assets/logo.png" />
+    <HelloWorld /> -->
 
     <Drag id="header"> </Drag>
 </template>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="el-form test" :ref="getEl">Test</div>
+        <div v-show="false" class="el-form test" :ref="getEl">Test</div>
         <ul id="el-drag" @pointerdown="handlePointer">
             <li
                 :style="{ background: randomColor() }"
@@ -10,22 +10,30 @@
             >
                 {{ item }}
             </li>
-            <input id="1" type="text" />
-            <input id="2" type="text" />
-            <input id="3" type="text" />
-            <input type="checkbox" id="cbox1" value="first_checkbox" />
-            <label for="cbox1">This is the first checkbox</label>
         </ul>
-        <!-- <div class="box">
-            <div class="a"></div>
-        </div> -->
+        <Line line-text="分割线" />
+        <ul id="_el-drag" @pointerdown="handlePointer">
+            <li
+                :style="{ background: randomColor() }"
+                v-for="item of state.array"
+                :key="item"
+                :data-index="item"
+            >
+                {{ item }}
+            </li>
+        </ul>
     </div>
 </template>
 <script lang="ts">
 import { onMounted, ref, reactive } from 'vue'
 import { getParentOrHost, toggleClass, css, matrix, getRect } from './utils'
-import Sortable, { randomColor } from './Sortable'
+import Sortable from '@/sortable/Sortable'
+import { randomColor, default as _Sortable } from './Sortable'
+import Line from '@/components/Line/index.vue'
 export default {
+    components: {
+        Line,
+    },
     name: 'test',
     setup() {
         const elRef = ref<HTMLElement | null>(null)
@@ -52,8 +60,13 @@ export default {
             function onUpdate() {
                 console.log('update')
             }
-            new Sortable(document.getElementById('el-drag') as HTMLElement, {
+
+            new _Sortable(document.getElementById('el-drag') as HTMLElement, {
                 onUpdate,
+            })
+
+            new Sortable(document.getElementById('_el-drag') as HTMLElement, {
+                animation: 200,
             })
         })
         const handlePointer = <T extends PointerEvent>(event: T) => {

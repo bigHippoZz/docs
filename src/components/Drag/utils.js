@@ -176,7 +176,6 @@ export function matrix(el, selfOnly) {
     } else {
         do {
             let transform = css(el, 'transform')
-            console.log(transform)
             if (transform && transform !== 'none') {
                 appliedTransforms = transform + ' ' + appliedTransforms
             }

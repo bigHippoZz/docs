@@ -1,4 +1,6 @@
 import { expando } from './utils'
+import AnimationStateManager from './Animation'
+
 /**
  * @class  Sortable
  * @param  {HTMLElement}  el
@@ -8,10 +10,15 @@ function Sortable(el, options) {
     if (!(el && el.nodeType && el.nodeType === 1)) {
         throw `${Object.prototype.toString.call(el)}`
     }
+
     this.el = el /* 根节点 */
     this.options = options = Object.assign({}, options) /* 浅拷贝 */
     el[expando] = this /* 将this挂载到el 双向引用 */
     const slice = [].slice
+    this.animationManager = new AnimationStateManager({
+        animation: 200,
+        el: this.el,
+    })
     let dragEl, nextEl
     slice.call(el.children).forEach(function (itemEl) {
         itemEl.draggable = true
@@ -33,11 +40,15 @@ function Sortable(el, options) {
             // console.log(event.clientY)
             const isNext =
                 (event.clientY - rect.top) / (rect.bottom - rect.top) > 0.5
-
+          
+            this.animationManager.captureAnimationState()
+            
             this.el.insertBefore(
                 dragEl,
                 (isNext && target) || target.nextSibling
             )
+            this.animationManager.animateAll()
+        
         }
     }
 
@@ -55,7 +66,6 @@ function Sortable(el, options) {
         // event.preventDefault()
         // 利用冒泡机制捕获dragEl
         dragEl = event.target
-        console.log(event.target.shadowRoot)
         // console.log(event.type)
         nextEl = dragEl.nextSibling
         event.dataTransfer.effectAllowed = 'move'

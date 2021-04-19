@@ -1,143 +1,202 @@
-import { getRect, css, matrix, isRectEqual, indexOfObject } from "./utils";
+import { getRect, css, matrix, isRectEqual, indexOfObject } from './utils.js'
 
-export default function animationStateManager() {
-  let animationStates = [];
-  let animationCallbackId;
-  return {
-    captureAnimationState() {
-      // 重置animationStates状态
-      animationStates = [];
-      if (!this.options.animation) return;
-      let children = [].slice.call(this.el.children);
-      children.forEach((child) => {
-        if (css(child, "display") === "none") {
-          return;
-        }
-        // 给animationStates 添加 Rect
-        animationStates.push({
-          target: child,
-          rect: getRect(child),
-        });
+export default function AnimationStateManager(options) {
+    let animationStates = [],
+        animationCallbackId
+    options = options || {}
 
-        let fromRect = animationStates[animationStates.length - 1].rect;
-        // 补偿动画
-        if (child.thisAnimationDuration) {
-          let childMatrix = matrix(child, true);
-          if (childMatrix) {
-            fromRect.top -= childMatrix.f;
-            fromRect.left -= childMatrix.e;
-          }
-        }
-        // 同时给child 添加 fromRect
-        child.fromRect = fromRect;
-      });
-    },
+    return {
+        captureAnimationState() {
+            animationStates = []
+            if (!options.animation) return
+            let children = [].slice.call(options.el.children)
 
-    addAnimationState(state) {
-      animationStates.push(state);
-    },
-    removeAnimationState(target) {
-      // 这地方可以简化的
-      animationStates.splice(indexOfObject(animationStates, { target }), 1);
-    },
+            children.forEach(child => {
+                if (css(child, 'display') === 'none') return
+                animationStates.push({
+                    target: child,
+                    rect: getRect(child),
+                })
 
-    animateAll(callBack) {
-      // 开始执行动画 判断是否开启动画
-      if (!this.options.animation) {
-        clearTimeout(animationCallbackId);
-        if (typeof callBack === "function") callBack();
-        return;
-      }
-      let animating = false,
-        animationTime = 0;
-      animationStates.forEach((state) => {
-        let time = 0,
-          target = state.target,
-          fromRect = target.fromRect,
-          toRect = getRect(target),
-          prevFromRect = target.prevFromRect,
-          prevToRect = target.prevToRect,
-          animatingRect = state.rect,
-          targetMatrix = matrix(target, true);
-      });
+                let fromRect = {
+                    ...animationStates[animationStates.length - 1].rect,
+                }
 
-      if (targetMark) {
-        toRect.top -= targetMatrix.f;
-        toRect.left -= targetMatrix.e;
-      }
-	  
-      target.toRect = toRect;
+                // If animating: compensate for current animation
+                if (child.thisAnimationDuration) {
+                    let childMatrix = matrix(child, true)
+                    if (childMatrix) {
+                        // childMatrix.f  垂直方向偏移距离
+                        // childMatrix.e  水平方向偏移距离
+                        fromRect.top -= childMatrix.f
+                        fromRect.left -= childMatrix.e
+                    }
+                }
 
+                child.fromRect = fromRect
+            })
+        },
 
+        addAnimationState(state) {
+            animationStates.push(state)
+        },
 
+        removeAnimationState(target) {
+            animationStates.splice(
+                indexOfObject(animationStates, { target }),
+                1
+            )
+        },
 
+        animateAll(callback) {
+            if (!options.animation) {
+                clearTimeout(animationCallbackId)
+                if (typeof callback === 'function') callback()
+                return
+            }
 
+            let animating = false,
+                animationTime = 0
 
-    },
-    animate(target, currentRect, toRect, duration) {
-      if (duration) {
-        // 初始化
-        css(target, "transition", "");
-        css(target, "transform", "");
-        // 获取父元素的 matrix 或者更高层级
-        let elMatrix = matrix(this.el),
-          scaleX = elMatrix && elMatrix.a,
-          scaleY = elMatrix && elMatrix.d,
-          translateX = (currentRect.left - toRect.left) / (scaleX || 1),
-          translateY = (currentRect.top - toRect.top) / (scaleY || 1);
+            animationStates.forEach(state => {
+                let time = 0,
+                    animatingThis = false,
+                    target = state.target,
+                    fromRect = target.fromRect,
+                    toRect = getRect(target),
+                    prevFromRect = target.prevFromRect,
+                    prevToRect = target.prevToRect,
+                    animatingRect = state.rect,
+                    targetMatrix = matrix(target, true)
 
-        target.animatingX = !!translateX;
-        target.animatingY = !!translateY;
-        css(
-          target,
-          "transform",
-          `translate3d(${translateX}px,${translateY}px,0)`
-        );
+                if (targetMatrix) {
+                    // Compensate for current animation
+                    toRect.top -= targetMatrix.f
+                    toRect.left -= targetMatrix.e
+                }
 
-        // 获取元素的实际长度  重绘!!
-        this.forRepaintDummy = repaint(target); // repaint
+                target.toRect = toRect
 
-        css(
-          target,
-          "transition",
-          `transform ${duration}ms ${
-            this.options.easing ? " " + this.options.easing : ""
-          }`
-        );
+                if (target.thisAnimationDuration) {
+                    // Could also check if animatingRect is between fromRect and toRect
+                    if (
+                        isRectEqual(prevFromRect, toRect) &&
+                        !isRectEqual(fromRect, toRect) &&
+                        // Make sure animatingRect is on line between toRect & fromRect
+                        (animatingRect.top - toRect.top) /
+                            (animatingRect.left - toRect.left) ===
+                            (fromRect.top - toRect.top) /
+                                (fromRect.left - toRect.left)
+                    ) {
+                        // If returning to same place as started from animation and on same axis
+                        time = calculateRealTime(
+                            animatingRect,
+                            prevFromRect,
+                            prevToRect,
+                            options
+                        )
+                    }
+                }
 
-        css(target, "transform", "translate3d(0,0,0)");
-        // 清空上一次的动画计时器 animated 判断当前是否有动画执行
-        typeof target.animated === "number" && clearTimeout(target.animated);
+                // if fromRect != toRect: animate
+                if (!isRectEqual(toRect, fromRect)) {
+                    target.prevFromRect = fromRect
+                    target.prevToRect = toRect
 
-        target.animated = setTimeout(function () {
-          css(target, "transition", "");
-          css(target, "transform", "");
-          target.animated = false;
+                    if (!time) {
+                        time = options.animation
+                    }
+                    this.animate(target, animatingRect, toRect, time)
+                }
 
-          target.animatingX = false;
-          target.animatingY = false;
-        }, duration);
-      }
-    },
-  };
+                if (time) {
+                    animating = true
+                    animationTime = Math.max(animationTime, time)
+                    clearTimeout(target.animationResetTimer)
+                    target.animationResetTimer = setTimeout(function () {
+                        target.animationTime = 0
+                        target.prevFromRect = null
+                        target.fromRect = null
+                        target.prevToRect = null
+                        target.thisAnimationDuration = null
+                    }, time)
+                    target.thisAnimationDuration = time
+                }
+            })
+
+            clearTimeout(animationCallbackId)
+            if (!animating) {
+                if (typeof callback === 'function') callback()
+            } else {
+                animationCallbackId = setTimeout(function () {
+                    if (typeof callback === 'function') callback()
+                }, animationTime)
+            }
+            animationStates = []
+        },
+
+        animate(target, currentRect, toRect, duration) {
+            if (duration) {
+                css(target, 'transition', '')
+                css(target, 'transform', '')
+
+                let elMatrix = matrix(options.el),
+                    scaleX = elMatrix && elMatrix.a,
+                    scaleY = elMatrix && elMatrix.d,
+                    translateX =
+                        (currentRect.left - toRect.left) / (scaleX || 1),
+                    translateY = (currentRect.top - toRect.top) / (scaleY || 1)
+
+                target.animatingX = !!translateX
+                target.animatingY = !!translateY
+
+                css(
+                    target,
+                    'transform',
+                    'translate3d(' + translateX + 'px,' + translateY + 'px,0)'
+                )
+
+                // 重绘
+                repaint(target) // repaint
+
+                css(
+                    target,
+                    'transition',
+                    'transform ' +
+                        duration +
+                        'ms' +
+                        (options.easing ? ' ' + options.easing : '')
+                )
+
+                css(target, 'transform', 'translate3d(0,0,0)')
+                typeof target.animated === 'number' &&
+                    clearTimeout(target.animated)
+                target.animated = setTimeout(function () {
+                    css(target, 'transition', '')
+                    css(target, 'transform', '')
+                    target.animated = false
+                    target.animatingX = false
+                    target.animatingY = false
+                }, duration)
+            }
+        },
+    }
 }
 
 function repaint(target) {
-  return target.offsetWidth;
+    return target.offsetWidth
 }
 
-
-
 function calculateRealTime(animatingRect, fromRect, toRect, options) {
-	return (
-		(Math.sqrt(
-			Math.pow(fromRect.top - animatingRect.top, 2) +
-				Math.pow(fromRect.left - animatingRect.left, 2)
-		) /
-			Math.sqrt(
-				Math.pow(fromRect.top - toRect.top, 2) +
-					Math.pow(fromRect.left - toRect.left, 2)
-			)) *
-		options.animation
-	);
+    return (
+        (Math.sqrt(
+            Math.pow(fromRect.top - animatingRect.top, 2) +
+                Math.pow(fromRect.left - animatingRect.left, 2)
+        ) /
+            Math.sqrt(
+                Math.pow(fromRect.top - toRect.top, 2) +
+                    Math.pow(fromRect.left - toRect.left, 2)
+            )) *
+        options.animation
+    )
 }

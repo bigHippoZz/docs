@@ -54,7 +54,7 @@ export default function AnimationStateManager() {
 
 			let animating = false,
 				animationTime = 0;
-
+				
 			animationStates.forEach((state) => {
 				let time = 0,
 					animatingThis = false,
@@ -135,7 +135,7 @@ export default function AnimationStateManager() {
 
 
 			});
-
+			
 			clearTimeout(animationCallbackId);
 			if (!animating) {
 				if (typeof callback === "function") callback();
@@ -155,8 +155,12 @@ export default function AnimationStateManager() {
 
 		animate(target, currentRect, toRect, duration) {
 			if (duration) {
+
+
 				css(target, "transition", "");
 				css(target, "transform", "");
+
+
 				let elMatrix = matrix(this.el),
 					scaleX = elMatrix && elMatrix.a,
 					scaleY = elMatrix && elMatrix.d,
@@ -171,6 +175,8 @@ export default function AnimationStateManager() {
 					"transform",
 					"translate3d(" + translateX + "px," + translateY + "px,0)"
 				);
+
+
 				// 重绘
 				this.forRepaintDummy = repaint(target); // repaint
 
@@ -189,10 +195,12 @@ export default function AnimationStateManager() {
 					css(target, "transition", "");
 					css(target, "transform", "");
 					target.animated = false;
-
 					target.animatingX = false;
 					target.animatingY = false;
 				}, duration);
+
+
+
 			}
 		},
 	};
