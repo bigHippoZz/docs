@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="el-form test" :ref="getEl">Test</div>
-        <ul id="el-drag">
+        <ul id="el-drag" @pointerdown="handlePointer">
             <li
                 :style="{ background: randomColor() }"
                 v-for="item of state.array"
@@ -10,6 +10,11 @@
             >
                 {{ item }}
             </li>
+            <input id="1" type="text" />
+            <input id="2" type="text" />
+            <input id="3" type="text" />
+            <input type="checkbox" id="cbox1" value="first_checkbox" />
+            <label for="cbox1">This is the first checkbox</label>
         </ul>
         <!-- <div class="box">
             <div class="a"></div>
@@ -18,8 +23,7 @@
 </template>
 <script lang="ts">
 import { onMounted, ref, reactive } from 'vue'
-import { getParentOrHost, tiggerClass, css, matrix, getRect } from './utils'
-import ElTableColumn from 'element-plus/lib/el-table/src/tableColumn'
+import { getParentOrHost, toggleClass, css, matrix, getRect } from './utils'
 import Sortable, { randomColor } from './Sortable'
 export default {
     name: 'test',
@@ -44,7 +48,7 @@ export default {
             // console.log(css(elRef.value));
             // console.log(window.getComputedStyle(elRef.value as HTMLElement));
             // console.log(matrix(elRef.value));
-
+            // console.log(document.body.host)
             function onUpdate() {
                 console.log('update')
             }
@@ -52,10 +56,23 @@ export default {
                 onUpdate,
             })
         })
+        const handlePointer = <T extends PointerEvent>(event: T) => {
+            console.log(event)
+            const root = document.getElementById('el-drag') as HTMLElement
+            const inputs = root.getElementsByTagName('input')
+            let index = inputs.length
+            const inputCheckedState = []
+            while (index--) {
+                const current = inputs[index]
+                console.log(current.checked)
+            }
+            console.log(event.composedPath())
+        }
         return {
             getEl,
             state,
             randomColor,
+            handlePointer,
         }
     },
 }

@@ -95,7 +95,7 @@ const R_SPACE = /\s+/g
  * @param {string} name
  * @param {boolean} state
  */
-export function tiggerClass(el, name, state) {
+export function toggleClass(el, name, state) {
     if (el && name) {
         // 判断有没有classList
         if (el.classList) {

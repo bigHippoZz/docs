@@ -55,6 +55,8 @@ function Sortable(el, options) {
         // event.preventDefault()
         // 利用冒泡机制捕获dragEl
         dragEl = event.target
+        console.log(event.target.shadowRoot)
+        // console.log(event.type)
         nextEl = dragEl.nextSibling
         event.dataTransfer.effectAllowed = 'move'
         // event.dataTransfer.setData('data-index', 999)
