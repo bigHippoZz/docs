@@ -12,16 +12,18 @@ export default function AnimationStateManager(options) {
             let children = [].slice.call(options.el.children)
 
             children.forEach(child => {
+
                 if (css(child, 'display') === 'none') return
+
                 animationStates.push({
                     target: child,
                     rect: getRect(child),
                 })
 
+                // 进行重新拷贝
                 let fromRect = {
                     ...animationStates[animationStates.length - 1].rect,
                 }
-
                 // If animating: compensate for current animation
                 if (child.thisAnimationDuration) {
                     let childMatrix = matrix(child, true)
@@ -34,6 +36,8 @@ export default function AnimationStateManager(options) {
                 }
 
                 child.fromRect = fromRect
+
+               
             })
         },
 
@@ -101,18 +105,23 @@ export default function AnimationStateManager(options) {
                 // if fromRect != toRect: animate
                 if (!isRectEqual(toRect, fromRect)) {
                     target.prevFromRect = fromRect
+
                     target.prevToRect = toRect
 
                     if (!time) {
                         time = options.animation
                     }
+
                     this.animate(target, animatingRect, toRect, time)
                 }
 
                 if (time) {
                     animating = true
+
                     animationTime = Math.max(animationTime, time)
+
                     clearTimeout(target.animationResetTimer)
+
                     target.animationResetTimer = setTimeout(function () {
                         target.animationTime = 0
                         target.prevFromRect = null
@@ -120,11 +129,13 @@ export default function AnimationStateManager(options) {
                         target.prevToRect = null
                         target.thisAnimationDuration = null
                     }, time)
+
                     target.thisAnimationDuration = time
                 }
             })
 
             clearTimeout(animationCallbackId)
+
             if (!animating) {
                 if (typeof callback === 'function') callback()
             } else {
@@ -156,7 +167,6 @@ export default function AnimationStateManager(options) {
                     'translate3d(' + translateX + 'px,' + translateY + 'px,0)'
                 )
 
-                // 重绘
                 repaint(target) // repaint
 
                 css(

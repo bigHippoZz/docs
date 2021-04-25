@@ -582,7 +582,6 @@ function parser(tokens) {
         node.params.push(walk());
         token = tokens[current];
       }
-
       // 最后我们还需要增加`current`变量来跳过闭括号。
       current++;
 
@@ -659,6 +658,10 @@ function parser(tokens) {
 // 所以我们定义一个traverser函数，这个函数接收抽象语法树以及一个访问者对象。在这个函数内部我们
 // 还会定义两个函数……
 function traverser(ast, visitor) {
+
+
+
+  
   // `traverseArray`函数，这个函数允许我们遍历一个数组并且调用我们接下来定义的函数："traverseNode`。
   function traverseArray(array, parent) {
     array.forEach(child => {
@@ -829,6 +832,7 @@ function transformer(ast) {
 
         // 最后，我们将我们的`CallExpression`（可能被包裹）添加到父节点的`context`属性。
         parent._context.push(expression);
+
       },
     },
   });

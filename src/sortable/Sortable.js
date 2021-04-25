@@ -239,6 +239,7 @@ const documentExists = typeof document !== 'undefined',
     _detectNearestEmptySortable = function (x, y) {
         let ret
         sortables.some(sortable => {
+            
             if (lastChild(sortable)) return
 
             let rect = getRect(sortable),

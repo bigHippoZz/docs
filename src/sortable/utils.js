@@ -110,7 +110,9 @@ function css(el, prop, val) {
 }
 
 function matrix(el, selfOnly) {
+
 	let appliedTransforms = "";
+
 	if (typeof el === "string") {
 		appliedTransforms = el;
 	} else {

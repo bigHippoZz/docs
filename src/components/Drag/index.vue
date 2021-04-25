@@ -11,7 +11,9 @@
                 {{ item }}
             </li>
         </ul>
+
         <Line line-text="分割线" />
+
         <ul id="_el-drag" @pointerdown="handlePointer">
             <li
                 :style="{ background: randomColor() }"
