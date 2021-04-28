@@ -52,7 +52,7 @@ numbers = new Proxy(numbers, {
     // (*)
     set(target, prop, val) {
         // 拦截写入属性操作
-        console.log(prop, val)
+        // console.log(prop, val)
         if (typeof val == 'number') {
             target[prop] = val
             return true
@@ -96,13 +96,13 @@ let target = {
 let user = {
     name: 'big',
     hasKey() {
-        console.log(this.name)
+        // console.log(this.name)
     },
 }
 
 let proxy = new Proxy(user, {
     get(target, prop, receiver) {
-        console.log(target, prop, receiver)
+        // console.log(target, prop, receiver)
         return target[prop]
     },
     ownKeys(target) {
@@ -169,8 +169,8 @@ let admin = {
     _name: 'Admin',
 }
 
-console.log(admin)
-console.log(current)
+// console.log(admin)
+// console.log(current)
 
 // 期望输出：Admin
 
