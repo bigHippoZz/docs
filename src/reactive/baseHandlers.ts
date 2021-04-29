@@ -181,7 +181,7 @@ export const mutableHandlers: ProxyHandler<object> = {
   set,
   deleteProperty,
   has,
-  ownKeys,
+  // ownKeys,
 };
 
 export const readonlyHandlers: ProxyHandler<object> = {

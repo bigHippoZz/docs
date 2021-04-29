@@ -1,11 +1,11 @@
 <template>
-    <!-- <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld /> -->
-
-    <Drag id="header"> </Drag>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <HelloWorld />
+    <!-- <Drag id="header"></Drag> -->
 </template>
 
 <script lang="ts">
+import { h } from './h/h'
 import { defineComponent } from 'vue'
 import { TreeNode } from './algorithm/BinaryTreeForEach'
 import HelloWorld from './components/HelloWorld.vue'
@@ -35,6 +35,28 @@ export default defineComponent({
             return result
         }
         const data = generateTree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+
+        // 旧的 VNode
+        const prevVNode = h('div', null, [
+            h('p', { key: 'a' }, '节点1'),
+            h('p', { key: 'b' }, '节点2'),
+            h('p', { key: 'c' }, '节点3'),
+            h('p', { key: 'd' }, '节点4'),
+            h('p', { key: 'f' }, '节点6'),
+            h('p', { key: 'h' }, '节点8'),
+            h('p', { key: 'e' }, '节点5'),
+        ])
+
+        // 新的 VNode
+        const nextVNode = h('div', null, [
+            h('p', { key: 'a' }, 'new 节点1'),
+            h('p', { key: 'c' }, 'new 节点3'),
+            h('p', { key: 'd' }, 'new 节点4'),
+            h('p', { key: 'b' }, 'new 节点2'),
+            h('p', { key: 'g' }, 'new 节点7'),
+            h('p', { key: 'e' }, 'new 节点5'),
+        ])
+        console.log(prevVNode,nextVNode)
         return {
             data,
         }
