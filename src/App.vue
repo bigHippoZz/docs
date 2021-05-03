@@ -56,7 +56,9 @@ export default defineComponent({
             h('p', { key: 'g' }, 'new 节点7'),
             h('p', { key: 'e' }, 'new 节点5'),
         ])
-        console.log(prevVNode,nextVNode)
+        // console.log(prevVNode,nextVNode)
+        
+
         return {
             data,
         }
