@@ -6,11 +6,13 @@
 
 <script lang="ts">
 import { h } from './h/h'
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, watch, readonly } from 'vue'
 import { TreeNode } from './algorithm/BinaryTreeForEach'
 import HelloWorld from './components/HelloWorld.vue'
 import Drag from './components/Drag/index.vue'
 import Tree from './views/Tree.vue'
+import { cloneDeep } from 'lodash'
+import { EnhanceWebSocket } from '@/utils/WebSocket'
 
 export default defineComponent({
     name: 'App',
@@ -57,11 +59,52 @@ export default defineComponent({
             h('p', { key: 'e' }, 'new 节点5'),
         ])
         // console.log(prevVNode,nextVNode)
-        
 
-        return {
-            data,
+        // state.a.b.c.name = 'bigHippo'
+        // setTimeout(() => {
+        //     state.a.b.c.name = 'hahha'
+        // }, 1000)
+
+        // const socket = new WebSocket(
+        //     'wss://javascript.info/article/websocket/chat/ws'
+        // )
+
+        // console.log(socket.readyState)
+        // // Promise.resolve().then(() => {
+        // //     for (let i = 0; i < 10; i++) {
+        // //         socket.send('hello' + i)
+        // //     }
+        // // })
+        // setTimeout(() => {
+        //     for (let i = 0; i < 10; i++) {
+        //         socket.send('hello' + i)
+        //     }
+        // }, 1000)
+
+        const socket = new EnhanceWebSocket(
+            'wss://javascript.info/article/websocket/chat'
+        )
+        console.log(socket)
+        for (let i = 0; i < 10; i++) {
+            socket.send('haha' + i)
         }
+        socket.openConnection()
+        socket.onmessage(function (event) {
+            console.log(event.data)
+        })
+        setTimeout(() => {
+            socket.send('end')
+            socket.closeConnection()
+
+            setTimeout(() => {
+                socket.openConnection()
+                for (let i = 0; i < 10; i++) {
+                    socket.send('gg' + i)
+                }
+            }, 1000)
+        }, 5000)
+
+        // console.log(cloneDeep(state),state)
     },
 })
 </script>

@@ -87,4 +87,4 @@ function stringifyStyle(style) {
     return result
 }
 
-stringifyStyle(normalizedStyle(array))
+// stringifyStyle(normalizedStyle(array))
