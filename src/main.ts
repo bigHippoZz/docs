@@ -11,6 +11,7 @@ const d = import.meta.globEager('./global/**/*')
 const e = import.meta.globEager('./reactive/**/*')
 const f = import.meta.globEager('./regexp/**/*')
 const g = import.meta.globEager('./proxy/**/*')
+const h = import.meta.globEager('./minVue/**/*')
 
 /**
  * [object Object] 名字如何进行修改
