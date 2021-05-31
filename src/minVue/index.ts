@@ -197,8 +197,8 @@ window.onload =
             patchChildren(
                 preVNode.childFlags,
                 nextVNode.childFlags,
-                preVNode,
-                nextVNode,
+                preVNode.children,
+                nextVNode.children,
                 container
             )
 
@@ -317,10 +317,10 @@ window.onload =
             container: HTMLElement
         ) {
             container.removeChild(preVNode.el!)
-            if(preVNode.flags & VNodeFlags.COMPONENT_STATEFUL){
+            if (preVNode.flags & VNodeFlags.COMPONENT_STATEFUL) {
                 const instance = preVNode.children
                 // @ts-ignore
-                instance.unMounted&&instance.unMounted()
+                instance.unMounted && instance.unMounted()
             }
             mount(vnode, container)
         }
@@ -426,6 +426,7 @@ window.onload =
                 // 文本节点没有子节点
                 childFlags,
                 el: null,
+                key: data?.key ? data.key : null,
             }
         }
 
@@ -458,7 +459,20 @@ window.onload =
                 childFlags: ChildrenFlags.NO_CHILDREN,
                 el: null,
             }
-        }       
+        }
+
+        function insertAfter(
+            newElement: HTMLElement,
+            targetElement: HTMLElement
+        ) {
+            
+            var parent = targetElement.parentNode
+            if (parent!.lastChild == targetElement) {
+                parent!.appendChild(newElement)
+            } else {
+                parent!.insertBefore(newElement, targetElement.nextSibling)
+            }
+        }
 
         function patchChildren(
             prevChildFlags: number,
@@ -536,6 +550,85 @@ window.onload =
                             }
                             break
                         default:
+                            let lastIndex = 0
+                            for (
+                                let i = 0;
+                                i < (nextChildren as VNode[]).length;
+                                i++
+                            ) {
+                                const nextVNode = (nextChildren as VNode[])[i]
+
+                                for (
+                                    let j = 0;
+                                    j < (prevChildren as VNode[]).length;
+                                    j++
+                                ) {
+                                    const preVNode = (prevChildren as VNode[])[
+                                        j
+                                    ]
+                                    if (nextVNode.key === preVNode.key) {
+                                        patch(preVNode, nextVNode, container)
+                                        if (j < lastIndex) {
+                                          
+                                            insertAfter(
+                                                // @ts-ignore
+                                                nextVNode.el,
+                                                // @ts-ignore
+                                                nextChildren[i - 1].el
+                                            )
+                                            // const refNode = (
+                                            //     nextChildren as VNode[]
+                                            // )[i - 1].el
+                                            // if (refNode) {
+                                            //     container.insertBefore(
+                                            //         nextVNode.el!,
+                                            //         // @ts-ignore
+                                            //         refNode.nextSibling() ||
+                                            //             null
+                                            //     )
+                                            // }
+                                        } else {
+                                            lastIndex = j
+                                        }
+                                        break
+                                    }
+                                }
+                            }
+                            // const preChildrenLen = (prevChildren as []).length
+                            // const nextChildrenLen = (nextChildren as []).length
+                            // const commentLen =
+                            //     preChildrenLen > nextChildrenLen
+                            //         ? nextChildrenLen
+                            //         : preChildrenLen
+                            // for (let i = 0; i < commentLen; i++) {
+                            //     patch(
+                            //         (prevChildren as VNode[])[i]!,
+                            //         (nextChildren as VNode[])[i]!,
+                            //         container
+                            //     )
+                            // }
+                            // if (preChildrenLen > nextChildrenLen) {
+                            //     for (
+                            //         let i = commentLen;
+                            //         i < preChildrenLen;
+                            //         i++
+                            //     ) {
+                            //         container.removeChild(
+                            //             (nextChildren as VNode[])[i].el as Node
+                            //         )
+                            //     }
+                            // } else {
+                            //     for (
+                            //         let index = commentLen;
+                            //         index < nextChildrenLen;
+                            //         index++
+                            //     ) {
+                            //         mount(
+                            //             (nextChildren as VNode[])[index],
+                            //             container
+                            //         )
+                            //     }
+                            // }
                             break
                     }
                     break
@@ -580,21 +673,22 @@ window.onload =
             }
         }
 
-        // // 旧的 VNode
-        // const prevVNode = h(Fragment, null, [
-        //     h('p', null, '旧片段子节点 1'),
-        //     h('p', null, '旧片段子节点 2'),
-        // ])
+        // 旧的 VNode
+        const prevVNode = h(Fragment, null, [
+            h('p', { key: 'a' }, '旧片段子节点 1'),
+            h('p', { key: 'b' }, '旧片段子节点 2'),
+            h('p', { key: 'c' }, '旧片段子节点 3'),
+        ])
 
-        // // 新的 VNode
-        // const nextVNode = h(Fragment, null, [
-        //     h('p', null, '新片段子节点 1'),
-        //     h('p', null, '新片段子节点 2'),
-        // ])
+        // 新的 VNode
+        const nextVNode = h(Fragment, null, [
+            h('p', { key: 'c' }, '新片段子节点 3'),
+            h('p', { key: 'a' }, '新片段子节点 1'),
+            h('p', { key: 'b' }, '新片段子节点 2'),
+        ])
 
-        render(h(Container), container)
-
-        // setTimeout(() => render(nextVNode, container), 1000)
+        render(prevVNode, container)
+        setTimeout(() => render(nextVNode, container), 4000)
         // console.log(container)
         // console.log(h(Header))
     }
