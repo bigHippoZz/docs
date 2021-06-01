@@ -22,18 +22,18 @@
  * @return {Object} 指定元素
  */
 export const copyToClipboard = str => {
-    if (typeof str !== "string")
-        throw new Error(`The currently passed string is not a string - ${str}`);
-    const el = document.createElement("textarea");
-    el.value = str;
-    el.setAttribute("readonly", "");
-    el.style.position = "absolute";
-    el.style.left = "-9999px";
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-};
+    if (typeof str !== 'string')
+        throw new Error(`The currently passed string is not a string - ${str}`)
+    const el = document.createElement('textarea')
+    el.value = str
+    el.setAttribute('readonly', '')
+    el.style.position = 'absolute'
+    el.style.left = '-9999px'
+    document.body.appendChild(el)
+    el.select()
+    document.execCommand('copy')
+    document.body.removeChild(el)
+}
 
 // location.assign   和 location.href 作用差不多
 // location.href     网页跳转到当前的url 但是会保存历史记录
@@ -52,20 +52,20 @@ export const copyToClipboard = str => {
  */
 export const objectToQueryString = queryParameters => {
     let isObject = target =>
-        Object.prototype.toString.call(target) === "[object Object]";
-    if (!isObject(queryParameters)) throw new Error("Not currently an object");
+        Object.prototype.toString.call(target) === '[object Object]'
+    if (!isObject(queryParameters)) throw new Error('Not currently an object')
     return queryParameters
         ? Object.entries(queryParameters).reduce(
               (queryString, [key, val], index) => {
-                  const symbol = queryString.length === 0 ? "?" : "&";
+                  const symbol = queryString.length === 0 ? '?' : '&'
                   queryString +=
-                      typeof val === "string" ? `${symbol}${key}=${val}` : "";
-                  return queryString;
+                      typeof val === 'string' ? `${symbol}${key}=${val}` : ''
+                  return queryString
               },
-              ""
+              ''
           )
-        : "";
-};
+        : ''
+}
 /**
  * @Author Liwz
  * @Description struct  依次执行异步函数并且函数结果
@@ -73,8 +73,10 @@ export const objectToQueryString = queryParameters => {
  * @param {Function[]} 异步函数集合
  * @return {Any} 指定元素
  */
-export const pipeAsyncFunctions = (...fns) => arg =>
-    fns.reduce((p, f) => p.then(f), Promise.resolve(arg));
+export const pipeAsyncFunctions =
+    (...fns) =>
+    arg =>
+        fns.reduce((p, f) => p.then(f), Promise.resolve(arg))
 
 /**
  * @Author Liwz
@@ -86,21 +88,21 @@ export const pipeAsyncFunctions = (...fns) => arg =>
 export const runAsync = fn => {
     const worker = new Worker(
         URL.createObjectURL(new Blob([`postMessage((${fn})());`]), {
-            type: "application/javascript; charset=utf-8",
+            type: 'application/javascript; charset=utf-8',
         })
-    );
+    )
     return new Promise((res, rej) => {
         worker.onmessage = ({ data }) => {
-            res(data), worker.terminate();
-        };
+            res(data), worker.terminate()
+        }
         worker.onerror = err => {
-            rej(err), worker.terminate();
-        };
-    });
-};
+            rej(err), worker.terminate()
+        }
+    })
+}
 
 export const isAsyncFunction = val =>
-    Object.prototype.toString.call(val) === "[object AsyncFunction]";
+    Object.prototype.toString.call(val) === '[object AsyncFunction]'
 /**
  * @Author Liwz
  * @Description struct  创建对象hash
@@ -110,29 +112,29 @@ export const isAsyncFunction = val =>
  */
 const hashBrowser = val =>
     crypto.subtle
-        .digest("SHA-256", new TextEncoder("utf-8").encode(val))
+        .digest('SHA-256', new TextEncoder('utf-8').encode(val))
         .then(h => {
             let hexes = [],
-                view = new DataView(h);
+                view = new DataView(h)
             for (let i = 0; i < view.byteLength; i += 4)
                 hexes.push(
-                    ("00000000" + view.getUint32(i).toString(16)).slice(-8)
-                );
-            return hexes.join("");
-        });
+                    ('00000000' + view.getUint32(i).toString(16)).slice(-8)
+                )
+            return hexes.join('')
+        })
 
 const escapeHTML = str =>
     str.replace(
         /[&<>'"]/g,
         tag =>
             ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                "'": "&#39;",
-                '"': "&quot;",
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;',
             }[tag] || tag)
-    );
+    )
 
 /**
  * @Author Liwz
@@ -145,7 +147,7 @@ const escapeHTML = str =>
  */
 const capitalize = ([first, ...rest], lowerRest = false) =>
     first.toUpperCase() +
-    (lowerRest ? rest.join("").toLowerCase() : rest.join(""));
+    (lowerRest ? rest.join('').toLowerCase() : rest.join(''))
 
 /**
  * @Author Liwz
@@ -162,9 +164,9 @@ const toCamelCase = str => {
                 /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
             )
             .map(x => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
-            .join("");
-    return s.slice(0, 1).toLowerCase() + s.slice(1);
-};
+            .join('')
+    return s.slice(0, 1).toLowerCase() + s.slice(1)
+}
 
 /**
  * @Author Liwz
@@ -178,7 +180,7 @@ const UUIDGeneratorBrowser = () =>
             c ^
             (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
         ).toString(16)
-    );
+    )
 
 /**
  * @Author Liwz
@@ -190,12 +192,12 @@ const UUIDGeneratorBrowser = () =>
  * @return {Object} 指定元素
  */
 const scrollToTop = () => {
-    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    const c = document.documentElement.scrollTop || document.body.scrollTop
     if (c > 0) {
-        window.requestAnimationFrame(scrollToTop);
-        window.scrollTo(0, c - c / 8);
+        window.requestAnimationFrame(scrollToTop)
+        window.scrollTo(0, c - c / 8)
     }
-};
+}
 
 /**
  * @Author Liwz
@@ -207,7 +209,7 @@ const scrollToTop = () => {
 const getScrollPosition = (el = window) => ({
     x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
     y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop,
-});
+})
 
 /**
  * @Author Liwz
@@ -216,7 +218,7 @@ const getScrollPosition = (el = window) => ({
  * @param {String}
  * @return {Object} 指定元素
  */
-const atob = str => Buffer.from(str, "base64").toString("binary");
+const atob = str => Buffer.from(str, 'base64').toString('binary')
 
 /**
  * @Author Liwz
@@ -228,8 +230,8 @@ const detectDeviceType = () =>
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
     )
-        ? "Mobile"
-        : "Desktop";
+        ? 'Mobile'
+        : 'Desktop'
 
 /**
  * @Author Liwz
@@ -239,35 +241,35 @@ const detectDeviceType = () =>
  * @param {Blob}
  */
 export const downloadBlob = (filename, blob) => {
-    const downloadLink = document.createElement("a");
-    document.body.appendChild(downloadLink);
+    const downloadLink = document.createElement('a')
+    document.body.appendChild(downloadLink)
     // Use special ms version if available to get it working on Edge.
     if (navigator.msSaveOrOpenBlob) {
-        navigator.msSaveOrOpenBlob(blob, filename);
-        return;
+        navigator.msSaveOrOpenBlob(blob, filename)
+        return
     }
-    if ("download" in HTMLAnchorElement.prototype) {
-        const url = window.URL.createObjectURL(blob);
-        downloadLink.href = url;
-        downloadLink.download = filename;
-        downloadLink.type = blob.type;
-        downloadLink.click();
+    if ('download' in HTMLAnchorElement.prototype) {
+        const url = window.URL.createObjectURL(blob)
+        downloadLink.href = url
+        downloadLink.download = filename
+        downloadLink.type = blob.type
+        downloadLink.click()
         // remove the link after a timeout to prevent a crash on iOS 13 Safari
         window.setTimeout(() => {
-            document.body.removeChild(downloadLink);
-            window.URL.revokeObjectURL(url);
-        }, 1000);
+            document.body.removeChild(downloadLink)
+            window.URL.revokeObjectURL(url)
+        }, 1000)
     } else {
         // iOS 12 Safari, open a new page and set href to data-uri
-        let popup = window.open("", "_blank");
-        const reader = new FileReader();
+        let popup = window.open('', '_blank')
+        const reader = new FileReader()
         reader.onloadend = function () {
-            popup.location.href = reader.result;
-            popup = null;
-        };
-        reader.readAsDataURL(blob);
+            popup.location.href = reader.result
+            popup = null
+        }
+        reader.readAsDataURL(blob)
     }
-};
+}
 
 /**
  * Utility to convert data URIs to blobs
@@ -276,15 +278,15 @@ export const downloadBlob = (filename, blob) => {
  * @return {Blob} a blob representing the data uri
  */
 export default function dataURItoBlob(dataURI) {
-    const byteString = atob(dataURI.split(",")[1]);
-    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uintArray = new Uint8Array(arrayBuffer);
+    const byteString = atob(dataURI.split(',')[1])
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    const arrayBuffer = new ArrayBuffer(byteString.length)
+    const uintArray = new Uint8Array(arrayBuffer)
     for (let i = 0; i < byteString.length; i++) {
-        uintArray[i] = byteString.charCodeAt(i);
+        uintArray[i] = byteString.charCodeAt(i)
     }
-    const blob = new Blob([arrayBuffer], { type: mimeString });
-    return blob;
+    const blob = new Blob([arrayBuffer], { type: mimeString })
+    return blob
 }
 
 /**
@@ -295,9 +297,9 @@ export default function dataURItoBlob(dataURI) {
  */
 const extractFileName = function (nameExt) {
     // There could be multiple dots, but get the stuff before the first .
-    const nameParts = nameExt.split(".", 1); // we only care about the first .
-    return nameParts[0];
-};
+    const nameParts = nameExt.split('.', 1) // we only care about the first .
+    return nameParts[0]
+}
 
 /**
  * 递归处理文件上传事件
@@ -313,23 +315,23 @@ const handleFileUpload = function (fileInput, onload, onerror) {
             // Reset the file input value now that we have everything we need
             // so that the user can upload the same sound multiple times if
             // they choose
-            fileInput.value = null;
-            return;
+            fileInput.value = null
+            return
         }
-        const file = files[i];
-        const reader = new FileReader();
+        const file = files[i]
+        const reader = new FileReader()
         reader.onload = () => {
-            const fileType = file.type;
-            const fileName = extractFileName(file.name);
-            onload(reader.result, fileType, fileName, i, files.length);
-            readFile(i + 1, files);
-        };
-        reader.onerror = onerror;
-        reader.readAsArrayBuffer(file);
-    };
+            const fileType = file.type
+            const fileName = extractFileName(file.name)
+            onload(reader.result, fileType, fileName, i, files.length)
+            readFile(i + 1, files)
+        }
+        reader.onerror = onerror
+        reader.readAsArrayBuffer(file)
+    }
 
-    readFile(0, fileInput.files);
-};
+    readFile(0, fileInput.files)
+}
 /**
  * @Author Liwz
  * @Description 判断是不是数字
@@ -338,7 +340,7 @@ const handleFileUpload = function (fileInput, onload, onerror) {
  * @return {Boolean} 返回是否是数字
  */
 function isNumber(number) {
-    return typeof number === "number" && !isNaN(number);
+    return typeof number === 'number' && !isNaN(number)
 }
 
 /**
@@ -352,5 +354,6 @@ function isNumber(number) {
 export function pickBy(target, func) {
     Object.keys(target)
         .filter(k => func(target[k], k))
-        .reduce((acc, key) => ((acc[key] = target[key]), acc), {});
+        .reduce((acc, key) => ((acc[key] = target[key]), acc), {})
 }
+
