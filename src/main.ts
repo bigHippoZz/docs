@@ -1,24 +1,31 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import ElementPlus from 'element-plus'
-import 'element-plus/lib/theme-chalk/index.css'
-const app = createApp(App)
-app.use(ElementPlus).mount('#app')
-const a = import.meta.globEager('./algorithm/**/*')
-const b = import.meta.globEager('./complier/**/*')
-const c = import.meta.globEager('./dataStructure/**/*')
-const d = import.meta.globEager('./global/**/*')
-const e = import.meta.globEager('./reactive/**/*')
-const f = import.meta.globEager('./regexp/**/*')
-const g = import.meta.globEager('./proxy/**/*')
-const h = import.meta.globEager('./minVue/**/*')
+import { createApp } from "vue";
+import App from "./App.vue";
+import { setupAppRouter } from "./routers";
 
-/**
- * [object Object] 名字如何进行修改
- *
- */
+const app = createApp(App);
+setupAppRouter(app);
+app.mount("#app");
 
-/**
- * typeOf Object.protoType.toString.call()
- * typeOf 无法判断基本包装类型
- */
+// class TreeNode {
+//   val: number;
+//   left: TreeNode | null;
+//   right: TreeNode | null;
+//   constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//     this.val = val === undefined ? 0 : val;
+//     this.left = left === undefined ? null : left;
+//     this.right = right === undefined ? null : right;
+//   }
+// }
+
+// function pathSum(root: TreeNode | null, targetSum: number): number {
+//   let ans = 0;
+
+//   function helper(root: TreeNode | null) {
+//     if (!root) return 0;
+//     const left = helper(root.left);
+//     const right = helper(root.right);
+//     if (left === targetSum) ans++;
+//     if (right === targetSum) ans++;
+//   }
+//   return ans;
+// }
