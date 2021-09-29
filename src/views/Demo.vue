@@ -23,10 +23,7 @@ import { onMounted } from "vue";
 // import { useTemplateRef } from "@/hooks/core/useTemplateRef";
 const hash = useRouteHash("a", "b");
 const input = ref("");
-
-
 // const instance = useTemplateRef("form");
-
 onMounted(() => {
   // console.log(instance);
 });
