@@ -15,5 +15,3 @@ export function isSorted(arr: Array<any>, i?: number, j?: number): boolean {
   }
   return true;
 }
-
-export function split(arr: Array<any>, i: number, j: number) {}

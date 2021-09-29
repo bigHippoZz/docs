@@ -19,6 +19,8 @@
     "vue-router": "4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.2.0",
+    "@commitlint/config-conventional": "^13.2.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.6",
     "@vicons/fluent": "^0.11.0",
