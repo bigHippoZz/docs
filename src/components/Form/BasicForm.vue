@@ -20,14 +20,15 @@
 import { ref, unref } from "@vue/reactivity";
 import { merge } from "lodash";
 import { NForm, NGrid, NGridItem } from "naive-ui";
-import { computed, useSlots } from "vue";
+import { computed, useAttrs, useSlots } from "vue";
 import FormAction from "./components/FormAction.vue";
-import FormItem from "./components/FormItem.vue";
+// import FormItem from "./components/FormItem.vue";
 import { FormProps } from "./hooks/useForm";
 import { basicFormProps } from "./typings/form";
 import { FormActionSlotName } from "./typings/FormAction";
 const slot = useSlots();
-
+const attrs = useAttrs();
+console.log(attrs);
 console.log(slot);
 const props = defineProps(basicFormProps);
 

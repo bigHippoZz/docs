@@ -1,12 +1,13 @@
 import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import path from "path";
+import { resolve } from "path";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import pkg from "./package.json";
 import dayjs from "dayjs";
-const resolve = (dir: string) => {
-  return path.join(__dirname, dir);
-};
+import { generateModifyVars } from "./build/generate/generateModifyVars";
+// const resolve = (dir: string) => {
+//   return path.join(__dirname, dir);
+// };
 
 const { dependencies, devDependencies, version, name } = pkg;
 const __APP_INFO__ = {
@@ -18,7 +19,6 @@ const __APP_INFO__ = {
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   const root = process.cwd();
   const env = loadEnv(mode, root);
-  console.log(root, env);
   return {
     plugins: [vue(), vueJsx()],
     define: {
@@ -28,6 +28,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     resolve: {
       alias: {
         "@": resolve("src"),
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        less: {
+          modifyVars: generateModifyVars(),
+          javascriptEnabled: true,
+        },
       },
     },
   };
