@@ -184,12 +184,3 @@ export class RedBlackTree<K, V> {
     return this.root === null;
   }
 }
-
-const redBlackTree = new RedBlackTree((a: number, b: number) => a - b);
-
-redBlackTree.put(1, 1);
-redBlackTree.put(2, 2);
-redBlackTree.put(3, 3);
-redBlackTree.put(4, 4);
-
-console.log(redBlackTree);
