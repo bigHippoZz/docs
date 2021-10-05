@@ -11,7 +11,7 @@ export class Quick extends Sort {
 
     return array;
   }
-  [Symbol.toStringTag]: string = "Quick Sort";
+  [Symbol.toStringTag]: string = "QuickX Sort";
 
   public insertSort(array: any[], lo: number, hi: number) {
     for (let i = lo + 1; i <= hi; i++) {
@@ -21,5 +21,5 @@ export class Quick extends Sort {
     }
   }
 }
-const quick = new Quick();
-quick.run(1000000);
+// const quick = new Quick();
+// quick.run(1000000);

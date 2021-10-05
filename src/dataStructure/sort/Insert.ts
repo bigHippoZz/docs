@@ -15,4 +15,4 @@ export class Insert extends Sort {
 
 const insert = new Insert();
 
-insert.run(1000);
+// insert.run(1000);

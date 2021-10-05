@@ -48,7 +48,7 @@ export class Merge extends Sort {
 
     return array;
   }
-  [Symbol.toStringTag]: string = "Merge Sort";
+  [Symbol.toStringTag]: string = "MergeX Sort";
 
   public merge<T extends any[]>(array: T, lo: number, min: number, hi: number) {
     let i = lo;
@@ -82,4 +82,4 @@ export class Merge extends Sort {
 
 const merge = new Merge();
 
-merge.run(1000000);
+// merge.run(1000000);

@@ -55,4 +55,4 @@ export class Merge extends Sort {
 }
 const merge = new Merge();
 
-merge.run(1000000);
+// merge.run(1000000);

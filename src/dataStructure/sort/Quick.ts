@@ -1,6 +1,6 @@
 import { Sort } from "./Sort";
-import { shuffle } from "../utils/shuffle";
-import { StopWatch } from "../utils/stopWatch";
+import { shuffle } from "@/utils/shuffle";
+import { StopWatch } from "@/utils/stopWatch";
 export class Quick extends Sort {
   public sort<T extends any[]>(array: T): T {
     array = this.shuffle(array);
@@ -59,8 +59,8 @@ export class Quick extends Sort {
     return array[k];
   }
 }
-const quick = new Quick();
-quick.run(1000000);
+// const quick = new Quick();
+// quick.run(1000000);
 
 function findTop(array: number[]) {
   let lo = 0;

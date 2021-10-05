@@ -25,4 +25,4 @@ class Shell extends Sort {
 }
 
 const shell = new Shell();
-shell.run(1000000);
+// shell.run(1000000);

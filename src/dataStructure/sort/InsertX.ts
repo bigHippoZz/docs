@@ -28,4 +28,4 @@ class InsertX extends Sort {
 }
 const insertX = new InsertX();
 
-insertX.run(100000);
+// insertX.run(100000);

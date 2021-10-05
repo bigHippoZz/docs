@@ -29,6 +29,6 @@ class Quick3way extends Sort {
   }
   [Symbol.toStringTag]: string = "Quick3way";
 }
-const quick3way = new Quick3way();
+// const quick3way = new Quick3way();
 
-quick3way.run(1000000);
+// quick3way.run(1000000);
