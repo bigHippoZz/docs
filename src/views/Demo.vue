@@ -1,38 +1,44 @@
 <template>
   <div class="big">
-    <!-- <BasicFormVue ref="form">
-      <template #submitBefore>
-        <div>hello world</div>
-      </template>
-    </BasicFormVue>
-    <n-button @click="handleClick">点击</n-button>
-    <span>{{ hash }}</span>
-    <n-input
-      v-model:value="hash"
-      type="text"
-      placeholder="基本的 Input"
-    ></n-input> -->
+    <basic-form ref="form" v-bind="conf" v-model="model"></basic-form>
   </div>
 </template>
 
 <script lang="ts" setup>
-// import BasicFormVue from "@/components/Form/BasicForm.vue";
+import { BasicFormProps } from "@/components/Form";
+import BasicForm from "@/components/Form/BasicForm.vue";
+
 // import { useForm } from "@/components/Form/hooks/useForm";
 // import { useRouteHash } from "@/hooks/routers/useRouteHash";
 // import { Ref, ref } from "@vue/reactivity";
-// import { NForm, NButton, NInput } from "naive-ui";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 // import { useTemplateRef } from "@/hooks/core/useTemplateRef";
+import { useRouteQuery } from "../hooks/routers/useRouteQuery";
+
 // const hash = useRouteHash("a", "b");
 // const input = ref("");
 // const instance = useTemplateRef("form");
-onMounted(() => {
-  // console.log(instance);
-});
-// console.log(instance);
-// const handleClick = () => {
-//   hash.value = `${Math.random()}`;
-// };
+
+const conf: BasicFormProps = {
+  baseFormOptions: { labelWidth: 80, labelPlacement: "left" },
+  schema: [
+    {
+      fieldName: "name",
+    },
+    {
+      fieldName: "demo",
+    },
+    {
+      fieldName: "age",
+    },
+  ],
+};
+
+const model = ref({ name: "hello" });
+
+const query = useRouteQuery("name");
+
+console.log(query);
 </script>
 
 <style lang="less">

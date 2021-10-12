@@ -1,10 +1,14 @@
 import { createApp } from "vue";
-import App from "./App.vue";
-import { setupImportFile } from "./plugins/algo";
+import { setupImportFile, registerComponent } from "./plugins";
 import { setupAppRouter } from "./routers";
+import App from "./App.vue";
+
+setupImportFile();
 
 const app = createApp(App);
 
-setupImportFile();
 setupAppRouter(app);
+
+registerComponent(app);
+
 app.mount("#app");

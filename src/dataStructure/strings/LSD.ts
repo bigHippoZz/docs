@@ -25,7 +25,7 @@ export class LSD {
     for (let i = 0; i < len; i++) {
       count[stringArray[i].charCodeAt(1) + 1]++;
     }
-    console.log(count);
+    // console.log(count);
     // for (let i = w - 1; i >= 0; i--) {
     //   const count = Array(R).fill(0);
     //   for (let n = 0; n < len; n++) {
@@ -37,5 +37,5 @@ export class LSD {
 }
 
 const lsd = new LSD();
-console.log(data);
+// console.log(data);
 lsd.sort(data, 10);

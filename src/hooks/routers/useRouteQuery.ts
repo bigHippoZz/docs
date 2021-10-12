@@ -20,25 +20,26 @@ export interface ReactiveRouteOptions {
   router?: ReturnType<typeof useRouter>;
 }
 
-export const useRouteHash = (
-  name: string,
-  defaultValue?: string,
+export function useRouteQuery(
+  key: string,
+  defaultValue: string = "",
   {
     mode = "replace",
     route = useRoute(),
     router = useRouter(),
   }: ReactiveRouteOptions = {}
-) => {
+) {
   return computed({
     get() {
-      const data = route.query[name];
-      return data ?? defaultValue;
+      const data = route.query;
+      return data[key] ?? defaultValue;
     },
-    set(value: any) {
+    set(value) {
       nextTick(() => {
-        router[unref(mode)]({ query: { ...route.query, [name]: value } });
+        router[unref(mode)]({
+          query: { ...route.query, [key]: `${value}` },
+        });
       });
-      console.log(value);
     },
   });
-};
+}

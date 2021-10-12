@@ -1,55 +1,86 @@
 <template>
-  <n-form :model="model" ref="formRef">
-    <n-grid v-bind="getRowProps">
-      <slot name="head"></slot>
-      <!-- <form-item></form-item> -->
-      <div>
-        {{ Object.keys($slots) }}
-      </div>
-      <form-action>
-        <template #[item] v-for="item of FormActionSlotName">
-          <slot :name="item"></slot>
-        </template>
-      </form-action>
-      <slot name="footer"></slot>
+  <n-form v-bind="defProps.baseFormOptions" :model="model" ref="formRef">
+    <n-grid v-bind="colProps">
+      <slot name="formHeader" />
+      <n-form-item-gi
+        v-for="schema in defProps.schema"
+        :span="12"
+        label="Input"
+        path="inputValue"
+        :key="schema.fieldName"
+      >
+        <form-item :schema="schema"> </form-item>
+      </n-form-item-gi>
+
+      <n-form-item-gi :span="12">
+        <form-action></form-action>
+      </n-form-item-gi>
+
+      <slot name="formFooter" />
     </n-grid>
   </n-form>
 </template>
 
+<script lang="ts">
+interface FormContext {
+  model: Recordable;
+  schema?: Recordable;
+}
+export const formInjectKey = Symbol() as unknown as InjectionKey<FormContext>;
+</script>
+
 <script lang="ts" setup>
-import { ref, unref } from "@vue/reactivity";
 import { merge } from "lodash";
-import { NForm, NGrid, NGridItem } from "naive-ui";
-import { computed, useAttrs, useSlots } from "vue";
+import {
+  computed,
+  InjectionKey,
+  isReactive,
+  isReadonly,
+  provide,
+  reactive,
+  readonly,
+  ref,
+  unref,
+  watch,
+  WatchOptions,
+} from "vue";
+
+import { BasicFormProps, basicFormProps } from ".";
+
+import { useModel } from "./hooks/useModel";
+
+import FormItem from "./components/FormItem.vue";
+
+import { FormContext } from "./hooks/useFormContext";
+
 import FormAction from "./components/FormAction.vue";
-// import FormItem from "./components/FormItem.vue";
-import { FormProps } from "./hooks/useForm";
-import { basicFormProps } from "./typings/form";
-import { FormActionSlotName } from "./typings/FormAction";
-const slot = useSlots();
-const attrs = useAttrs();
-console.log(attrs);
-console.log(slot);
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: Recordable): void;
+}>();
+
 const props = defineProps(basicFormProps);
 
-const model = ref({ inputValue: " 2332" });
-const propsRef = ref({}); /* 额外的props配置 */
-const formRef = ref<Nullable<typeof NForm>>(null);
+const propsRef = ref({});
 
-// 获取row props
-const getRowProps = computed(() => {
-  return {};
-});
-// 获取props
-const getProps = computed(() => {
-  return { ...props, ...unref(propsRef) };
-});
-// update props
-const setProps = (formProps: FormProps) => {
-  merge(unref(propsRef), unref(formProps));
-};
+const defProps = computed(
+  () => merge(props, unref(propsRef)) as BasicFormProps
+);
 
-const getBindValue = computed(() => {
-  return { ...props, ...unref(propsRef) };
+const model = useModel(props, "modelValue", emit);
+
+const colProps = computed(() => {
+  const { baseRowStyle, baseRowOptions } = unref(defProps);
+  return {
+    style: baseRowStyle,
+    ...baseRowOptions,
+  };
+});
+
+provide(formInjectKey, {
+  // parentProps: readonly(defProps),
+  // submitFn: function () {},
+  // resetFn: function () {},
+  model,
 });
 </script>

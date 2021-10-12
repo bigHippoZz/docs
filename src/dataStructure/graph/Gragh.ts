@@ -52,5 +52,5 @@ fetchData("tinyG.txt").then((data) => {
   for (let i = 0; i < matches!.length; i += 2) {
     graph.addEdge(Number(matches[i]), Number(matches[i + 1]));
   }
-  console.log(graph.toString());
+  // console.log(graph.toString());
 });

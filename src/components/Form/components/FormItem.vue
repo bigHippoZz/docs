@@ -1,33 +1,50 @@
 <template>
-  <n-grid-item></n-grid-item>
+  <n-input placeholder="Input" />
 </template>
 
 <script lang="ts" setup>
-import { NGridItem } from "naive-ui";
-import { computed, PropType, useSlots } from "vue";
+import { inject } from "@vue/runtime-core";
+
 import { FormSchema } from "../hooks/useForm";
 
-defineProps({
-  // 配置项
-  schema: {
-    type: Object as PropType<FormSchema>,
-  },
+import { formInjectKey } from "../BasicForm.vue";
+import { computed } from "vue";
+import { isFunction } from "lodash";
+
+const props = defineProps<{
+  schema: FormSchema;
+}>();
+
+const context = inject(formInjectKey);
+
+console.log(context?.model);
+
+const getValue = computed(() => {
+  return {
+    fieldName: props.schema.fieldName,
+  };
 });
 
-const slot = useSlots();
-console.log(slot);
+const formItemRules = computed(() => {
+  const { fieldName, rule, dynamicRules } = props.schema;
+  if (isFunction(dynamicRules)) {
+    // TODO
+    return dynamicRules(getValue as any);
+  }
+});
+// const slot = useSlots();
 
-const getValue = computed(() => {});
-const setValue = () => {};
+// console.log(slot);
 
-const getField = computed(() => {});
-const setField = () => {};
+// const getValue = computed(() => {});
+// const setValue = () => {};
 
-const getOptions = ()=>{}
+// const getField = computed(() => {});
+// const setField = () => {};
 
-const validField = computed(() => {});
+// const getOptions = () => {};
 
-
+// const validField = computed(() => {});
 
 // 增删改cha
 // 字段的显示隐藏
