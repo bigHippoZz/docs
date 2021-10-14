@@ -1,6 +1,6 @@
-import { computed, nextTick, Ref, unref } from "vue";
+import { computed, nextTick, unref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-type MaybeRef<T> = T | Ref<T>;
+
 export interface ReactiveRouteOptions {
   /**
    * Mode to update the router query, ref is also acceptable

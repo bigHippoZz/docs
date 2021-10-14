@@ -6,24 +6,23 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "strictFunctionTypes": false /* 禁用函数参数双向协变检查 */,
+    "strictFunctionTypes": false,
     "jsx": "preserve",
-    "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment",
     "baseUrl": ".",
     "allowJs": true,
     "sourceMap": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "experimentalDecorators": true,
-    "typeRoots": ["./node_modules/@types/", "typings/*"],
+    "lib": ["dom", "esnext"],
     "types": ["vite/client", "jest"],
+    "typeRoots": ["./node_modules/@types"],
     "noImplicitAny": false,
-    "lib": ["esnext", "dom"],
+    "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": [
@@ -33,6 +32,9 @@
     "src/**/*.vue",
     "typings/**/*.d.ts",
     "typings/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
     "vite.config.ts"
-  ]
+  ],
+  "exclude": ["node_modules", "dist", "**/*.js"]
 }

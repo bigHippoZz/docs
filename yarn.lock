@@ -1168,6 +1168,11 @@
   resolved "https://registry.nlark.com/@vicons/fluent/download/@vicons/fluent-0.11.0.tgz#84f3cda255539cb96f45c89c1601e2892d79826f"
   integrity sha1-hPPNolVTnLlvRcicFgHiiS15gm8=
 
+"@vicons/ionicons4@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.nlark.com/@vicons/ionicons4/download/@vicons/ionicons4-0.11.0.tgz#a60f5ead661d473f17103ad0051ce82ad771bbe6"
+  integrity sha1-pg9erWYdRz8XEDrQBRzoKtdxu+Y=
+
 "@vitejs/plugin-vue-jsx@^1.1.8":
   version "1.1.8"
   resolved "https://registry.nlark.com/@vitejs/plugin-vue-jsx/download/@vitejs/plugin-vue-jsx-1.1.8.tgz?cache=0&sync_timestamp=1631015833266&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40vitejs%2Fplugin-vue-jsx%2Fdownload%2F%40vitejs%2Fplugin-vue-jsx-1.1.8.tgz#c7b9efd94efe8801635f755b6fd0d0a3a70cf596"

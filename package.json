@@ -1,11 +1,11 @@
 {
-  "name": "vite-project",
+  "name": "hippo-admin",
   "version": "0.0.0",
   "scripts": {
     "bootstrap": "yarn install",
-    "start": "vite",
+    "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview",
+    "serve": "npm run dev",
     "lint:prettier": "prettier --write  \"src/**/*.{ts,js,json,tsx,css,less,scss,vue,html,md}\"",
     "test": "jest"
   },
@@ -26,6 +26,7 @@
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.6",
     "@vicons/fluent": "^0.11.0",
+    "@vicons/ionicons4": "^0.11.0",
     "@vitejs/plugin-vue": "^1.3.0",
     "@vitejs/plugin-vue-jsx": "^1.1.8",
     "@vue/compiler-sfc": "^3.0.5",
