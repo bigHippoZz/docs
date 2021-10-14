@@ -3,10 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from "@vue/runtime-core";
-
+import { inject } from "vue";
 import { FormSchema } from "../hooks/useForm";
-
 import { formInjectKey } from "../BasicForm.vue";
 import { computed } from "vue";
 import { isFunction } from "lodash";
@@ -28,10 +26,10 @@ const getValue = computed(() => {
 const formItemRules = computed(() => {
   const { fieldName, rule, dynamicRules } = props.schema;
   if (isFunction(dynamicRules)) {
-    // TODO
     return dynamicRules(getValue as any);
   }
 });
+
 // const slot = useSlots();
 
 // console.log(slot);

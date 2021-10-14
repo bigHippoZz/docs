@@ -1,22 +1,25 @@
 <template>
-  <n-form v-bind="defProps.baseFormOptions" :model="model" ref="formRef">
-    <n-grid v-bind="colProps">
-      <slot name="formHeader" />
+  <n-form :model="model" label-width="80" size="medium" label-placement="left">
+    <n-grid
+      :cols="24"
+      :x-gap="10"
+      :collapsed="collapsed"
+      :collapsed-rows="1"
+      item-responsive
+    >
       <n-form-item-gi
-        v-for="schema in defProps.schema"
-        :span="12"
+        v-for="(item, index) in test"
+        :key="index"
+        :span="item"
         label="Input"
         path="inputValue"
-        :key="schema.fieldName"
       >
-        <form-item :schema="schema"> </form-item>
+        <n-input
+          :placeholder="index < props.ifShowIndex ? `111` : '222'"
+          placeholder="Input"
+          v-model:value="model.inputValue"
+        />
       </n-form-item-gi>
-
-      <n-form-item-gi :span="12">
-        <form-action></form-action>
-      </n-form-item-gi>
-
-      <slot name="formFooter" />
     </n-grid>
   </n-form>
 </template>
@@ -30,7 +33,9 @@ export const formInjectKey = Symbol() as unknown as InjectionKey<FormContext>;
 </script>
 
 <script lang="ts" setup>
+import { IosArrowUp } from "@vicons/ionicons4";
 import { merge } from "lodash";
+
 import {
   computed,
   InjectionKey,
@@ -45,6 +50,8 @@ import {
   WatchOptions,
 } from "vue";
 
+import { GameControllerOutline, GameController } from "";
+
 import { BasicFormProps, basicFormProps } from ".";
 
 import { useModel } from "./hooks/useModel";
@@ -55,6 +62,10 @@ import { FormContext } from "./hooks/useFormContext";
 
 import FormAction from "./components/FormAction.vue";
 
+const collapsed = ref(false);
+
+import { NForm } from "naive-ui";
+
 const emit = defineEmits<{
   (e: "update:modelValue", value: Recordable): void;
 }>();
@@ -63,24 +74,31 @@ const props = defineProps(basicFormProps);
 
 const propsRef = ref({});
 
-const defProps = computed(
-  () => merge(props, unref(propsRef)) as BasicFormProps
-);
+// const defProps = computed(
+//   () => merge(props, unref(propsRef)) as BasicFormProps
+// );
 
 const model = useModel(props, "modelValue", emit);
 
-const colProps = computed(() => {
-  const { baseRowStyle, baseRowOptions } = unref(defProps);
-  return {
-    style: baseRowStyle,
-    ...baseRowOptions,
-  };
-});
+// const colProps = computed(() => {
+//   const { baseRowStyle, baseRowOptions } = unref(defProps);
+//   return {
+//     style: baseRowStyle,
+//     ...baseRowOptions,
+//   };
+// });
 
-provide(formInjectKey, {
-  // parentProps: readonly(defProps),
-  // submitFn: function () {},
-  // resetFn: function () {},
-  model,
-});
+// provide(formInjectKey, {
+//   // parentProps: readonly(defProps),
+//   // submitFn: function () {},
+//   // resetFn: function () {},
+//   model,
+// });
+
+const generalOptions = ["groode", "veli good", "emazing", "lidiculous"].map(
+  (v) => ({
+    label: v,
+    value: v,
+  })
+);
 </script>

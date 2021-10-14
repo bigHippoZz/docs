@@ -45,6 +45,7 @@ const props = withDefaults(defineProps<IFormAction>(), {
 });
 
 console.log(props);
+
 // resetButtonOptions: { type: Object as PropType<ButtonProps>, default: {} },
 // submitButtonOptions: { type: Object as PropType<ButtonProps>, default: {} },
 // advanceButtonOptions: { type: Object as PropType<ButtonProps>, default: {} },

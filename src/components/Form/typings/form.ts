@@ -29,6 +29,11 @@ export const basicFormProps = {
     type: Array as PropType<FormSchema[]>,
     default: () => [],
   },
+  test: {
+    type: Array,
+    default: () => [],
+  },
+  ifShowIndex: { type: Number },
   // // 是否显示收起展开按钮
   // showAdvancedButton: {
   //   type: Boolean,

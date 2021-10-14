@@ -39,3 +39,12 @@ export const randomString = (num: number) => {
   }
   return result;
 };
+/**
+ * 生成随机数
+ * @param min
+ * @param max
+ * @returns
+ */
+export function generateRandom(min: number, max: number) {
+  return Math.round(Math.random() * (max - min)) + min;
+}
