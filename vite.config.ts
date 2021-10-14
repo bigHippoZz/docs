@@ -5,9 +5,8 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import pkg from "./package.json";
 import dayjs from "dayjs";
 import { generateModifyVars } from "./build/generate/generateModifyVars";
-// const resolve = (dir: string) => {
-//   return path.join(__dirname, dir);
-// };
+import { wrapperEnv } from "./build/utils";
+import { createProxy } from "./build/vite/proxy";
 
 const { dependencies, devDependencies, version, name } = pkg;
 const __APP_INFO__ = {
@@ -16,9 +15,14 @@ const __APP_INFO__ = {
 };
 
 // https://vitejs.dev/config/
-export default ({ command, mode }: ConfigEnv): UserConfig => {
+export default ({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd();
   const env = loadEnv(mode, root);
+
+  const viteEnv = wrapperEnv(env);
+
+  const { VITE_PORT, VITE_PROXY } = viteEnv;
+
   return {
     plugins: [vue(), vueJsx()],
     define: {
@@ -30,6 +34,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         "@": resolve("src"),
       },
     },
+
     css: {
       preprocessorOptions: {
         less: {
@@ -37,6 +42,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           javascriptEnabled: true,
         },
       },
+    },
+    server: {
+      host: true,
+      port: VITE_PORT,
+      proxy: createProxy(VITE_PROXY),
     },
   };
 };
