@@ -2,8 +2,8 @@ import { InjectionKey } from "@vue/runtime-core";
 import { inject, provide } from "vue";
 
 export interface CreateContextOptions {
-  readonly: boolean;
-  native: boolean;
+	readonly: boolean;
+	native: boolean;
 }
 /**
  *  创建context
@@ -12,8 +12,8 @@ export interface CreateContextOptions {
  * @returns
  */
 export const createContext = <T>(context: any, key: InjectionKey<T>) => {
-  provide(key, context);
-  return { context };
+	provide(key, context);
+	return { context };
 };
 /**
  * 使用context
@@ -22,5 +22,5 @@ export const createContext = <T>(context: any, key: InjectionKey<T>) => {
  * @returns
  */
 export const useContext = <T>(key: InjectionKey<T>, defaultValue?: any): T => {
-  return inject(key, defaultValue ?? {});
+	return inject(key, defaultValue ?? {});
 };

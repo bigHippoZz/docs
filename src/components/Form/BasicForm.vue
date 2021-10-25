@@ -1,33 +1,38 @@
 <template>
-  <n-form :model="model" label-width="80" size="medium" label-placement="left">
-    <n-grid
-      :cols="24"
-      :x-gap="10"
-      :collapsed="collapsed"
-      :collapsed-rows="1"
-      item-responsive
-    >
-      <n-form-item-gi
-        v-for="(item, index) in test"
-        :key="index"
-        :span="item"
-        label="Input"
-        path="inputValue"
-      >
-        <n-input
-          :placeholder="index < props.ifShowIndex ? `111` : '222'"
-          placeholder="Input"
-          v-model:value="model.inputValue"
-        />
-      </n-form-item-gi>
-    </n-grid>
-  </n-form>
+	<n-form
+		:model="model"
+		label-width="80"
+		size="medium"
+		label-placement="left"
+	>
+		<n-grid
+			:cols="24"
+			:x-gap="10"
+			:collapsed="collapsed"
+			:collapsed-rows="1"
+			item-responsive
+		>
+			<n-form-item-gi
+				v-for="(item, index) in test"
+				:key="index"
+				:span="item"
+				label="Input"
+				path="inputValue"
+			>
+				<n-input
+					:placeholder="index < props.ifShowIndex ? `111` : '222'"
+					placeholder="Input"
+					v-model:value="model.inputValue"
+				/>
+			</n-form-item-gi>
+		</n-grid>
+	</n-form>
 </template>
 
 <script lang="ts">
 interface FormContext {
-  model: Recordable;
-  schema?: Recordable;
+	model: Recordable;
+	schema?: Recordable;
 }
 export const formInjectKey = Symbol() as unknown as InjectionKey<FormContext>;
 </script>
@@ -37,17 +42,17 @@ import { IosArrowUp } from "@vicons/ionicons4";
 import { merge } from "lodash";
 
 import {
-  computed,
-  InjectionKey,
-  isReactive,
-  isReadonly,
-  provide,
-  reactive,
-  readonly,
-  ref,
-  unref,
-  watch,
-  WatchOptions,
+	computed,
+	InjectionKey,
+	isReactive,
+	isReadonly,
+	provide,
+	reactive,
+	readonly,
+	ref,
+	unref,
+	watch,
+	WatchOptions,
 } from "vue";
 
 import { GameControllerOutline, GameController } from "";
@@ -67,7 +72,7 @@ const collapsed = ref(false);
 import { NForm } from "naive-ui";
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: Recordable): void;
+	(e: "update:modelValue", value: Recordable): void;
 }>();
 
 const props = defineProps(basicFormProps);
@@ -96,9 +101,9 @@ const model = useModel(props, "modelValue", emit);
 // });
 
 const generalOptions = ["groode", "veli good", "emazing", "lidiculous"].map(
-  (v) => ({
-    label: v,
-    value: v,
-  })
+	(v) => ({
+		label: v,
+		value: v,
+	}),
 );
 </script>

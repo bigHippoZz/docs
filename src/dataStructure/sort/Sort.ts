@@ -21,7 +21,7 @@ export abstract class Sort {
 	abstract [Symbol.toStringTag]: string;
 	public generateShuffleArray(
 		length: number,
-		options: Options = "PositiveOrder"
+		options: Options = "PositiveOrder",
 	): Array<number> {
 		const result = Array(length)
 			.fill(0)
@@ -78,7 +78,7 @@ export abstract class Sort {
 		console.log(
 			`[${
 				this[Symbol.toStringTag]
-			}] the current sort method running time is ${stopWatch.runTime} ms`
+			}] the current sort method running time is ${stopWatch.runTime} ms`,
 		);
 		// 倒序
 		const arrayB = this.generateShuffleArray(length, "ReverseOrder");
@@ -92,7 +92,7 @@ export abstract class Sort {
 		console.log(
 			`[${
 				this[Symbol.toStringTag]
-			}] the current sort method running time is ${stopWatch.runTime} ms`
+			}] the current sort method running time is ${stopWatch.runTime} ms`,
 		);
 
 		// 乱序
@@ -107,7 +107,7 @@ export abstract class Sort {
 		console.log(
 			`[${
 				this[Symbol.toStringTag]
-			}] the current sort method running time is ${stopWatch.runTime} ms`
+			}] the current sort method running time is ${stopWatch.runTime} ms`,
 		);
 	}
 }

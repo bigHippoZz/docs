@@ -43,7 +43,7 @@ export class AesEncryption {
 		const { key = "", iv = "" } = opt;
 		if ([key, iv].some((item) => item.length !== 16)) {
 			throw new Error(
-				"When hasEncrypt is true, the key or iv must be 16 bits!"
+				"When hasEncrypt is true, the key or iv must be 16 bits!",
 			);
 		}
 	}

@@ -34,7 +34,7 @@ export function shouldIgnoreOnError() {
 export function fill(
 	target: any,
 	name: string,
-	replacementFactory: (...args: any[]) => any
+	replacementFactory: (...args: any[]) => any,
 ): void {
 	if (!Reflect.has(target, name)) {
 		throw new ViperError("current name is not a valid record");
@@ -66,7 +66,7 @@ export function fill(
 export function wrap(
 	fn: WrappedFunction,
 	options: { mechanism?: Mechanism } = {},
-	before?: WrappedFunction
+	before?: WrappedFunction,
 ) {
 	// 1.判断是否执行过wrap
 	// 2.拷贝fn中的属性和方法 不限制于原型
@@ -142,7 +142,7 @@ export function wrap(
 	try {
 		const descriptor = Object.getOwnPropertyDescriptor(
 			viperWrappedFunction,
-			"name"
+			"name",
 		) as PropertyDescriptor;
 
 		if (descriptor.configurable) {

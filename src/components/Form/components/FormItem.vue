@@ -1,5 +1,5 @@
 <template>
-  <n-input placeholder="Input" />
+	<n-input placeholder="Input" />
 </template>
 
 <script lang="ts" setup>
@@ -10,7 +10,7 @@ import { computed } from "vue";
 import { isFunction } from "lodash";
 
 const props = defineProps<{
-  schema: FormSchema;
+	schema: FormSchema;
 }>();
 
 const context = inject(formInjectKey);
@@ -18,16 +18,16 @@ const context = inject(formInjectKey);
 console.log(context?.model);
 
 const getValue = computed(() => {
-  return {
-    fieldName: props.schema.fieldName,
-  };
+	return {
+		fieldName: props.schema.fieldName,
+	};
 });
 
 const formItemRules = computed(() => {
-  const { fieldName, rule, dynamicRules } = props.schema;
-  if (isFunction(dynamicRules)) {
-    return dynamicRules(getValue as any);
-  }
+	const { fieldName, rule, dynamicRules } = props.schema;
+	if (isFunction(dynamicRules)) {
+		return dynamicRules(getValue as any);
+	}
 });
 
 // const slot = useSlots();

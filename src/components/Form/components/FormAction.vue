@@ -1,8 +1,8 @@
 <template>
-  <n-space>
-    <n-button>{{ resetText }}</n-button>
-    <n-button>{{ submitText }}</n-button>
-  </n-space>
+	<n-space>
+		<n-button>{{ resetText }}</n-button>
+		<n-button>{{ submitText }}</n-button>
+	</n-space>
 </template>
 
 <script lang="ts" setup>
@@ -23,25 +23,25 @@
 import { ButtonProps } from "naive-ui";
 
 interface IFormAction {
-  // 重置
-  resetText?: string;
-  // 提交
-  submitText?: string;
-  // 重置按钮配置
-  resetButtonOptions?: Partial<ButtonProps>;
-  // 提交按钮配置
-  submitButtonOptions?: Partial<ButtonProps>;
-  // 是否显示重置按钮
-  showResetButton?: boolean;
-  // 是否显示提交按钮
-  showSubmitButton?: boolean;
+	// 重置
+	resetText?: string;
+	// 提交
+	submitText?: string;
+	// 重置按钮配置
+	resetButtonOptions?: Partial<ButtonProps>;
+	// 提交按钮配置
+	submitButtonOptions?: Partial<ButtonProps>;
+	// 是否显示重置按钮
+	showResetButton?: boolean;
+	// 是否显示提交按钮
+	showSubmitButton?: boolean;
 }
 
 const props = withDefaults(defineProps<IFormAction>(), {
-  resetText: "重置",
-  submitText: "提交",
-  showResetButton: true,
-  showSubmitButton: true,
+	resetText: "重置",
+	submitText: "提交",
+	showResetButton: true,
+	showSubmitButton: true,
 });
 
 console.log(props);

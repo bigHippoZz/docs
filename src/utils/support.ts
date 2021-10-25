@@ -26,7 +26,7 @@ export function isNativeFetch(fetchImp: Function) {
 	return (
 		fetchImp &&
 		/^function\s+fetch\(\)\s+\{\s+\[native code\]\s+\}$/.test(
-			fetchImp.toString()
+			fetchImp.toString(),
 		)
 	);
 }
@@ -55,7 +55,7 @@ export function supportsNativeFetch() {
 	} catch (error) {
 		console.log(
 			`Could not create sandbox iframe for pure fetch check, bailing to window.fetch: `,
-			error
+			error,
 		);
 	}
 	return result;
@@ -88,7 +88,7 @@ export function getNativeFetchImplementation(): FetchImp {
 	} catch (error) {
 		console.log(
 			`Could not create sandbox iframe for pure fetch check, bailing to window.fetch: `,
-			error
+			error,
 		);
 	}
 	return (cacheFetchImp = fetchImp.bind(global));

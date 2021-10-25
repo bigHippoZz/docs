@@ -10,8 +10,8 @@ export type FormItemComponentType = "NInput";
 export const formItemComponents = [NInput] as const;
 
 export const formItemComponentsTypeMap = new Map<
-  FormItemComponentType,
-  Component
+	FormItemComponentType,
+	Component
 >();
 
 formItemComponentsTypeMap.set("NInput", NInput);

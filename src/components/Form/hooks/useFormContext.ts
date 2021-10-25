@@ -11,8 +11,8 @@ export const createFormContext = (context: FormContext) => {};
  * 使用form上下文
  */
 export const useFormContext = (): FormContext => {
-  return {
-    reset() {},
-    submit() {},
-  };
+	return {
+		reset() {},
+		submit() {},
+	};
 };

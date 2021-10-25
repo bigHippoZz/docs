@@ -86,10 +86,10 @@ class Logger {
 export function printVarInFunc(
 	varName: string,
 	functionName: string | Function,
-	variable: any
+	variable: any,
 ) {
 	const color = ["#000", "#FF00E4", "#000", "#2080f0", "#000"].map(
-		(item) => "color:" + item
+		(item) => "color:" + item,
 	);
 	if (isFunction(functionName)) {
 		functionName = functionName.name;
@@ -97,6 +97,6 @@ export function printVarInFunc(
 	console.log(
 		`%c[log]:variable %c'${varName}' %cin Function %c'${functionName}'%c ->`,
 		...color,
-		variable
+		variable,
 	);
 }

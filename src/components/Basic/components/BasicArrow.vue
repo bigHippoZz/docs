@@ -1,7 +1,7 @@
 <template>
-  <n-icon size="40">
-    <IosArrowLeft24Regular />
-  </n-icon>
+	<n-icon size="40">
+		<IosArrowLeft24Regular />
+	</n-icon>
 </template>
 
 <script lang="ts" setup>

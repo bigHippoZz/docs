@@ -8,6 +8,6 @@ export const enableStorageEncryption = __DEV__;
 
 // 加密秘钥
 export const storageKey: EncryptionParams = {
-  key: "111122220000@@@@",
-  iv: "_111122220000@@@",
+	key: "111122220000@@@@",
+	iv: "_111122220000@@@",
 };
