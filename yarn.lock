@@ -600,6 +600,18 @@
   resolved "https://registry.npm.taobao.org/@bcoe/v8-coverage/download/@bcoe/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha1-daLotRy3WKdVPWgEpZMteqznXDk=
 
+"@better-scroll/core@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.nlark.com/@better-scroll/core/download/@better-scroll/core-2.4.2.tgz#e69470012d79923a18034c3e4931720fbb06eae5"
+  integrity sha1-5pRwAS15kjoYA0w+STFyD7sG6uU=
+  dependencies:
+    "@better-scroll/shared-utils" "^2.4.2"
+
+"@better-scroll/shared-utils@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.nlark.com/@better-scroll/shared-utils/download/@better-scroll/shared-utils-2.4.2.tgz#1ac5c97495727093a22a8009560795dd5e3c18da"
+  integrity sha1-GsXJdJVycJOiKoAJVgeV3V48GNo=
+
 "@commitlint/cli@^13.2.0":
   version "13.2.0"
   resolved "https://registry.npmmirror.com/@commitlint/cli/download/@commitlint/cli-13.2.0.tgz?cache=0&sync_timestamp=1632795313605&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40commitlint%2Fcli%2Fdownload%2F%40commitlint%2Fcli-13.2.0.tgz#9e85756b0d0ee06c34b5635d7ef42d7a6c72bd6f"
@@ -995,6 +1007,81 @@
   dependencies:
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
+
+"@sentry/browser@6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/browser/download/@sentry/browser-6.13.3.tgz?cache=0&sync_timestamp=1633534416924&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40sentry%2Fbrowser%2Fdownload%2F%40sentry%2Fbrowser-6.13.3.tgz#d4511791b1e484ad48785eba3bce291fdf115c1e"
+  integrity sha1-1FEXkbHkhK1IeF66O84pH98RXB4=
+  dependencies:
+    "@sentry/core" "6.13.3"
+    "@sentry/types" "6.13.3"
+    "@sentry/utils" "6.13.3"
+    tslib "^1.9.3"
+
+"@sentry/core@6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/core/download/@sentry/core-6.13.3.tgz?cache=0&sync_timestamp=1633534246287&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40sentry%2Fcore%2Fdownload%2F%40sentry%2Fcore-6.13.3.tgz#5cbbb995128e793ebebcbf1d3b7514e0e5e8b221"
+  integrity sha1-XLu5lRKOeT6+vL8dO3UU4OXosiE=
+  dependencies:
+    "@sentry/hub" "6.13.3"
+    "@sentry/minimal" "6.13.3"
+    "@sentry/types" "6.13.3"
+    "@sentry/utils" "6.13.3"
+    tslib "^1.9.3"
+
+"@sentry/hub@6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/hub/download/@sentry/hub-6.13.3.tgz?cache=0&sync_timestamp=1633534246947&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40sentry%2Fhub%2Fdownload%2F%40sentry%2Fhub-6.13.3.tgz#cc09623a69b5343315fdb61c7fdd0be74b72299f"
+  integrity sha1-zAliOmm1NDMV/bYcf90L50tyKZ8=
+  dependencies:
+    "@sentry/types" "6.13.3"
+    "@sentry/utils" "6.13.3"
+    tslib "^1.9.3"
+
+"@sentry/minimal@6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/minimal/download/@sentry/minimal-6.13.3.tgz#a675a79bcc830142e4f95e6198a2efde2cd3901e"
+  integrity sha1-pnWnm8yDAULk+V5hmKLv3izTkB4=
+  dependencies:
+    "@sentry/hub" "6.13.3"
+    "@sentry/types" "6.13.3"
+    tslib "^1.9.3"
+
+"@sentry/tracing@^6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/tracing/download/@sentry/tracing-6.13.3.tgz?cache=0&sync_timestamp=1633534250017&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40sentry%2Ftracing%2Fdownload%2F%40sentry%2Ftracing-6.13.3.tgz#ca657d4afa99c50f15e638fe38405bac33e780ee"
+  integrity sha1-ymV9SvqZxQ8V5jj+OEBbrDPngO4=
+  dependencies:
+    "@sentry/hub" "6.13.3"
+    "@sentry/minimal" "6.13.3"
+    "@sentry/types" "6.13.3"
+    "@sentry/utils" "6.13.3"
+    tslib "^1.9.3"
+
+"@sentry/types@6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/types/download/@sentry/types-6.13.3.tgz?cache=0&sync_timestamp=1633534248848&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40sentry%2Ftypes%2Fdownload%2F%40sentry%2Ftypes-6.13.3.tgz#63ad5b6735b0dfd90b3a256a9f8e77b93f0f66b2"
+  integrity sha1-Y61bZzWw39kLOiVqn453uT8PZrI=
+
+"@sentry/utils@6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/utils/download/@sentry/utils-6.13.3.tgz?cache=0&sync_timestamp=1633534248185&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40sentry%2Futils%2Fdownload%2F%40sentry%2Futils-6.13.3.tgz#188754d40afe693c3fcae410f9322531588a9926"
+  integrity sha1-GIdU1Ar+aTw/yuQQ+TIlMViKmSY=
+  dependencies:
+    "@sentry/types" "6.13.3"
+    tslib "^1.9.3"
+
+"@sentry/vue@^6.13.3":
+  version "6.13.3"
+  resolved "https://registry.npmmirror.com/@sentry/vue/download/@sentry/vue-6.13.3.tgz#04e24cf493df253e6eaebc215bbc710fac73b7ff"
+  integrity sha1-BOJM9JPfJT5urrwhW7xxD6xzt/8=
+  dependencies:
+    "@sentry/browser" "6.13.3"
+    "@sentry/core" "6.13.3"
+    "@sentry/minimal" "6.13.3"
+    "@sentry/types" "6.13.3"
+    "@sentry/utils" "6.13.3"
+    tslib "^1.9.3"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
@@ -4438,7 +4525,7 @@ ts-node@^9:
     source-map-support "^0.5.17"
     yn "3.1.1"
 
-tslib@^1.10.0:
+tslib@^1.10.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.nlark.com/tslib/download/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=

@@ -4,7 +4,7 @@ import naive from "naive-ui";
  * 导入文件
  */
 export function setupImportFile() {
-  const files = import.meta.globEager("/src/dataStructure/*/**.ts");
+	const files = import.meta.globEager("/src/dataStructure/*/**.ts");
 }
 /**
  * 注册组件
@@ -12,6 +12,6 @@ export function setupImportFile() {
  * @returns
  */
 export function registerComponent(app: App) {
-  app.use(naive);
-  return app;
+	app.use(naive);
+	return app;
 }

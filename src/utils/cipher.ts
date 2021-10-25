@@ -8,55 +8,55 @@ import Base64 from "crypto-js/enc-base64";
 import { storageKey } from "../config/encryptionSetting";
 
 export interface EncryptionParams {
-  key: string;
-  iv: string;
+	key: string;
+	iv: string;
 }
 
 export class AesEncryption {
-  private key: any;
-  private iv: any;
+	private key: any;
+	private iv: any;
 
-  constructor(opt: Partial<EncryptionParams> = {}) {
-    const { key = storageKey.key, iv = storageKey.iv } = opt;
-    this.validateKey({ key, iv });
-    this.key = parse(key);
-    this.iv = parse(iv);
-  }
+	constructor(opt: Partial<EncryptionParams> = {}) {
+		const { key = storageKey.key, iv = storageKey.iv } = opt;
+		this.validateKey({ key, iv });
+		this.key = parse(key);
+		this.iv = parse(iv);
+	}
 
-  get getOptions() {
-    return {
-      mode: ECB,
-      padding: pkcs7,
-      iv: this.iv,
-    };
-  }
+	get getOptions() {
+		return {
+			mode: ECB,
+			padding: pkcs7,
+			iv: this.iv,
+		};
+	}
 
-  encryptByAES(cipherText: string) {
-    return encrypt(cipherText, this.key, this.getOptions).toString();
-  }
+	encryptByAES(cipherText: string) {
+		return encrypt(cipherText, this.key, this.getOptions).toString();
+	}
 
-  decryptByAES(cipherText: string) {
-    return decrypt(cipherText, this.key, this.getOptions).toString(UTF8);
-  }
+	decryptByAES(cipherText: string) {
+		return decrypt(cipherText, this.key, this.getOptions).toString(UTF8);
+	}
 
-  validateKey(opt: Partial<EncryptionParams> = {}) {
-    const { key = "", iv = "" } = opt;
-    if ([key, iv].some((item) => item.length !== 16)) {
-      throw new Error(
-        "When hasEncrypt is true, the key or iv must be 16 bits!"
-      );
-    }
-  }
+	validateKey(opt: Partial<EncryptionParams> = {}) {
+		const { key = "", iv = "" } = opt;
+		if ([key, iv].some((item) => item.length !== 16)) {
+			throw new Error(
+				"When hasEncrypt is true, the key or iv must be 16 bits!"
+			);
+		}
+	}
 }
 
 export function encryptByBase64(cipherText: string) {
-  return UTF8.parse(cipherText).toString(Base64);
+	return UTF8.parse(cipherText).toString(Base64);
 }
 
 export function decodeByBase64(cipherText: string) {
-  return Base64.parse(cipherText).toString(UTF8);
+	return Base64.parse(cipherText).toString(UTF8);
 }
 
 export function encryptByMd5(password: string) {
-  return md5(password).toString();
+	return md5(password).toString();
 }

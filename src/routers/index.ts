@@ -20,5 +20,5 @@ const router = createRouter({
 
 export function setupAppRouter(app: App) {
   app.use(router);
-  return app;
+  return router;
 }

@@ -3,11 +3,11 @@ import { setupImportFile, registerComponent } from "./plugins";
 import { setupAppRouter } from "./routers";
 import App from "./App.vue";
 
-setupImportFile();
-
 const app = createApp(App);
 
 setupAppRouter(app);
+
+setupImportFile();
 
 registerComponent(app);
 
