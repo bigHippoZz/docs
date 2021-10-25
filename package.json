@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@antv/g6": "^4.3.7",
+    "@better-scroll/core": "^2.4.2",
+    "@sentry/tracing": "^6.13.3",
+    "@sentry/vue": "^6.13.3",
     "@types/lodash": "^4.14.173",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.10.7",
