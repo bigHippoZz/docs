@@ -19,11 +19,7 @@
 				label="Input"
 				path="inputValue"
 			>
-				<n-input
-					:placeholder="index < props.ifShowIndex ? `111` : '222'"
-					placeholder="Input"
-					v-model:value="model.inputValue"
-				/>
+				<n-input v-model:value="model.inputValue" />
 			</n-form-item-gi>
 		</n-grid>
 	</n-form>
@@ -38,8 +34,8 @@ export const formInjectKey = Symbol() as unknown as InjectionKey<FormContext>;
 </script>
 
 <script lang="ts" setup>
-import { IosArrowUp } from "@vicons/ionicons4";
-import { merge } from "lodash";
+// import { IosArrowUp } from "@vicons/ionicons4";
+// import { merge } from "lodash";
 
 import {
 	computed,

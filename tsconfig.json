@@ -1,40 +1,40 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-    "strictFunctionTypes": false,
-    "jsx": "preserve",
-    "baseUrl": ".",
-    "allowJs": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "experimentalDecorators": true,
-    "lib": ["dom", "esnext"],
-    "types": ["vite/client", "jest"],
-    "typeRoots": ["./node_modules/@types"],
-    "noImplicitAny": false,
-    "skipLibCheck": true,
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "typings/**/*.d.ts",
-    "typings/**/*.ts",
-    "build/**/*.ts",
-    "build/**/*.d.ts",
-    "vite.config.ts"
-  ],
-  "exclude": ["node_modules", "dist", "**/*.js"]
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"allowSyntheticDefaultImports": true,
+		"strictFunctionTypes": false,
+		"jsx": "preserve",
+		"baseUrl": ".",
+		"allowJs": true,
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"experimentalDecorators": true,
+		"lib": ["dom", "esnext"],
+		"types": ["vite/client", "jest"],
+		"typeRoots": ["./node_modules/@types"],
+		"noImplicitAny": false,
+		"skipLibCheck": true,
+		"paths": {
+			"@/*": ["src/*"]
+		}
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"typings/**/*.d.ts",
+		"typings/**/*.ts",
+		"build/**/*.ts",
+		"build/**/*.d.ts",
+		"vite.config.ts"
+	],
+	"exclude": ["node_modules", "dist", "**/*.js"]
 }

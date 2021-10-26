@@ -7,7 +7,7 @@ const app = createApp(App);
 
 setupAppRouter(app);
 
-setupImportFile();
+// setupImportFile();
 
 registerComponent(app);
 
