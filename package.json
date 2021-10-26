@@ -1,14 +1,18 @@
 {
 	"name": "hippo-admin",
 	"version": "0.0.0",
+	"keywords": [
+		"vue.js",
+		"doc"
+	],
 	"scripts": {
 		"bootstrap": "yarn install",
 		"dev": "vite",
 		"build:check": "vue-tsc --noEmit && vite build",
 		"build": "cross-env NODE_ENV=production vite build",
 		"serve": "npm run dev",
-		"lint:prettier": "prettier --write  \"src/**/*.{ts,js,json,tsx,css,less,scss,vue,html,md}\"",
-		"lint:prettier:own": "prettier --write \"**/*.{ts,js,json,tsx,css,less,scss,vue,html,md}\"",
+		"lint:prettier:part": "prettier --write  \"src/**/*.{ts,js,json,tsx,css,less,scss,vue,html,md}\"",
+		"lint:prettier": "prettier --write \"**/*.{ts,js,json,tsx,css,less,scss,vue,html,md}\"",
 		"test": "jest"
 	},
 	"dependencies": {
